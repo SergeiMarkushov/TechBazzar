@@ -1,1 +1,2 @@
 # TechBazzar
+это init test
