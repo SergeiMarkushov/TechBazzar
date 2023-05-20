@@ -14,7 +14,7 @@ import ru.bazzar.auth.converters.UserConverter;
 import ru.bazzar.auth.entities.Role;
 import ru.bazzar.auth.entities.User;
 import ru.bazzar.auth.mail.MyMailSender;
-import ru.bazzar.auth.services.UserService;
+import ru.bazzar.auth.services.UserServiceImpl;
 import ru.bazzar.auth.utils.JwtTokenUtil;
 
 import java.math.BigDecimal;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final UserConverter userConverter;
     private final MyMailSender myMailSender;
 
@@ -40,46 +40,46 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        UserDetails userDetails = userService.loadUserByUsername(request.getUsername());
+        UserDetails userDetails = userServiceImpl.loadUserByUsername(request.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping("/registration")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
-        if (userService.findByEmail(userDto.getEmail()).isPresent()) {
+        if (userServiceImpl.findByEmail(userDto.getEmail()).isPresent()) {
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Пользователь с таким именем уже существует"), HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.ok(userService.save(userDto));
+        return ResponseEntity.ok(userServiceImpl.save(userDto));
     }
 
     @GetMapping("/users/{userId}")
     public UserDto findById(@PathVariable Long userId) {
-        return userConverter.entityToDto(userService.findById(userId)
+        return userConverter.entityToDto(userServiceImpl.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Пользователь с id: " + userId + " не найден!")));
     }
 
     @GetMapping("/users")
     public UserDto findById(@RequestHeader(name = "username") String username) {
-        return userConverter.entityToDto(userService.findByEmail(username)
+        return userConverter.entityToDto(userServiceImpl.findByEmail(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Пользователь с id: " + username + " не найден!")));
     }
 
     @GetMapping("/users/all")
     public List<UserDto> findAll() {
-        return userService.findAll().stream().map(userConverter::entityToDto).collect(Collectors.toList());
+        return userServiceImpl.findAll().stream().map(userConverter::entityToDto).collect(Collectors.toList());
     }
 
     @GetMapping("/users/bun/{id}")
     public void userBun(@PathVariable Long id) {
-        userService.userBun(id);
+        userServiceImpl.userBun(id);
     }
 
     @GetMapping("/users/is_active/{username}")
     public UserDto isActiveForUser (@PathVariable String username) {
         if (username != null) {
-            User user = userService.findByEmail(username)
+            User user = userServiceImpl.findByEmail(username)
                     .orElseThrow(() -> new ResourceNotFoundException("Пользователь " + username + " не найден!"));
             return userConverter.entityToDto(user);
         } else
@@ -89,12 +89,12 @@ public class AuthController {
     @PostMapping("/users/set_role")
     public UserDto setRole(@RequestBody RoleRequest roleRequest) {
         System.out.println("setRole " + roleRequest);
-        return userConverter.entityToDto(userService.setRole(roleRequest.getEmail(), roleRequest.getRole()));
+        return userConverter.entityToDto(userServiceImpl.setRole(roleRequest.getEmail(), roleRequest.getRole()));
     }
 
     @PostMapping("/users/up_balance")
     public UserDto upBalance(@RequestBody UserDto userDto) {
-        return userConverter.entityToDto(userService.upBalance(userDto));
+        return userConverter.entityToDto(userServiceImpl.upBalance(userDto));
     }
 
     @PostMapping("/users/notification")
@@ -104,33 +104,33 @@ public class AuthController {
 
     @GetMapping("/users/get_roles/{username}")
     public List<Role> getRoles(@PathVariable String username) {
-        return userService.getUserRoles(username);
+        return userServiceImpl.getUserRoles(username);
     }
 
     @GetMapping("/users/payment/{total_price}")
     public ResponseEntity<?> payment(@RequestHeader(name = "username") String username, @PathVariable (name = "total_price") BigDecimal totalPrice) {
-        User user = userService.findByEmail(username)
+        User user = userServiceImpl.findByEmail(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Пользователь с email: " + username + " не найден!"));
         if (user.getBalance().compareTo(totalPrice) < 0) {
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Не достаточно средств на счете."), HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(userService.payment(user, totalPrice));
+        return ResponseEntity.ok(userServiceImpl.payment(user, totalPrice));
     }
 
     @GetMapping("/users/refund/{total_price}")
     public ResponseEntity<?> refundPayment(@RequestHeader(name = "username") String username, @PathVariable (name = "total_price") BigDecimal totalPrice) {
-        User user = userService.findByEmail(username)
+        User user = userServiceImpl.findByEmail(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Пользователь с email: " + username + " не найден!"));
-        return ResponseEntity.ok(userService.refundPayment(user, totalPrice));
+        return ResponseEntity.ok(userServiceImpl.refundPayment(user, totalPrice));
     }
 
     @PostMapping("/users/change_balance")
     public void receivingProfit(@RequestBody UserDto userDto) {
-        userService.receivingProfit(userDto);
+        userServiceImpl.receivingProfit(userDto);
     }
 
     @PostMapping("/users/decrease_balance")
     public void refundProfit(@RequestBody UserDto userDto) {
-        userService.refundProfit(userDto);
+        userServiceImpl.refundProfit(userDto);
     }
 }
