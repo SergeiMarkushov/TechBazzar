@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Bazzar/auth-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/auth-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/cart-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/cart-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/core-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/core-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/front-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/front-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/gateway-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/gateway-service/src/main/resources" charset="UTF-8" />
+  </component>
+</project>
