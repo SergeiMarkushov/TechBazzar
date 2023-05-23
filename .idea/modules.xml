@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/TechBazzar.iml" filepath="$PROJECT_DIR$/.idea/TechBazzar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bazzar/core-service/core-service.iml" filepath="$PROJECT_DIR$/Bazzar/core-service/core-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bazzar/gateway-service/gateway-service.iml" filepath="$PROJECT_DIR$/Bazzar/gateway-service/gateway-service.iml" />
     </modules>
   </component>
 </project>
