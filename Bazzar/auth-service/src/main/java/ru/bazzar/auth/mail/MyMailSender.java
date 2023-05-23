@@ -5,13 +5,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.mail.*;
 import org.springframework.stereotype.Service;
 import ru.bazzar.api.NotificationDto;
-import ru.bazzar.auth.services.NotificationService;
+import ru.bazzar.auth.services.NotificationServiceImpl;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class MyMailSender {
-    private final NotificationService notificationService;
+    private final NotificationServiceImpl notificationServiceImpl;
     private final SimpleMailMessage mailMessage = new SimpleMailMessage();
     private final MailSender mailSender;
 
@@ -21,7 +21,7 @@ public class MyMailSender {
         mailMessage.setSubject(notificationDto.getTitle());
         mailMessage.setText(notificationDto.getContent());
         mailSender.send(mailMessage);
-        notificationService.save(notificationDto);
+        notificationServiceImpl.save(notificationDto);
         log.info("Отправлено уведомление: {}, получатель: {}", notificationDto.getContent(), notificationDto.getSendTo());
     }
 }

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.bazzar.api.NotificationDto;
-import ru.bazzar.auth.services.NotificationService;
+import ru.bazzar.auth.services.NotificationServiceImpl;
 
 import java.util.List;
 
@@ -13,15 +13,15 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/api/v1/notification")
 public class NotificationController {
-    private final NotificationService notificationService;
+    private final NotificationServiceImpl notificationServiceImpl;
 
     @GetMapping
     public List<NotificationDto> findAllByUsername(@RequestHeader String username) {
-        return notificationService.findAllByUsername(username);
+        return notificationServiceImpl.findAllByUsername(username);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        notificationService.delete(id);
+        notificationServiceImpl.delete(id);
     }
 }
