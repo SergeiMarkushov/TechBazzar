@@ -1,8 +1,8 @@
-package ru.bazzar.auth.converters;
+package ru.bazzar.notifi.converters;
 
 import org.springframework.stereotype.Service;
 import ru.bazzar.api.NotificationDto;
-import ru.bazzar.auth.entities.Notification;
+import ru.bazzar.notifi.entities.Notification;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;

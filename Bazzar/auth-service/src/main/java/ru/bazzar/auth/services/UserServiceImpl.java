@@ -14,7 +14,6 @@ import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.api.UserDto;
 import ru.bazzar.auth.entities.Role;
 import ru.bazzar.auth.entities.User;
-import ru.bazzar.auth.mail.MyMailSender;
 import ru.bazzar.auth.repositories.UserRepository;
 
 import java.math.BigDecimal;
@@ -30,7 +29,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleServiceImpl roleServiceImpl;
-    private final MyMailSender myMailSender;
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmailIgnoreCase(email);
@@ -99,12 +97,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             if (owner.isActive()) {
                 owner.setActive(false);
             }
-            NotificationDto notification = new NotificationDto();
-            notification.setTitle("Обнаружена задолжность!!!");
-            notification.setContent("В процессе возврата средств за ранее приобретенный товар Вашей организации, на Вашем счете " +
-                    "оказалось недостаточно средств в размере: " + flaw + ". Ваш аккаунт заблокирован. Необходимо связаться с администратором n.v.bekhter@mail.ru !");
-            notification.setSendTo(owner.getEmail());
-            myMailSender.sendMailNotification(notification);
+//            NotificationDto notification = new NotificationDto();
+//            notification.setTitle("Обнаружена задолжность!!!");
+//            notification.setContent("В процессе возврата средств за ранее приобретенный товар Вашей организации, на Вашем счете " +
+//                    "оказалось недостаточно средств в размере: " + flaw + ". Ваш аккаунт заблокирован. Необходимо связаться с администратором n.v.bekhter@mail.ru !");
+//            notification.setSendTo(owner.getEmail());
+            //myMailSender.sendMailNotification(notification);
         }
         owner.setBalance(owner.getBalance().subtract(userDto.getBalance().subtract(userDto.getBalance().multiply(new BigDecimal("0.05")))));
         admin.setBalance(admin.getBalance().subtract(userDto.getBalance().multiply(new BigDecimal("0.05"))));

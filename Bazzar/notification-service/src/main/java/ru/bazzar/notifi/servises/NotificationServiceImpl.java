@@ -1,11 +1,11 @@
-package ru.bazzar.auth.services;
+package ru.bazzar.notifi.servises;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.bazzar.api.NotificationDto;
-import ru.bazzar.auth.converters.NotificationConverter;
-import ru.bazzar.auth.entities.Notification;
-import ru.bazzar.auth.repositories.NotificationRepository;
+import ru.bazzar.notifi.converters.NotificationConverter;
+import ru.bazzar.notifi.entities.Notification;
+import ru.bazzar.notifi.repositories.NotificationRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
