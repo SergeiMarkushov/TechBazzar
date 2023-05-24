@@ -103,7 +103,7 @@ public class OrderService {
         Duration d = Duration.between(order.getUpdatedAt(), LocalDateTime.now());
         return d.toSeconds() <= 86400;
     }
-
+    //проведение оплаты
     public void refundPayment(String username, Long orderId) {
         Order order = orderRepository.findById(orderId).get();
         if (order.isStatus()) {

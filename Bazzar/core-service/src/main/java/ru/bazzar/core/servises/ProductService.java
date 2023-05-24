@@ -11,6 +11,7 @@ import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.api.UserDto;
 import ru.bazzar.core.entities.Organization;
 import ru.bazzar.core.entities.Product;
+import ru.bazzar.core.entities.Product.ProductBuilder;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
@@ -97,6 +98,7 @@ public class ProductService {
             if (!userDto.isActive()) {
                 throw new ResourceNotFoundException("Владелец организации забанен, обратитесь к администратору n.v.bekhter@mail.ru");
             }
+
             Product product = new Product();
             product.setId(productDto.getId());
             product.setTitle(productDto.getTitle());
@@ -107,7 +109,6 @@ public class ProductService {
             product.setQuantity(productDto.getQuantity());
             return repository.save(product);
         }
-
     }
 
     public Product notConfirmed() throws ResourceNotFoundException {
