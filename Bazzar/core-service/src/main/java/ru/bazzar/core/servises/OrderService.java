@@ -12,6 +12,7 @@ import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.CartServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.OrderRepository;
+import ru.bazzar.core.servises.impl.ProductServiceImpl;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
@@ -22,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
-    private final ProductService productService;
+    private final ProductServiceImpl productServiceImpl;
     private final OrderItemService orderItemService;
     private final OrderRepository orderRepository;
     private final CartServiceIntegration cartServiceIntegration;
@@ -40,7 +41,7 @@ public class OrderService {
         List<OrderItem> orderItems = cartDto.getItems().stream()
                 .map(cartItem -> {
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setProduct(productService.findProductById(cartItem.getProductId()));
+                    orderItem.setProduct(productServiceImpl.findById(cartItem.getProductId()));
                     orderItem.setOrder(order);
                     orderItem.setPrice(cartItem.getPrice());
                     orderItem.setPricePerProduct(cartItem.getPricePerProduct());
@@ -83,7 +84,7 @@ public class OrderService {
                 historyDtoList.add(historyDto);
             }
             for (Product product : listProduct) {
-                productService.changeQuantity(product);
+                productServiceImpl.changeQuantity(product);
             }
             userServiceIntegration.payment(username, order.getTotalPrice());
             for (PurchaseHistoryDto historyDto : historyDtoList) {
@@ -121,7 +122,7 @@ public class OrderService {
                 listProduct.add(product);
             }
             for (Product product : listProduct) {
-                productService.changeQuantity(product);
+                productServiceImpl.changeQuantity(product);
             }
             userServiceIntegration.refundPayment(username, order.getTotalPrice());
 

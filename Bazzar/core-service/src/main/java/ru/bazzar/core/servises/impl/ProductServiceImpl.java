@@ -1,20 +1,22 @@
-package ru.bazzar.core.servises;
+package ru.bazzar.core.servises.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import ru.bazzar.api.ProductDto;
 import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.api.UserDto;
 import ru.bazzar.core.entities.Organization;
 import ru.bazzar.core.entities.Product;
-import ru.bazzar.core.entities.Product.ProductBuilder;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
+import ru.bazzar.core.servises.OrganizationService;
+import ru.bazzar.core.servises.interf.ProductService;
 import ru.bazzar.core.utils.IdentityMap;
 import ru.bazzar.core.utils.MyQueue;
 
@@ -23,12 +25,35 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProductService {
+public class ProductServiceImpl extends AbstractService<Product, Long> implements ProductService {
     private final ProductRepository repository;
     private final OrganizationService organizationService;
     private final UserServiceIntegration userService;
     private IdentityMap identityMap = new IdentityMap();
     private MyQueue<Product> productQueue = new MyQueue<>();
+
+    @Override
+    JpaRepository<Product, Long> getJpaRepository() {
+        return repository;
+    }
+    @Override
+    public Product findById(Long id) {
+        Product product = this.identityMap.getProductMap(id);
+        if (product != null) {
+            log.info("Product found in the Map");
+            return product;
+        } else {
+            // Try to find product in the database
+            product = repository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
+            if (product != null) {
+                this.identityMap.addProductMap(product);
+                log.info("Product found in DB.");
+                return product;
+            }
+        }
+        return null;
+    }
 
     public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, Integer page) {
         Specification<Product> spec = Specification.where(null);
@@ -47,25 +72,7 @@ public class ProductService {
         return repository.findAll(spec, PageRequest.of(page - 1, 5));
     }
 
-    public Product findProductById(Long id) {
-        Product product = this.identityMap.getProductMap(id);
-        if (product != null) {
-            log.info("Product found in the Map");
-            return product;
-        } else {
-            // Try to find product in the database
-            product = repository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
-            if (product != null) {
-                this.identityMap.addProductMap(product);
-                log.info("Product found in DB.");
-                return product;
-            }
-        }
-        return null;
-    }
-
-    public Product saveOrUpdate(ProductDto productDto, String username) throws ResourceNotFoundException {
+    public Product saveDto(ProductDto productDto, String username) throws ResourceNotFoundException {
         if (productDto.getId() != null) {
             Product productFromBd = repository.findById(productDto.getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + productDto.getId()));
@@ -107,7 +114,10 @@ public class ProductService {
             product.setPrice(productDto.getPrice());
             product.setConfirmed(false);
             product.setQuantity(productDto.getQuantity());
-            return repository.save(product);
+            //метод из интерфейса!
+            save(product);
+            return product;
+
         }
     }
 

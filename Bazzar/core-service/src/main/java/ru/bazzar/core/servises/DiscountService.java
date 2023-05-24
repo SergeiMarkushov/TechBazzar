@@ -7,6 +7,7 @@ import ru.bazzar.api.DiscountDto;
 import ru.bazzar.core.entities.Discount;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.repositories.DiscountRepository;
+import ru.bazzar.core.servises.impl.ProductServiceImpl;
 import ru.bazzar.core.utils.ListsForDiscount;
 
 import javax.annotation.PostConstruct;
@@ -17,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class DiscountService {
     private final DiscountRepository repository;
-    private final ProductService productService;
+    private final ProductServiceImpl productServiceImpl;
     private ListsForDiscount productsList;
 
     public void save(DiscountDto discountDto) {
@@ -57,7 +58,7 @@ public class DiscountService {
     }
 
     public void add(Long id) {
-        productsList.add(productService.findProductById(id));
+        productsList.add(productServiceImpl.findById(id));
     }
 
     public void remove(Long id) {

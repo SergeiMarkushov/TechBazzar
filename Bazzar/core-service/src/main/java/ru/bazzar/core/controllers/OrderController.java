@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.bazzar.api.OrderDto;
 import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.OrderConverter;
+import ru.bazzar.core.entities.Order;
 import ru.bazzar.core.servises.OrderService;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class OrderController {
         return orderService.getOrder(username).stream().map(orderConverter::entityToDto).collect(Collectors.toList());
     }
 
-    @DeleteMapping("/{orderId}")
+    @DeleteMapping("/{orderId}")//изменить на "/{id}" - так как будет наследование всех контроллеров (стандартизация)
     public void deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrderById(orderId);
     }

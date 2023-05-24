@@ -10,7 +10,8 @@ import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.servises.OrganizationService;
-import ru.bazzar.core.servises.ProductService;
+import ru.bazzar.core.servises.impl.ProductServiceImpl;
+import ru.bazzar.core.servises.interf.SimpleService;
 import ru.bazzar.core.utils.MyQueue;
 
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
-public class ProductController {
-    private final ProductService productService;
+public class ProductController extends AbstractRestController<Product, Long> {
+    private final ProductServiceImpl productServiceImpl;
     private final ProductConverter productConverter;
     private final OrganizationService organizationService;
     private MyQueue<Product> productQueue = new MyQueue<>();
@@ -37,7 +38,7 @@ public class ProductController {
             page = 1;
         }
 
-        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, page).map(
+        Page<ProductDto> jpaPage = productServiceImpl.find(minPrice, maxPrice, titlePart, page).map(
                 productConverter::entityToDto
         );
         PageDto<ProductDto> out = new PageDto<>();
@@ -57,23 +58,30 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto getProduct(@PathVariable Long id) {
-        return productConverter.entityToDto(productService.findProductById(id));
+        return productConverter.entityToDto(getService().findById(id));
+        //return productConverter.entityToDto(productServiceImpl.findById(id));
+        //getService().ПОКАЗАТЬ!
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createOrUpdateProduct(@RequestHeader String username, @RequestBody ProductDto productDto) throws ResourceNotFoundException {
-        return productConverter.entityToDto(productService.saveOrUpdate(productDto, username));
+        return productConverter.entityToDto(productServiceImpl.saveDto(productDto, username));
     }
 
     @GetMapping("/not_confirmed")
     public ProductDto notConfirmed() throws ResourceNotFoundException {
-        return productConverter.entityToDto(productService.notConfirmed());
+        return productConverter.entityToDto(productServiceImpl.notConfirmed());
     }
 
     @GetMapping("/confirm/{title}")
     public void confirm(@PathVariable String title) {
-        productService.confirm(title);
+        productServiceImpl.confirm(title);
+    }
+
+    @Override
+    SimpleService<Product, Long> getService() {
+        return productServiceImpl;
     }
 
 }
