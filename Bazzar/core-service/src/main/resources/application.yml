@@ -5,10 +5,17 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tech_bazzar_core
+    url: ${url_db}
     driver-class-name: org.postgresql.Driver
     username: ${db_username}
     password: ${db_password}
+
+  flyway:
+    baselineOnMigrate: true
+    url: ${url_db}
+    user: ${db_username}
+    password: ${db_password}
+    validateOnMigrate: false
 
   jpa:
     show-sql: true

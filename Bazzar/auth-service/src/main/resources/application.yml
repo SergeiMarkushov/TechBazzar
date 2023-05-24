@@ -6,13 +6,13 @@ server:
 spring:
   flyway:
     baselineOnMigrate: true
-    url: jdbc:postgresql://localhost:5432/tech_bazzar_auth
+    url: ${url_db}
     user: ${db_username}
     password: ${db_password}
     validateOnMigrate: false
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/tech_bazzar_auth
+    url: ${url_db}
     driverClassName: org.postgresql.Driver
     username: ${db_username}
     password: ${db_password}
