@@ -1,22 +1,26 @@
-package ru.bazzar.auth.mail;
+package ru.bazzar.notifi.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.mail.*;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import ru.bazzar.api.NotificationDto;
-import ru.bazzar.auth.services.NotificationServiceImpl;
+import ru.bazzar.notifi.servises.NotificationServiceImpl;
 
-@Service
+@Configuration
 @Log4j2
 @RequiredArgsConstructor
-public class MyMailSender {
+public class MailConfig {
     private final NotificationServiceImpl notificationServiceImpl;
     private final SimpleMailMessage mailMessage = new SimpleMailMessage();
     private final MailSender mailSender;
+    @Value("${spring.mail.username}")
+    private String email_from;
 
     public void sendMailNotification(NotificationDto notificationDto) {
-        mailMessage.setFrom("nik.noreply.b@mail.ru");
+        mailMessage.setFrom(email_from);
         mailMessage.setTo(notificationDto.getSendTo());
         mailMessage.setSubject(notificationDto.getTitle());
         mailMessage.setText(notificationDto.getContent());

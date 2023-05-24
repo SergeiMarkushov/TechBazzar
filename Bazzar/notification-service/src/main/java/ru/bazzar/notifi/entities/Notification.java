@@ -1,6 +1,8 @@
-package ru.bazzar.auth.entities;
+package ru.bazzar.notifi.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
