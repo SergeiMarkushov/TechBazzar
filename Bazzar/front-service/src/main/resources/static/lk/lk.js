@@ -1,7 +1,7 @@
 angular.module('store').controller('lkController', function ($scope, $http, $localStorage, $rootScope) {
     // использовать для локального подключения
     const contextPath = 'http://localhost:5555/core/api/v1/';
-    const contextPathAuth = 'http://localhost:5555/auth/api/v1/';
+    const contextPathNotifi = 'http://localhost:5555/notifi/api/v1/';
     // использовать для удаленного подключения
     // const contextPath = 'http://95.165.90.118:443/core/api/v1';
     // const contextPathAuth = 'http://95.165.90.118:443/auth/api/v1/';
@@ -49,14 +49,14 @@ angular.module('store').controller('lkController', function ($scope, $http, $loc
     };
 
     $scope.loadNotification = function () {
-        $http.get(contextPathAuth + 'notification')
+        $http.get(contextPathNotifi + 'notification')
             .then(function (response) {
                 $scope.notificationList = response.data;
             });
     };
 
     $scope.deleteNotification = function (id) {
-        $http.delete(contextPathAuth + 'notification/' + id)
+        $http.delete(contextPathNotifi + 'notification/' + id)
             .then(function (response) {
                 alert('Сообщение удалено.');
                 $scope.loadNotification();

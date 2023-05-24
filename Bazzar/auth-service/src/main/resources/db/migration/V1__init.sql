@@ -8,15 +8,6 @@ create table users
     is_active   boolean
 );
 
-create table notifications
-(
-    id          bigserial primary key,
-    title       varchar(255),
-    created_at  timestamp default current_timestamp,
-    content     varchar(1000),
-    send_to     varchar(255)
-);
-
 create table roles
 (
     id          bigserial primary key,
@@ -42,5 +33,3 @@ insert into users_roles (user_id, role_id) values
                                                (1, 2),
                                                (2, 1),
                                                (2, 2);
-
-);

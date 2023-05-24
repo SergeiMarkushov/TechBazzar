@@ -33,3 +33,10 @@ spring:
 jwt:
   secret: ${jwt_secret}
   lifetime: 36_000_000_000
+
+integrations:
+  notification-service:
+    url: http://localhost:8184/tech-bazzar-notifi/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000
