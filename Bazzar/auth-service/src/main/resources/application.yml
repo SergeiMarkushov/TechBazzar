@@ -1,7 +1,8 @@
 server:
   port: 8181
   servlet:
-    context-path: /simple-store-auth
+    context-path: /tech-bazzar-auth
+
 spring:
   flyway:
     baselineOnMigrate: true
@@ -9,22 +10,26 @@ spring:
     user: ${db_username}
     password: ${db_password}
     validateOnMigrate: false
+
   datasource:
     url: jdbc:postgresql://localhost:5432/tech_bazzar_auth
     driverClassName: org.postgresql.Driver
     username: ${db_username}
     password: ${db_password}
+
   mail:
     protocol: smtps
     host: smtp.mail.ru
     port: 465
     username: ${email_username}
     password: ${email_password}
+
   jpa:
     showSql: true
     databasePlatform: org.hibernate.dialect.PostgreSQL94Dialect
     hibernate:
       ddlAuto: update
+
 jwt:
   secret: ${jwt_secret}
   lifetime: 36_000_000_000

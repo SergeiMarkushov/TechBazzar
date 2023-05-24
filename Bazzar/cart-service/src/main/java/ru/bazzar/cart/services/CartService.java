@@ -24,34 +24,34 @@ public class CartService {
     @Value("${cart-service.cart-prefix}")
     private String cartPrefix;
 
-    public Cart getCurrentCart(String uuid) {
-        String targetUuid = cartPrefix + uuid;
-        if (!redisTemplate.hasKey(targetUuid)) {
-            redisTemplate.opsForValue().set(targetUuid, new Cart());
+    public Cart getCurrentCart(String username) {
+        String uuid = cartPrefix + username;
+        if (!redisTemplate.hasKey(uuid)) {
+            redisTemplate.opsForValue().set(uuid, new Cart());
         }
-        return (Cart)redisTemplate.opsForValue().get(targetUuid);
+        return (Cart)redisTemplate.opsForValue().get(uuid);
     }
 
-    public void add(String uuid, Long productId) {
-        execute(uuid, cart -> cart.add(productServiceIntegration.getProductById(productId)));
+    public void add(String username, Long productId) {
+        execute(username, cart -> cart.add(productServiceIntegration.getProductById(productId)));
     }
 
-    public void remove(String uuid, Long productId) {
-        execute(uuid, cart -> cart.remove(productId));
+    public void remove(String username, Long productId) {
+        execute(username, cart -> cart.remove(productId));
     }
 
-    public void clear(String uuid) {
-        execute(uuid, Cart::clear);
+    public void clear(String username) {
+        execute(username, Cart::clear);
     }
 
-    public void changeQuantity(String uuid, Long productId, Integer delta) {
+    public void changeQuantity(String username, Long productId, Integer delta) {
         ProductDto product = productServiceIntegration.getProductById(productId);
-        execute(uuid, cart -> cart.changeQuantity(product,delta));
+        execute(username, cart -> cart.changeQuantity(product,delta));
     }
-    private void execute(String uuid, Consumer<Cart> operation) {
-        Cart cart = getCurrentCart(uuid);
+    private void execute(String username, Consumer<Cart> operation) {
+        Cart cart = getCurrentCart(username);
         operation.accept(cart);
-        redisTemplate.opsForValue().set(cartPrefix + uuid, cart);
+        redisTemplate.opsForValue().set(cartPrefix + username, cart);
     }
 
     public void updateCart(String uuid, Cart cart) {
