@@ -33,7 +33,7 @@ spring:
             - Path=/core/**
           filters:
             - StripPrefix=1
-            - PrefixPath=/simple-store-core
+            - PrefixPath=/tech-bazzar-core
             - JwtAuthFilter
         #            - NotForGuestsFilter
 
@@ -43,7 +43,7 @@ spring:
             - Path=/cart/**
           filters:
             - StripPrefix=1
-            - PrefixPath=/simple-store-cart
+            - PrefixPath=/tech-bazzar-cart
             - JwtAuthFilter
             - NotForGuestsFilter
 
@@ -53,7 +53,7 @@ spring:
             - Path=/auth/api/v1/users/set_role
           filters:
             - StripPrefix=1
-            - PrefixPath=/simple-store-auth
+            - PrefixPath=/tech-bazzar-auth
             - JwtAuthFilter
             - NotForRoleUserFilter
         - id: auth-service
@@ -62,7 +62,7 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
-            - PrefixPath=/simple-store-auth
+            - PrefixPath=/tech-bazzar-auth
             - JwtAuthFilter
 
 jwt:

@@ -1,4 +1,3 @@
-CREATE DATABASE IF NOT EXISTS tech_bazzar_auth;
 create table users
 (
     id          bigserial primary key,
