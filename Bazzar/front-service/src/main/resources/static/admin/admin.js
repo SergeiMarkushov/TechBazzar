@@ -2,6 +2,7 @@ angular.module('store').controller('adminController', function ($scope, $http, $
     // использовать для локального подключения
     const contextPathCore = 'http://localhost:5555/core/api/v1/';
     const contextPathAuth = 'http://localhost:5555/auth/api/v1/';
+    const contextPathNotifi = 'http://localhost:5555/notifi/api/v1/notification';
     // использовать для удаленного подключения
     // const contextPathCore = 'http://95.165.90.118:443/core/api/v1/';
     // const contextPathAuth = 'http://95.165.90.118:443/auth/api/v1/';
@@ -81,7 +82,7 @@ angular.module('store').controller('adminController', function ($scope, $http, $
     };
 
     $scope.sendMessage = function () {
-        $http.post(contextPathAuth + 'users/notification', $scope.users_msg)
+        $http.post(contextPathNotifi, $scope.users_msg)
             .then(function (response) {
                 alert('Уведомление отправлено!');
                 $scope.users_msg.sendTo = null;

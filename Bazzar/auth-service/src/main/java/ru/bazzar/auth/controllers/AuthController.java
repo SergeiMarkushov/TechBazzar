@@ -13,7 +13,6 @@ import ru.bazzar.api.*;
 import ru.bazzar.auth.converters.UserConverter;
 import ru.bazzar.auth.entities.Role;
 import ru.bazzar.auth.entities.User;
-import ru.bazzar.auth.mail.MyMailSender;
 import ru.bazzar.auth.services.UserServiceImpl;
 import ru.bazzar.auth.utils.JwtTokenUtil;
 
@@ -30,7 +29,6 @@ public class AuthController {
     private final JwtTokenUtil jwtTokenUtil;
     private final UserServiceImpl userServiceImpl;
     private final UserConverter userConverter;
-    private final MyMailSender myMailSender;
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody AuthRequest request) {
@@ -95,11 +93,6 @@ public class AuthController {
     @PostMapping("/users/up_balance")
     public UserDto upBalance(@RequestBody UserDto userDto) {
         return userConverter.entityToDto(userServiceImpl.upBalance(userDto));
-    }
-
-    @PostMapping("/users/notification")
-    public void sendNotification(@RequestBody NotificationDto notificationDto) {
-        myMailSender.sendMailNotification(notificationDto);
     }
 
     @GetMapping("/users/get_roles/{username}")
