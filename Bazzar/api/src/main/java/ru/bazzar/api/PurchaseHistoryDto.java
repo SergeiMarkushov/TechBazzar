@@ -4,18 +4,18 @@ public class PurchaseHistoryDto {
     private Long id;
     private String email;
     private String productTitle;
-    private String organization;
+    private String organizationTitle;
     private int quantity;
     private String datePurchase;
 
     public PurchaseHistoryDto() {
     }
 
-    public PurchaseHistoryDto(Long id, String email, String productTitle, String organization, int quantity, String datePurchase) {
+    public PurchaseHistoryDto(Long id, String email, String productTitle, String organizationTitle, int quantity, String datePurchase) {
         this.id = id;
         this.email = email;
         this.productTitle = productTitle;
-        this.organization = organization;
+        this.organizationTitle = organizationTitle;
         this.quantity = quantity;
         this.datePurchase = datePurchase;
     }
@@ -44,12 +44,12 @@ public class PurchaseHistoryDto {
         this.productTitle = productTitle;
     }
 
-    public String getOrganization() {
-        return organization;
+    public String getOrganizationTitle() {
+        return organizationTitle;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setOrganizationTitle(String organizationTitle) {
+        this.organizationTitle = organizationTitle;
     }
 
     public int getQuantity() {

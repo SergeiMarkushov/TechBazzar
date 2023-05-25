@@ -50,10 +50,19 @@ spring:
         - id: notification-service
           uri: http://localhost:8184
           predicates:
-            - Path=/notifi/**
+            - Path=/notification/**
           filters:
             - StripPrefix=1
-            - PrefixPath=/tech-bazzar-notifi
+            - PrefixPath=/tech-bazzar-notification
+            - JwtAuthFilter
+
+        - id: organization-service
+          uri: http://localhost:8185
+          predicates:
+            - Path=/organization/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-organization
             - JwtAuthFilter
 
         - id: auth-service

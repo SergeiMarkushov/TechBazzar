@@ -15,7 +15,7 @@ public class NotificationServiceIntegration {
 
     public void sendNotification(NotificationDto notificationDto) {
         notifiServiceWebClient.post()
-                .uri("api/v1/notification")
+                .uri("api/v1/notifications")
                 .bodyValue(notificationDto)
                 .retrieve()
                 .onStatus(

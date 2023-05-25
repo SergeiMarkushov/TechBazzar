@@ -1,7 +1,7 @@
 server:
   port: 8184
   servlet:
-    context-path: /tech-bazzar-notifi
+    context-path: /tech-bazzar-notification
 
 spring:
   flyway:

@@ -34,3 +34,8 @@ integrations:
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
+  organization-service:
+    url: http://localhost:8185/tech-bazzar-organization/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000

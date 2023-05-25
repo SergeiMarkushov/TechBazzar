@@ -1,14 +1,20 @@
-package ru.bazzar.core.controllers;
+package ru.bazzar.organization.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.bazzar.api.OrganizationDto;
 import ru.bazzar.api.ResourceNotFoundException;
-import ru.bazzar.core.converters.OrganizationConverter;
-import ru.bazzar.core.servises.OrganizationService;
+import ru.bazzar.organization.converters.OrganizationConverter;
+import ru.bazzar.organization.services.OrganizationService;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/v1/org")
+@RequestMapping("/api/v1/organizations")
 public class OrganizationController {
     private final OrganizationService organizationService;
     private final OrganizationConverter converter;
@@ -27,6 +33,7 @@ public class OrganizationController {
                               @RequestParam("name") String companyName,
                               @RequestParam("description") String companyDescription,
                               @RequestParam(value = "companyImage", required = false) MultipartFile companyImage) throws IOException {
+        System.out.println("доходит");
         OrganizationDto organizationDto = new OrganizationDto();
         organizationDto.setTitle(companyName);
         organizationDto.setDescription(companyDescription);
@@ -56,5 +63,10 @@ public class OrganizationController {
     @GetMapping("/bun/{id}")
     public void orgBun(@PathVariable Long id) {
         organizationService.orgBun(id);
+    }
+
+    @GetMapping("/is_active/{title}")
+    public boolean isOrgActive(@PathVariable String title) {
+        return organizationService.isOrgActive(title);
     }
 }

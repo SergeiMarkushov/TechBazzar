@@ -1,4 +1,4 @@
-package ru.bazzar.notifi.config;
+package ru.bazzar.notification.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import ru.bazzar.api.NotificationDto;
-import ru.bazzar.notifi.servises.NotificationServiceImpl;
+import ru.bazzar.notification.servises.NotificationServiceImpl;
 
 @Configuration
 @Log4j2

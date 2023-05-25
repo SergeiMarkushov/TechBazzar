@@ -3,6 +3,7 @@ package ru.bazzar.core.servises;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.bazzar.api.CartDto;
+import ru.bazzar.api.OrganizationDto;
 import ru.bazzar.api.PurchaseHistoryDto;
 import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.api.UserDto;
@@ -10,6 +11,7 @@ import ru.bazzar.core.entities.Order;
 import ru.bazzar.core.entities.OrderItem;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.CartServiceIntegration;
+import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.OrderRepository;
 
@@ -27,6 +29,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CartServiceIntegration cartServiceIntegration;
     private final UserServiceIntegration userServiceIntegration;
+    private final OrganizationServiceIntegration organizationService;
     private final PurchaseHistoryService historyService;
 
     @Transactional
@@ -67,16 +70,17 @@ public class OrderService {
             List<PurchaseHistoryDto> historyDtoList = new ArrayList<>();
 
             for (OrderItem orderItem : order.getItems().stream().toList()) {
+                OrganizationDto organizationDto = organizationService.getOrganizationByTitle(orderItem.getProduct().getOrganizationTitle());
                 UserDto userDto = new UserDto();
                 PurchaseHistoryDto historyDto = new PurchaseHistoryDto();
                 Product product = new Product();
                 product.setId(orderItem.getProduct().getId());
                 product.setQuantity(orderItem.getQuantity());
-                userDto.setEmail(orderItem.getProduct().getOrganization().getOwner());
+                userDto.setEmail(organizationDto.getOwner());
                 userDto.setBalance(orderItem.getPrice());
                 historyDto.setEmail(username);
                 historyDto.setProductTitle(orderItem.getProduct().getTitle());
-                historyDto.setOrganization(orderItem.getProduct().getOrganization().getTitle());
+                historyDto.setOrganizationTitle(orderItem.getProduct().getOrganizationTitle());
                 historyDto.setQuantity(orderItem.getQuantity());
                 listUserDto.add(userDto);
                 listProduct.add(product);
@@ -111,11 +115,12 @@ public class OrderService {
             List<Product> listProduct = new ArrayList<>();
 
             for (OrderItem orderItem : order.getItems().stream().toList()) {
+                OrganizationDto organizationDto = organizationService.getOrganizationByTitle(orderItem.getProduct().getOrganizationTitle());
                 UserDto userDto = new UserDto();
                 Product product = new Product();
                 product.setId(orderItem.getProduct().getId());
                 product.setQuantity(-orderItem.getQuantity());
-                userDto.setEmail(orderItem.getProduct().getOrganization().getOwner());
+                userDto.setEmail(organizationDto.getOwner());
                 userDto.setBalance(orderItem.getPrice());
                 listUserDto.add(userDto);
                 listProduct.add(product);

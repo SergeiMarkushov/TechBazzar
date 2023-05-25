@@ -6,11 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.bazzar.api.OrganizationDto;
 import ru.bazzar.api.ProductDto;
 import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.api.UserDto;
 import ru.bazzar.core.entities.Organization;
 import ru.bazzar.core.entities.Product;
+import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
@@ -24,8 +26,8 @@ import java.util.List;
 @Slf4j
 public class ProductService {
     private final ProductRepository repository;
-    private final OrganizationService organizationService;
     private final UserServiceIntegration userService;
+    private final OrganizationServiceIntegration organizationService;
     private IdentityMap identityMap = new IdentityMap();
     private MyQueue<Product> productQueue = new MyQueue<>();
 
@@ -74,10 +76,6 @@ public class ProductService {
             if (productDto.getDescription() != null) {
                 productFromBd.setDescription(productDto.getDescription());
             }
-            if (productDto.getOrganizationTitle() != null) {
-                Organization organization = organizationService.findByTitleIgnoreCase(productDto.getOrganizationTitle());
-                productFromBd.setOrganization(organization);
-            }
             if (productDto.getPrice() != null) {
                 productFromBd.setPrice(productDto.getPrice());
             }
@@ -86,14 +84,14 @@ public class ProductService {
             }
             return repository.save(productFromBd);
         } else {
-            Organization organization = organizationService.findByTitleIgnoreCase(productDto.getOrganizationTitle());
-            if (organization == null) {
+            OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
+            if (organizationDto == null) {
                 throw new ResourceNotFoundException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
             }
-            if (!username.equalsIgnoreCase(organization.getOwner())) {
+            if (!username.equalsIgnoreCase(organizationDto.getOwner())) {
                 throw new ResourceNotFoundException("Только владелец компании может добавлять товары в магазин.");
             }
-            UserDto userDto = userService.getUser(organization.getOwner());
+            UserDto userDto = userService.getUser(organizationDto.getOwner());
             if (!userDto.isActive()) {
                 throw new ResourceNotFoundException("Владелец организации забанен, обратитесь к администратору n.v.bekhter@mail.ru");
             }
@@ -101,7 +99,7 @@ public class ProductService {
             product.setId(productDto.getId());
             product.setTitle(productDto.getTitle());
             product.setDescription(productDto.getDescription());
-            product.setOrganization(organization);
+            product.setOrganizationTitle(organizationDto.getTitle());
             product.setPrice(productDto.getPrice());
             product.setConfirmed(false);
             product.setQuantity(productDto.getQuantity());

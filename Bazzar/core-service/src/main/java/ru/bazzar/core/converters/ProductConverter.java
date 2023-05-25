@@ -14,7 +14,7 @@ public class ProductConverter {
         dto.setId(product.getId());
         dto.setTitle(product.getTitle());
         dto.setDescription(product.getDescription());
-        dto.setOrganizationTitle(product.getOrganization().getTitle());
+        dto.setOrganizationTitle(product.getOrganizationTitle());
         dto.setPrice(product.getPrice());
         dto.setQuantity(product.getQuantity());
         dto.setConfirmed(product.isConfirmed());

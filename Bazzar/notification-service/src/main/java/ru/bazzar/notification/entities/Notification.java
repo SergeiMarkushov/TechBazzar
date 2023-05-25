@@ -1,4 +1,4 @@
-package ru.bazzar.notifi.entities;
+package ru.bazzar.notification.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

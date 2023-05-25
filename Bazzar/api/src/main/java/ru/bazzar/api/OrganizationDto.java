@@ -18,6 +18,17 @@ public class OrganizationDto {
         this.isActive = isActive;
     }
 
+    @Override
+    public String toString() {
+        return "OrganizationDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", owner='" + owner + '\'' +
+                ", isActive=" + isActive +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }

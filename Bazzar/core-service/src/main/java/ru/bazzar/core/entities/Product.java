@@ -23,9 +23,8 @@ public class Product {
     private String title;
     @Column(name = "description")
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "organization")
-    private Organization organization;
+    @Column(name = "organization_title")
+    private String organizationTitle;
     @Column(name = "price")
     private BigDecimal price;
     @Column(name = "quantity")
@@ -45,14 +44,13 @@ public class Product {
     - Таблицы характеристик;
     */
 
-
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", organization=" + organization +
+                ", organizationTitle='" + organizationTitle + '\'' +
                 ", price=" + price +
                 ", quantity=" + quantity +
                 ", isConfirmed=" + isConfirmed +
@@ -85,12 +83,12 @@ public class Product {
         this.description = description;
     }
 
-    public Organization getOrganization() {
-        return organization;
+    public String getOrganizationTitle() {
+        return organizationTitle;
     }
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+    public void setOrganizationTitle(String organizationTitle) {
+        this.organizationTitle = organizationTitle;
     }
 
     public BigDecimal getPrice() {

@@ -1,8 +1,8 @@
-package ru.bazzar.notifi.repositories;
+package ru.bazzar.notification.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.bazzar.notifi.entities.Notification;
+import ru.bazzar.notification.entities.Notification;
 
 import java.util.List;
 

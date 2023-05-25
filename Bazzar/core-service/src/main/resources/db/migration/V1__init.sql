@@ -14,38 +14,17 @@ create table discounts
     start_date  timestamp not null
 );
 
-create table logo
-(
-    id                  bigserial primary key,
-    name                varchar(255),
-    original_file_name  varchar(255),
-    size                bigint,
-    content_type        varchar(255),
-    bytes               bytea
-);
-
-create table organizations
-(
-    id          bigserial primary key,
-    title       varchar(255),
-    description varchar(255),
-    owner       varchar(255),
-    is_active   boolean,
-    logo_id     bigint references logo(id)
-);
-
 create table products
 (
     id                 bigserial primary key,
-    description        varchar(255),
+    description        varchar(1000),
     price              numeric(8, 2),
     quantity           integer,
-    title              varchar(255),
-    organization       bigint,
+    title              varchar(100),
+    organization_title varchar(100),
     is_confirmed       boolean,
     discount_id        bigint references discounts(id),
-    review_id          bigint references reviews(id),
-    constraint fk_cat_id foreign key (organization) references organizations (id)
+    review_id          bigint references reviews(id)
 );
 
 create table orders

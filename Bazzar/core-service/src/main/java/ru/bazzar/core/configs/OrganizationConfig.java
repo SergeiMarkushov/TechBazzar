@@ -11,30 +11,30 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
-import ru.bazzar.core.properties.UserServiceIntegrationProperties;
+import ru.bazzar.core.properties.OrganizationServiceIntegrationProperties;
 
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableConfigurationProperties(
-        UserServiceIntegrationProperties.class
+        OrganizationServiceIntegrationProperties.class
 )
 @RequiredArgsConstructor
-public class AuthConfig {
-    private final UserServiceIntegrationProperties userServiceIntegrationProperties;
+public class OrganizationConfig {
+    private final OrganizationServiceIntegrationProperties organizationServiceIntegrationProperties;
 
     @Bean
-    public WebClient userServiceWebClient() {
+    public WebClient organizationServiceWebClient() {
         TcpClient tcpClient = TcpClient
                 .create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, userServiceIntegrationProperties.getConnectTimeout())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, organizationServiceIntegrationProperties.getConnectTimeout())
                 .doOnConnected(connection -> {
-                    connection.addHandlerLast(new ReadTimeoutHandler(userServiceIntegrationProperties.getReadTimeout(), TimeUnit.MILLISECONDS));
-                    connection.addHandlerLast(new WriteTimeoutHandler(userServiceIntegrationProperties.getWriteTimeout(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new ReadTimeoutHandler(organizationServiceIntegrationProperties.getReadTimeout(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new WriteTimeoutHandler(organizationServiceIntegrationProperties.getWriteTimeout(), TimeUnit.MILLISECONDS));
                 });
         return WebClient
                 .builder()
-                .baseUrl(userServiceIntegrationProperties.getUrl())
+                .baseUrl(organizationServiceIntegrationProperties.getUrl())
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
                 .build();
     }

@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.bazzar.api.OrganizationDto;
 import ru.bazzar.api.PageDto;
 import ru.bazzar.api.ProductDto;
 import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
+import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.servises.OrganizationService;
 import ru.bazzar.core.servises.ProductService;
 import ru.bazzar.core.utils.MyQueue;
@@ -22,7 +24,7 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
-    private final OrganizationService organizationService;
+    private final OrganizationServiceIntegration organizationService;
     private MyQueue<Product> productQueue = new MyQueue<>();
 
     @GetMapping
@@ -40,12 +42,13 @@ public class ProductController {
         Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, page).map(
                 productConverter::entityToDto
         );
+
         PageDto<ProductDto> out = new PageDto<>();
         out.setPage(jpaPage.getNumber());
         out.setTotalPages(jpaPage.getTotalPages());
         List<ProductDto> productDtos = new ArrayList<>();
         for (ProductDto productDto : jpaPage.getContent()) {
-            if (organizationService.isOrgBun(productDto.getOrganizationTitle())) {
+            if (organizationService.isOrgActive(productDto.getOrganizationTitle())) {
                 if (productDto.isConfirmed()) {
                     productDtos.add(productDto);
                 }

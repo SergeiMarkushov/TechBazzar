@@ -30,8 +30,6 @@ public class Organization {
     @JoinColumn(name = "logo_id")
     private Logo logo;
 
-    @OneToMany(mappedBy = "organization")
-    private List<Product> products;
     //для записи владельца организации
     @Column(name = "owner")
     private String owner;
