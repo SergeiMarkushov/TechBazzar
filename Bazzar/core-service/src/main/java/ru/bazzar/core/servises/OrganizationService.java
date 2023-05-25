@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.bazzar.api.AccessException;
 import ru.bazzar.api.OrganizationDto;
 import ru.bazzar.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.OrganizationConverter;
@@ -34,11 +35,11 @@ public class OrganizationService {
         repository.save(organization);
     }
 
-    public Organization notConfirmed() throws ResourceNotFoundException {
+    public Organization notConfirmed(){
         if (myQueue.isEmpty()) {
             List<Organization> notActiveList = repository.findAllByIsActive(false);
             if (notActiveList.isEmpty()) {
-                throw new ResourceNotFoundException("Не подтвержденных организаций больше нет.");
+                throw new AccessException("Не подтвержденных организаций больше нет.");
             }
             for (Organization organization : notActiveList) {
                 myQueue.enqueue(organization);
@@ -47,17 +48,17 @@ public class OrganizationService {
         return myQueue.dequeue();
     }
 
-    public Organization findByTitleIgnoreCase(String title) throws ResourceNotFoundException {
+    public Organization findByTitleIgnoreCase(String title){
         Organization organization = repository.findByTitleIgnoreCase(title)
                 .orElseThrow(() -> new ResourceNotFoundException("Организация с названием: " + title + " не найдена."));
         if (organization.isActive()) {
             return organization;
         } else {
-            throw new ResourceNotFoundException("Организация с названием: " + title + " не подтверждена.");
+            throw new AccessException("Организация с названием: " + title + " не подтверждена.");
         }
     }
 
-    public Organization findByTitle(String title) throws ResourceNotFoundException {
+    public Organization findByTitle(String title){
         return repository.findByTitleIgnoreCase(title)
                 .orElseThrow(() -> new ResourceNotFoundException("Организация с названием: " + title + " не найдена."));
     }
