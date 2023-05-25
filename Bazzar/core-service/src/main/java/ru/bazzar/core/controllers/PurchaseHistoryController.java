@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bazzar.api.PurchaseHistoryDto;
 import ru.bazzar.core.converters.PurchaseHistoryConverter;
-import ru.bazzar.core.servises.PurchaseHistoryService;
+import ru.bazzar.core.entities.PurchaseHistory;
+import ru.bazzar.core.servises.impl.PurchaseHistoryServiceImpl;
+import ru.bazzar.core.servises.interf.SimpleService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,9 +17,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/history")
-public class PurchaseHistoryController {
-    private final PurchaseHistoryService historyService;
+public class PurchaseHistoryController extends AbstractRestController<PurchaseHistory, Long> {
+    private final PurchaseHistoryServiceImpl historyService;
     private final PurchaseHistoryConverter historyConverter;
+
+    @Override
+    SimpleService<PurchaseHistory, Long> getService() {
+        return historyService;
+    }
 
     @GetMapping("/all")
     public List<PurchaseHistoryDto> findAll() {
@@ -27,11 +34,12 @@ public class PurchaseHistoryController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping
-    public List<PurchaseHistoryDto> findAllByEmail(@RequestHeader String username) {
-        return historyService.findAllByEmail(username)
+    @GetMapping//было String username, исправил на email
+    public List<PurchaseHistoryDto> findAllByEmail(@RequestHeader String email) {
+        return historyService.findAllByEmail(email)
                 .stream()
                 .map(historyConverter::entityToDto)
                 .collect(Collectors.toList());
     }
+    //deleteById
 }
