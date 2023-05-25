@@ -23,7 +23,7 @@
                     <tr>
                         <td>{{notConfirmedOrg.owner}}</td>
                         <td>{{notConfirmedOrg.title}}</td>
-                        <td><img src="http://localhost:8183/tech-bazzar-core/api/v1/logo/{{notConfirmedOrg.title}}"
+                        <td><img src="http://localhost:8185/tech-bazzar-organization/api/v1/logo/{{notConfirmedOrg.title}}"
                                  alt="лого" width="60" height="60"></td>
                         <td>{{notConfirmedOrg.description}}</td>
                         <td>
@@ -131,7 +131,7 @@
                 <tr ng-repeat="o in orgList">
                     <td>{{o.id}}</td>
                     <td>{{o.title}}</td>
-                    <td><img src="http://localhost:8183/tech-bazzar-core/api/v1/logo/{{o.title}}" alt="лого" width="60" height="60"></td>
+                    <td><img src="http://localhost:8185/tech-bazzar-organization/api/v1/logo/{{o.title}}" alt="лого" width="60" height="60"></td>
                     <td>{{o.description}}</td>
                     <td>{{o.owner}}</td>
                     <td>{{o.active}}</td>
@@ -222,7 +222,7 @@
                                             <td>{{h.id}}</td>
                                             <td>{{h.email}}</td>
                                             <td>{{h.productTitle}}</td>
-                                            <td>{{h.organization}}</td>
+                                            <td>{{h.organizationTitle}}</td>
                                             <td>{{h.quantity}}</td>
                                             <td>{{h.datePurchase}}</td>
                                         </tr>

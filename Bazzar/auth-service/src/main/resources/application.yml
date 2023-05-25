@@ -17,13 +17,6 @@ spring:
     username: ${db_username}
     password: ${db_password}
 
-  mail:
-    protocol: smtps
-    host: smtp.mail.ru
-    port: 465
-    username: ${email_username}
-    password: ${email_password}
-
   jpa:
     showSql: true
     databasePlatform: org.hibernate.dialect.PostgreSQL94Dialect

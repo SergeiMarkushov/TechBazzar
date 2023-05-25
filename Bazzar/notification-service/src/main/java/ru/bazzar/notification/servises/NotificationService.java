@@ -1,4 +1,4 @@
-package ru.bazzar.notifi.servises;
+package ru.bazzar.notification.servises;
 
 import ru.bazzar.api.NotificationDto;
 
