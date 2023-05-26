@@ -1,7 +1,7 @@
 package ru.bazzar.notification.converters;
 
 import org.springframework.stereotype.Service;
-import ru.bazzar.api.NotificationDto;
+import ru.bazzar.notification.api.NotificationDto;
 import ru.bazzar.notification.entities.Notification;
 
 import java.time.format.DateTimeFormatter;

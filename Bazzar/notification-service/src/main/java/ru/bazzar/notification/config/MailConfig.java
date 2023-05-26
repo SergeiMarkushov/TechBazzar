@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import ru.bazzar.api.NotificationDto;
+import ru.bazzar.notification.api.NotificationDto;
 import ru.bazzar.notification.servises.NotificationServiceImpl;
 
 @Configuration

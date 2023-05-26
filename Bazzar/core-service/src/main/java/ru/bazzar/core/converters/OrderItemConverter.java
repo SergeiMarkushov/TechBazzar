@@ -1,7 +1,7 @@
 package ru.bazzar.core.converters;
 
 import org.springframework.stereotype.Component;
-import ru.bazzar.api.OrderItemDto;
+import ru.bazzar.core.api.OrderItemDto;
 import ru.bazzar.core.entities.OrderItem;
 
 @Component

@@ -1,6 +1,6 @@
 package ru.bazzar.notification.servises;
 
-import ru.bazzar.api.NotificationDto;
+import ru.bazzar.notification.api.NotificationDto;
 
 import java.util.List;
 

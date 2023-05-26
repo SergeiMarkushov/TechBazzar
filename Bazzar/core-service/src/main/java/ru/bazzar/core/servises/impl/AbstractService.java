@@ -1,7 +1,7 @@
 package ru.bazzar.core.servises.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.bazzar.api.ResourceNotFoundException;
+import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.servises.interf.SimpleService;
 
 public abstract class AbstractService<E, K> implements SimpleService<E, K> {

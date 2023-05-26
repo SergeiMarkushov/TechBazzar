@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.bazzar.api.AppError;
-import ru.bazzar.api.AuthRequest;
-import ru.bazzar.api.AuthResponse;
-import ru.bazzar.api.UserDto;
+import ru.bazzar.auth.api.AuthRequest;
+import ru.bazzar.auth.api.AuthResponse;
+import ru.bazzar.auth.api.UserDto;
+import ru.bazzar.auth.api.AppError;
 import ru.bazzar.auth.services.UserServiceImpl;
 import ru.bazzar.auth.utils.JwtTokenUtil;
 

@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.bazzar.api.ResourceNotFoundException;
-import ru.bazzar.api.UserDto;
+import ru.bazzar.core.api.ResourceNotFoundException;
+import ru.bazzar.core.api.UserDto;
 
 import java.math.BigDecimal;
 

@@ -2,7 +2,7 @@ package ru.bazzar.core.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.bazzar.api.ProductDto;
+import ru.bazzar.core.api.ProductDto;
 import ru.bazzar.core.entities.Product;
 
 @Service

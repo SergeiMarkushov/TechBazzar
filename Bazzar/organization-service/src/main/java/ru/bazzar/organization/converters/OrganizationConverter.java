@@ -1,7 +1,7 @@
 package ru.bazzar.organization.converters;
 
 import org.springframework.stereotype.Service;
-import ru.bazzar.api.OrganizationDto;
+import ru.bazzar.organization.api.OrganizationDto;
 import ru.bazzar.organization.entities.Organization;
 
 @Service

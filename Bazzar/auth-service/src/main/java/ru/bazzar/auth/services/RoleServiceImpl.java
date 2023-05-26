@@ -2,7 +2,7 @@ package ru.bazzar.auth.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.bazzar.api.ResourceNotFoundException;
+import ru.bazzar.auth.api.ResourceNotFoundException;
 import ru.bazzar.auth.entities.Role;
 import ru.bazzar.auth.repositories.RoleRepository;
 

@@ -3,7 +3,7 @@ package ru.bazzar.core.servises.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import ru.bazzar.api.PurchaseHistoryDto;
+import ru.bazzar.core.api.PurchaseHistoryDto;
 import ru.bazzar.core.converters.PurchaseHistoryConverter;
 import ru.bazzar.core.entities.PurchaseHistory;
 import ru.bazzar.core.repositories.PurchaseHistoryRepository;
