@@ -1,4 +1,4 @@
-package ru.bazzar.core.servises.impl;
+package ru.bazzar.core.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +8,7 @@ import ru.bazzar.core.api.PurchaseHistoryDto;
 import ru.bazzar.core.converters.PurchaseHistoryConverter;
 import ru.bazzar.core.entities.PurchaseHistory;
 import ru.bazzar.core.repositories.PurchaseHistoryRepository;
-import ru.bazzar.core.servises.interf.PurchaseHistoryService;
+import ru.bazzar.core.services.interf.PurchaseHistoryService;
 
 import java.util.List;
 

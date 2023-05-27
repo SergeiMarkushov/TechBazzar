@@ -1,4 +1,4 @@
-package ru.bazzar.core.servises.interf;
+package ru.bazzar.core.services.interf;
 
 import ru.bazzar.core.entities.Product;
 

@@ -1,4 +1,4 @@
-package ru.bazzar.core.servises;
+package ru.bazzar.core.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

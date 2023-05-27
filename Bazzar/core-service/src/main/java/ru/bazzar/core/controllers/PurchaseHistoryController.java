@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.bazzar.core.api.PurchaseHistoryDto;
 import ru.bazzar.core.converters.PurchaseHistoryConverter;
 import ru.bazzar.core.entities.PurchaseHistory;
-import ru.bazzar.core.servises.impl.PurchaseHistoryServiceImpl;
-import ru.bazzar.core.servises.interf.SimpleService;
+import ru.bazzar.core.services.impl.PurchaseHistoryServiceImpl;
+import ru.bazzar.core.services.interf.SimpleService;
 
 import java.util.List;
 import java.util.stream.Collectors;

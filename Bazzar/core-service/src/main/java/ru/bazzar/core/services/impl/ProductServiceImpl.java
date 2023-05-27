@@ -1,4 +1,4 @@
-package ru.bazzar.core.servises.impl;
+package ru.bazzar.core.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
-import ru.bazzar.core.servises.interf.ProductService;
+import ru.bazzar.core.services.interf.ProductService;
 import ru.bazzar.core.utils.IdentityMap;
 import ru.bazzar.core.utils.MyQueue;
 
