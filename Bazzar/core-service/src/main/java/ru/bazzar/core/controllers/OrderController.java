@@ -8,8 +8,8 @@ import ru.bazzar.core.api.OrderDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.OrderConverter;
 import ru.bazzar.core.entities.Order;
-import ru.bazzar.core.servises.impl.OrderServiceImpl;
-import ru.bazzar.core.servises.interf.SimpleService;
+import ru.bazzar.core.services.impl.OrderServiceImpl;
+import ru.bazzar.core.services.interf.SimpleService;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package ru.bazzar.core.servises.impl;
+package ru.bazzar.core.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.entities.Discount;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.repositories.DiscountRepository;
-import ru.bazzar.core.servises.interf.DiscountService;
+import ru.bazzar.core.services.interf.DiscountService;
 import ru.bazzar.core.utils.ListsForDiscount;
 
 import javax.annotation.PostConstruct;

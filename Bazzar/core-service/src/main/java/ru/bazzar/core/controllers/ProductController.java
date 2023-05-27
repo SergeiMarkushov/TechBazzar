@@ -10,8 +10,8 @@ import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
-import ru.bazzar.core.servises.impl.ProductServiceImpl;
-import ru.bazzar.core.servises.interf.SimpleService;
+import ru.bazzar.core.services.impl.ProductServiceImpl;
+import ru.bazzar.core.services.interf.SimpleService;
 import ru.bazzar.core.utils.MyQueue;
 
 import java.util.ArrayList;

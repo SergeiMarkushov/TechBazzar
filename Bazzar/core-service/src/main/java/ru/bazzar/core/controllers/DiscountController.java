@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.bazzar.core.api.DiscountDto;
 import ru.bazzar.core.entities.Discount;
 import ru.bazzar.core.entities.Product;
-import ru.bazzar.core.servises.impl.DiscountServiceImpl;
-import ru.bazzar.core.servises.interf.SimpleService;
+import ru.bazzar.core.services.impl.DiscountServiceImpl;
+import ru.bazzar.core.services.interf.SimpleService;
 
 import java.util.List;
 

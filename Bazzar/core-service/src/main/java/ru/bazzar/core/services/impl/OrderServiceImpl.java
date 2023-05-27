@@ -1,4 +1,4 @@
-package ru.bazzar.core.servises.impl;
+package ru.bazzar.core.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +12,7 @@ import ru.bazzar.core.integrations.CartServiceIntegration;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.OrderRepository;
-import ru.bazzar.core.servises.interf.OrderService;
+import ru.bazzar.core.services.interf.OrderService;
 
 
 import java.time.Duration;
