@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.bazzar.api.ProductDto;
+import ru.bazzar.organization.api.ProductDto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

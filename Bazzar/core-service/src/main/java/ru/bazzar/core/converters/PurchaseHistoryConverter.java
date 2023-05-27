@@ -2,7 +2,7 @@ package ru.bazzar.core.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.bazzar.api.PurchaseHistoryDto;
+import ru.bazzar.core.api.PurchaseHistoryDto;
 import ru.bazzar.core.entities.PurchaseHistory;
 
 import java.time.format.DateTimeFormatter;

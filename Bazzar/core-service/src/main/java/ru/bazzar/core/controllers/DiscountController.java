@@ -2,7 +2,7 @@ package ru.bazzar.core.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.bazzar.api.DiscountDto;
+import ru.bazzar.core.api.DiscountDto;
 import ru.bazzar.core.entities.Discount;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.servises.impl.DiscountServiceImpl;

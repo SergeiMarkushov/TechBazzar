@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ru.bazzar.api.AccessException;
-import ru.bazzar.api.AppError;
-import ru.bazzar.api.ResourceNotFoundException;
+
+
+import ru.bazzar.core.api.ResourceNotFoundException;
+import ru.bazzar.core.api.AccessException;
+import ru.bazzar.core.api.AppError;
 
 
 @ControllerAdvice

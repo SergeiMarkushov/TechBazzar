@@ -7,16 +7,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import ru.bazzar.api.AccessException;
-import ru.bazzar.api.ProductDto;
-import ru.bazzar.api.ResourceNotFoundException;
-import ru.bazzar.api.UserDto;
-import ru.bazzar.core.entities.Organization;
+import org.springframework.transaction.annotation.Transactional;
+import ru.bazzar.core.api.*;
 import ru.bazzar.core.entities.Product;
+import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
-import ru.bazzar.core.servises.OrganizationService;
 import ru.bazzar.core.servises.interf.ProductService;
 import ru.bazzar.core.utils.IdentityMap;
 import ru.bazzar.core.utils.MyQueue;
@@ -24,11 +21,12 @@ import ru.bazzar.core.utils.MyQueue;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class ProductServiceImpl extends AbstractService<Product, Long> implements ProductService {
     private final ProductRepository productRepository;
-    private final OrganizationService organizationService;
+    private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
     private IdentityMap identityMap = new IdentityMap();
     private MyQueue<Product> productQueue = new MyQueue<>();
@@ -84,10 +82,6 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             if (productDto.getDescription() != null) {
                 productFromBd.setDescription(productDto.getDescription());
             }
-//            if (productDto.getOrganizationTitle() != null) {
-//                Organization organization = organizationService.findByTitleIgnoreCase(productDto.getOrganizationTitle());
-//                productFromBd.setOrganization(organization);
-//            }
             if (productDto.getPrice() != null) {
                 productFromBd.setPrice(productDto.getPrice());
             }
@@ -96,14 +90,14 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             }
             return productRepository.save(productFromBd);
         } else {
-            Organization organization = organizationService.findByTitleIgnoreCase(productDto.getOrganizationTitle());
-            if (organization == null) {
+            OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
+            if (!organizationDto.isActive()) {
                 throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
             }
-            if (!username.equalsIgnoreCase(organization.getOwner())) {
+            if (!username.equalsIgnoreCase(organizationDto.getOwner())) {
                 throw new AccessException("Только владелец компании может добавлять товары в магазин.");
             }
-            UserDto userDto = userService.getUser(organization.getOwner());
+            UserDto userDto = userService.getUser(organizationDto.getOwner());
             if (!userDto.isActive()) {
                 throw new AccessException("Владелец организации забанен, обратитесь к администратору n.v.bekhter@mail.ru");
             }
@@ -112,7 +106,7 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             product.setId(productDto.getId());
             product.setTitle(productDto.getTitle());
             product.setDescription(productDto.getDescription());
-//            product.setOrganization(organization);
+            product.setOrganizationTitle(organizationDto.getTitle());
             product.setPrice(productDto.getPrice());
             product.setConfirmed(false);
             product.setQuantity(productDto.getQuantity());

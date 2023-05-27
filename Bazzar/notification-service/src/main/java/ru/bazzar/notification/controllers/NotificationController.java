@@ -3,7 +3,7 @@ package ru.bazzar.notification.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.bazzar.api.NotificationDto;
+import ru.bazzar.notification.api.NotificationDto;
 import ru.bazzar.notification.config.MailConfig;
 import ru.bazzar.notification.servises.NotificationServiceImpl;
 

@@ -3,8 +3,8 @@ package ru.bazzar.cart.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
-import ru.bazzar.api.CartDto;
-import ru.bazzar.api.StringResponse;
+import ru.bazzar.cart.api.CartDto;
+import ru.bazzar.cart.api.StringResponse;
 import ru.bazzar.cart.converters.CartConverter;
 import ru.bazzar.cart.services.CartService;
 

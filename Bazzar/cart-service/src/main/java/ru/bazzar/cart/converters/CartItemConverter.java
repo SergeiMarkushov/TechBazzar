@@ -1,7 +1,7 @@
 package ru.bazzar.cart.converters;
 
 import org.springframework.stereotype.Component;
-import ru.bazzar.api.CartItemDto;
+import ru.bazzar.cart.api.CartItemDto;
 import ru.bazzar.cart.model.CartItem;
 
 @Component
