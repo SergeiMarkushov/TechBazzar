@@ -1,31 +1,33 @@
-package ru.bazzar.api;
+package ru.bazzar.core.api;
 
 import java.math.BigDecimal;
 
-public class CartItemDto {
-    private Long productId;
+public class OrderItemDto {
+    private Long id;
     private String productTitle;
+    private Long orderId;
     private int quantity;
     private BigDecimal pricePerProduct;
     private BigDecimal price;
 
-    public CartItemDto() {
+    public OrderItemDto() {
     }
 
-    public CartItemDto(Long productId, String productTitle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
-        this.productId = productId;
+    public OrderItemDto(Long id, String productTitle, Long orderId, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
+        this.id = id;
         this.productTitle = productTitle;
+        this.orderId = orderId;
         this.quantity = quantity;
         this.pricePerProduct = pricePerProduct;
         this.price = price;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Long getId() {
+        return id;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getProductTitle() {
@@ -34,6 +36,14 @@ public class CartItemDto {
 
     public void setProductTitle(String productTitle) {
         this.productTitle = productTitle;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public int getQuantity() {
@@ -62,12 +72,13 @@ public class CartItemDto {
 
     @Override
     public String toString() {
-        return "CartItemDto{" +
-                "productId=" + productId +
+        return "OrderItemDto{" +
+                "id=" + id +
                 ", productTitle='" + productTitle + '\'' +
+                ", orderId=" + orderId +
                 ", quantity=" + quantity +
-                ", pricePerProduct=" + pricePerProduct +
-                ", price=" + price +
+                ", costPerProduct=" + pricePerProduct +
+                ", cost=" + price +
                 '}';
     }
 }

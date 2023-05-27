@@ -1,4 +1,6 @@
-package ru.bazzar.api;
+package ru.bazzar.core.api;
+
+import ru.bazzar.core.api.OrderItemDto;
 
 import java.math.BigDecimal;
 import java.util.List;

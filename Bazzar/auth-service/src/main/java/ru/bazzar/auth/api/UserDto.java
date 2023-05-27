@@ -1,4 +1,4 @@
-package ru.bazzar.api;
+package ru.bazzar.auth.api;
 
 import java.math.BigDecimal;
 

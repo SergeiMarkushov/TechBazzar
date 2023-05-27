@@ -1,4 +1,4 @@
-package ru.bazzar.api;
+package ru.bazzar.core.api;
 
 public class OrganizationDto {
     private Long id;

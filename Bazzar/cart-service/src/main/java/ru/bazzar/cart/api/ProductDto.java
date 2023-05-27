@@ -1,4 +1,4 @@
-package ru.bazzar.api;
+package ru.bazzar.cart.api;
 
 import java.math.BigDecimal;
 

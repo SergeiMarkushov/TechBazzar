@@ -1,4 +1,4 @@
-package ru.bazzar.api;
+package ru.bazzar.auth.api;
 
 public class AuthResponse {
     private String token;

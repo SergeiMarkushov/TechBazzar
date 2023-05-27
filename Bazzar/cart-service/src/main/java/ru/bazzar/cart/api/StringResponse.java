@@ -1,4 +1,4 @@
-package ru.bazzar.api;
+package ru.bazzar.cart.api;
 
 public class StringResponse {
     private String value;

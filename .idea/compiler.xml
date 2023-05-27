@@ -12,7 +12,6 @@
         <module name="front-service" />
         <module name="gateway-service" />
         <module name="organization-service" />
-        <module name="api" />
         <module name="core-service" />
         <module name="notification-service" />
       </profile>
