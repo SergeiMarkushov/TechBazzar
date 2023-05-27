@@ -1,7 +1,9 @@
-package ru.bazzar.core.servises.impl;
+package ru.bazzar.core.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,7 +16,7 @@ import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
-import ru.bazzar.core.servises.interf.ProductService;
+import ru.bazzar.core.services.interf.ProductService;
 import ru.bazzar.core.utils.IdentityMap;
 import ru.bazzar.core.utils.MyQueue;
 
@@ -28,7 +30,7 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
-    private IdentityMap identityMap = new IdentityMap();
+    //private IdentityMap identityMap = new IdentityMap();
     private MyQueue<Product> productQueue = new MyQueue<>();
 
     @Override
@@ -36,23 +38,32 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
         return productRepository;
     }
 
+    @Override // TODO: 27.05.2023 можно попробовать вынести кэш в родителя и всем раздавать кэши)))
+    @CacheEvict("productCache")//чистка кэша при удалении(синхронизация БД и кэша)
+    public void deleteById(Long id){
+        getRepository().deleteById(id);
+    }
     @Override
+    @Cacheable(cacheNames="productCache", sync=true, key="#id")
     public Product findById(Long id) {
-        Product product = this.identityMap.getProductMap(id);
-        if (product != null) {
-            log.info("Product found in the Map");
-            return product;
-        } else {
-            // Try to find product in the database
-            product = productRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
-            if (product != null) {
-                this.identityMap.addProductMap(product);
-                log.info("Product found in DB.");
-                return product;
-            }
-        }
-        return null;
+        return getRepository().findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
+
+//        Product product = this.identityMap.getProductMap(id);
+//        if (product != null) {
+//            log.info("Product found in the Map");
+//            return product;
+//        } else {
+//            // Try to find product in the database
+//            product = getRepository().findById(id)
+//                    .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
+//            if (product != null) {
+//                this.identityMap.addProductMap(product);
+//                log.info("Product found in DB.");
+//                return product;
+//            }
+//        }
+//        return null;
     }
 
     public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, Integer page) {

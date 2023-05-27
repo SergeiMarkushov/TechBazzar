@@ -2,7 +2,7 @@ package ru.bazzar.core.controllers;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import ru.bazzar.core.servises.interf.SimpleService;
+import ru.bazzar.core.services.interf.SimpleService;
 
 public abstract class AbstractRestController <E, K>{
 
