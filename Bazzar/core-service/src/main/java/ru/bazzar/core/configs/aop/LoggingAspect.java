@@ -13,5 +13,11 @@ public class LoggingAspect {
         System.out.println("Вызван метод, тут будет логирование");
     }
 
+    @Before("execution(public void ru.bazzar.core.controllers.ProductController.testProduct()))")
+    public void beforeTestAdvice(){
+        System.out.println("@Aspect beforeTestAdvice - попытка получить testProduct()!");
+    }
+
+
 
 }
