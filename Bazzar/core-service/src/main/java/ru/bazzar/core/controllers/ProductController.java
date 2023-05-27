@@ -9,7 +9,7 @@ import ru.bazzar.core.api.ProductDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
-import ru.bazzar.core.servises.OrganizationService;
+import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.servises.impl.ProductServiceImpl;
 import ru.bazzar.core.servises.interf.SimpleService;
 import ru.bazzar.core.utils.MyQueue;
@@ -23,7 +23,7 @@ import java.util.List;
 public class ProductController extends AbstractRestController<Product, Long> {
     private final ProductServiceImpl productServiceImpl;
     private final ProductConverter productConverter;
-    private final OrganizationService organizationService;
+    private final OrganizationServiceIntegration organizationService;
     private MyQueue<Product> productQueue = new MyQueue<>();//зачам оно?
 
     @Override
@@ -51,7 +51,7 @@ public class ProductController extends AbstractRestController<Product, Long> {
         out.setTotalPages(jpaPage.getTotalPages());
         List<ProductDto> productDtos = new ArrayList<>();
         for (ProductDto productDto : jpaPage.getContent()) {
-            if (organizationService.isOrgBun(productDto.getOrganizationTitle())) {
+            if (organizationService.isOrgActive(productDto.getOrganizationTitle())) {
                 if (productDto.isConfirmed()) {
                     productDtos.add(productDto);
                 }

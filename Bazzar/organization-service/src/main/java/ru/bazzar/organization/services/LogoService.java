@@ -2,6 +2,7 @@ package ru.bazzar.organization.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.bazzar.organization.converters.LogoConverter;
 import ru.bazzar.organization.entities.Logo;
@@ -10,6 +11,7 @@ import ru.bazzar.organization.repositories.LogoRepository;
 import java.io.IOException;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class LogoService {
     private final LogoRepository repository;

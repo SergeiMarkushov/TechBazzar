@@ -2,6 +2,7 @@ package ru.bazzar.notification.servises;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.bazzar.notification.api.NotificationDto;
 import ru.bazzar.notification.converters.NotificationConverter;
 import ru.bazzar.notification.entities.Notification;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository repository;

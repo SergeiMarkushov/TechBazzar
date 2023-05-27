@@ -3,6 +3,7 @@ package ru.bazzar.organization.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.bazzar.organization.api.OrganizationDto;
 import ru.bazzar.organization.api.ResourceNotFoundException;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @Slf4j
 @RequiredArgsConstructor
 public class OrganizationService {

@@ -29,6 +29,7 @@ angular.module('store').controller('lkController', function ($scope, $http, $loc
     $scope.createCompany = function () {
         // Получаем значения полей из формы
         const companyOwner = $localStorage.simpleUser.username;
+        console.log(companyOwner);
         const companyName = document.getElementById("companyName").value;
         const companyDescription = document.getElementById("companyDescription").value;
         const companyImage = document.getElementById("companyImage").files[0];
