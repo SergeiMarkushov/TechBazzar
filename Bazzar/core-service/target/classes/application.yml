@@ -1,0 +1,41 @@
+server:
+  port: 8183
+  servlet:
+    context-path: /tech-bazzar-core
+
+spring:
+  datasource:
+    url: ${url_db}
+    driver-class-name: org.postgresql.Driver
+    username: ${db_username}
+    password: ${db_password}
+
+  flyway:
+    baselineOnMigrate: true
+    url: ${url_db}
+    user: ${db_username}
+    password: ${db_password}
+    validateOnMigrate: false
+
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    hibernate:
+      ddl-auto: update
+
+integrations:
+  auth-service:
+    url: http://localhost:8181/tech-bazzar-auth/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000
+  cart-service:
+    url: http://localhost:8182/tech-bazzar-cart/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000
+  organization-service:
+    url: http://localhost:8185/tech-bazzar-organization/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000
