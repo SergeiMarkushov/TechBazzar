@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class OrderDto {
+    // TODO: 27.05.2023 если сюда добавить имэйл о организацию, то от PurchaseHistory можно избавиться
     private Long id;
     private String username;
     private List<OrderItemDto> items;

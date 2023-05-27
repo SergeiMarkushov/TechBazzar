@@ -31,6 +31,11 @@ public class ProductController extends AbstractRestController<Product, Long> {
         return productServiceImpl;
     }
 
+    @GetMapping("/test")
+    public void testProduct(){
+        System.out.println("Это тест!!!!!!");
+    }
+
     @GetMapping
     public PageDto<ProductDto> getProductDtosPage(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
