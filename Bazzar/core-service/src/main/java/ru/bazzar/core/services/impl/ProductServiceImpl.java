@@ -11,15 +11,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bazzar.core.api.*;
+import ru.bazzar.core.configs.GlobalEnum;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
 import ru.bazzar.core.services.interf.ProductService;
-import ru.bazzar.core.utils.IdentityMap;
 import ru.bazzar.core.utils.MyQueue;
-
 import java.util.List;
 
 @Service
@@ -30,40 +29,23 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
-    //private IdentityMap identityMap = new IdentityMap();
     private MyQueue<Product> productQueue = new MyQueue<>();
-
+    private String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
     @Override
     JpaRepository<Product, Long> getRepository() {
         return productRepository;
     }
 
-    @Override // TODO: 27.05.2023 можно попробовать вынести кэш в родителя и всем раздавать кэши)))
     @CacheEvict("productCache")//чистка кэша при удалении(синхронизация БД и кэша)
     public void deleteById(Long id){
         getRepository().deleteById(id);
     }
+
     @Override
     @Cacheable(cacheNames="productCache", sync=true, key="#id")
     public Product findById(Long id) {
         return getRepository().findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
-
-//        Product product = this.identityMap.getProductMap(id);
-//        if (product != null) {
-//            log.info("Product found in the Map");
-//            return product;
-//        } else {
-//            // Try to find product in the database
-//            product = getRepository().findById(id)
-//                    .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
-//            if (product != null) {
-//                this.identityMap.addProductMap(product);
-//                log.info("Product found in DB.");
-//                return product;
-//            }
-//        }
-//        return null;
     }
 
     public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, Integer page) {
@@ -83,6 +65,7 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
         return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
     }
 
+    // TODO: 28.05.2023 подумать, может лучше валидацию сделать вместо ифов на ДТОшках
     public Product saveDto(ProductDto productDto, String username) {
         if (productDto.getId() != null) {
             Product productFromBd = getRepository().findById(productDto.getId())
@@ -96,6 +79,7 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             if (productDto.getPrice() != null) {
                 productFromBd.setPrice(productDto.getPrice());
             }
+            // TODO: 28.05.2023 а разве не >0  - ?
             if (productDto.getQuantity() != 0) {
                 productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
             }
@@ -108,9 +92,8 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             if (!username.equalsIgnoreCase(organizationDto.getOwner())) {
                 throw new AccessException("Только владелец компании может добавлять товары в магазин.");
             }
-            UserDto userDto = userService.getUser(organizationDto.getOwner());
-            if (!userDto.isActive()) {
-                throw new AccessException("Владелец организации забанен, обратитесь к администратору n.v.bekhter@mail.ru");
+            if (!userService.getUser(organizationDto.getOwner()).isActive()) {
+                throw new AccessException("Владелец организации забанен, обратитесь к администратору: " + adminEmail);
             }
 
             Product product = new Product();
@@ -142,13 +125,14 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
     }
 
     public void confirm(String title){
-        Product product = productRepository.findByTitleIgnoreCase(title).get();
+        Product product = productRepository.findByTitleIgnoreCase(title)
+                .orElseThrow(()-> new ResourceNotFoundException("Продукт: " + title + " не найден!"));
         product.setConfirmed(true);
         productRepository.save(product);
     }
 
     public void changeQuantity(Product product){
-        Product productFromDB = productRepository.findById(product.getId())
+        Product productFromDB = getRepository().findById(product.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + product.getId()));
         if (productFromDB.getQuantity() >= product.getQuantity()) {
             productFromDB.setQuantity(productFromDB.getQuantity() - product.getQuantity());
@@ -157,4 +141,5 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             throw new AccessException("Недостаточное количество продукта, id: " + product.getId());
         }
     }
+
 }
