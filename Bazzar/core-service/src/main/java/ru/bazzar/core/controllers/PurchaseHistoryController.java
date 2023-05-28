@@ -35,8 +35,8 @@ public class PurchaseHistoryController extends AbstractRestController<PurchaseHi
     }
 
     @GetMapping
-    public List<PurchaseHistoryDto> findAllByEmail(@RequestHeader String email) {
-        return historyService.findAllByEmail(email)
+    public List<PurchaseHistoryDto> findAllByEmail(@RequestHeader String username) {
+        return historyService.findAllByEmail(username)
                 .stream()
                 .map(historyConverter::entityToDto)
                 .collect(Collectors.toList());
