@@ -34,7 +34,7 @@ public class PurchaseHistoryController extends AbstractRestController<PurchaseHi
                 .collect(Collectors.toList());
     }
 
-    @GetMapping//было String username, исправил на email
+    @GetMapping
     public List<PurchaseHistoryDto> findAllByEmail(@RequestHeader String email) {
         return historyService.findAllByEmail(email)
                 .stream()

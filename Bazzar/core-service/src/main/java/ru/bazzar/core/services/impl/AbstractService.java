@@ -11,18 +11,11 @@ public abstract class AbstractService<E, K> implements SimpleService<E, K> {
         return getRepository()
                 .findById(id)
                 .orElseThrow();
-        /*
-        подумать над реализацией
-          identityMap для всех сущностей
-          удобно - сразу тут будет мапирование
-          для всех сервисов, не нужно реализацию писать...
-        */
     }
 
     @Override
     public void save(E object) {
         getRepository().save(object);
-
     }
 
     @Override
