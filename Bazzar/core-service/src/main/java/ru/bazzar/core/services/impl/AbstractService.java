@@ -6,6 +6,6 @@ import javax.validation.Valid;
 
 public abstract class AbstractService<E>{
 
-    //Общая валидация(наследуются, реализуют, а тут - @Valid)
+    //Общая валидация(наследуются, реализуют repo.save(), а тут - @Valid)
     abstract E validSaveAndReturn(@Valid E entity);
 }

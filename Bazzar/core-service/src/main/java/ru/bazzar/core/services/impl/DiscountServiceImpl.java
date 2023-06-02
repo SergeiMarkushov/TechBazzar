@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class DiscountServiceImpl /*extends AbstractService<Discount, Long>*/{
+public class DiscountServiceImpl /*extends AbstractService<Discount>*/{
     private final DiscountRepository discountRepository;
     private final ProductServiceImpl productServiceImpl;
     private ListsForDiscount productsList;

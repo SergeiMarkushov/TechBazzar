@@ -14,12 +14,17 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 //история покупки
-public class PurchaseHistoryServiceImpl /*extends AbstractService<PurchaseHistory, Long>*/ {
+public class PurchaseHistoryServiceImpl extends AbstractService<PurchaseHistory> {
     private final PurchaseHistoryRepository purchaseHistoryRepository;
     private final PurchaseHistoryConverter historyConverter;
 
+    @Override
+    PurchaseHistory validSaveAndReturn(PurchaseHistory entity) {
+        return purchaseHistoryRepository.save(entity);
+    }
+
     public void saveDto(PurchaseHistoryDto historyDto) {
-        purchaseHistoryRepository.save(historyConverter.dtoToEntity(historyDto));
+        validSaveAndReturn(historyConverter.dtoToEntity(historyDto));
     }
 
     public List<PurchaseHistory> findAll() {
@@ -29,5 +34,4 @@ public class PurchaseHistoryServiceImpl /*extends AbstractService<PurchaseHistor
     public List<PurchaseHistory> findAllByEmail(String email) {
         return purchaseHistoryRepository.findAllByEmailIgnoreCase(email);
     }
-
 }

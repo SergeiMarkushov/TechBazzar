@@ -39,7 +39,7 @@ public class Product {
     private String organizationTitle;
 
     @Column(name = "price")
-    @Digits(integer=6, fraction=2)
+    @Digits(integer=8, fraction=2)
     private BigDecimal price;
 
     @Column(name = "quantity")

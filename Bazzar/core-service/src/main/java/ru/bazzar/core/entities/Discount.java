@@ -16,12 +16,16 @@ public class Discount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @OneToMany(mappedBy = "discount")
     private List<Product> products;
+
     @Column(name = "dis")
     private int dis;//уточнить правильный тип данных
+
     @Column(name = "start_date", nullable = false, updatable = false)
     private LocalDateTime startDate;
+
     @Column(name = "expiry_date", nullable = false)
     private LocalDateTime expiryDate;
 }

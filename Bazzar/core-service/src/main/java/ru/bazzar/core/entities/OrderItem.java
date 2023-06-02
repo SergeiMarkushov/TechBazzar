@@ -32,7 +32,7 @@ public class OrderItem {
     private Order order;
 
     @Column(name = "quantity")
-    @Min(0)//вопрос-может 1???
+    @Min(1)//вопрос-может 1???
     private int quantity;
 
     @Column(name = "price_per_product")
@@ -40,7 +40,7 @@ public class OrderItem {
     private BigDecimal pricePerProduct;
 
     @Column(name = "price")
-    @Digits(integer=6, fraction=2)
+    @Digits(integer=8, fraction=2)
     private BigDecimal price;
 
     @CreationTimestamp
