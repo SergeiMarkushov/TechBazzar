@@ -3,23 +3,15 @@ package ru.bazzar.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.bazzar.core.api.DiscountDto;
-import ru.bazzar.core.entities.Discount;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.services.impl.DiscountServiceImpl;
-import ru.bazzar.core.services.interf.SimpleService;
-
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/discount")
-public class DiscountController extends AbstractRestController<Discount,Long> {
+public class DiscountController {
     private final DiscountServiceImpl discountServiceImpl;
-
-    @Override
-    SimpleService<Discount, Long> getService() {
-        return discountServiceImpl;
-    }
 
     @PostMapping("/new")
     public void saveDto(@RequestBody DiscountDto discountDto) {
@@ -50,5 +42,5 @@ public class DiscountController extends AbstractRestController<Discount,Long> {
     public void clear() {
         discountServiceImpl.clearList();
     }
-    //deleteById
+
 }

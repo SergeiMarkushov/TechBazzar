@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -30,12 +32,15 @@ public class OrderItem {
     private Order order;
 
     @Column(name = "quantity")
+    @Min(0)//вопрос-может 1???
     private int quantity;
 
     @Column(name = "price_per_product")
+    @Digits(integer=6, fraction=2)
     private BigDecimal pricePerProduct;
 
     @Column(name = "price")
+    @Digits(integer=6, fraction=2)
     private BigDecimal price;
 
     @CreationTimestamp

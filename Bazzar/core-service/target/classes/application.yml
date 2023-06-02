@@ -1,8 +1,10 @@
 server:
+#  error:
+##отключение трассировки в json(е) при отправке на фронт
+#    include-stacktrace: NEVER
   port: 8183
   servlet:
     context-path: /tech-bazzar-core
-
 spring:
   datasource:
     url: ${url_db}

@@ -3,39 +3,51 @@ package ru.bazzar.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.bazzar.core.api.PageDto;
-import ru.bazzar.core.api.ProductDto;
-import ru.bazzar.core.api.ResourceNotFoundException;
+import ru.bazzar.core.api.*;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.services.impl.ProductServiceImpl;
-import ru.bazzar.core.services.interf.SimpleService;
 import ru.bazzar.core.utils.MyQueue;
-
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
-public class ProductController extends AbstractRestController<Product, Long> {
+public class ProductController {
     private final ProductServiceImpl productServiceImpl;
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
-    private MyQueue<Product> productQueue = new MyQueue<>();//зачам оно?
+    private MyQueue<Product> productQueue = new MyQueue<>();//?
 
-    @Override
-    SimpleService<Product, Long> getService() {
-        return productServiceImpl;
-    }
-
+//********************************************
     @GetMapping("/test")
     public void testProduct(){
         System.out.println("Это тест!!!!!!");
     }
 
+    @PostMapping("/valid_test")
+    public TestDTO valid(@RequestBody TestDTO testDTO) {
+        testDTO.setStatus(true);
+        System.out.println(testDTO.toString());
+        return testDTO;
+        /* -> для ручного тестирования
+        {
+            "title": "some title",
+                "number": "6",
+                "bigDecimalPrice": "1111111.33",
+                "email": "aaaa@a.d",
+                "status": "false"
+        }
+        */
+    }
+//********************************************
     @GetMapping
     public PageDto<ProductDto> getProductDtosPage(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
@@ -67,14 +79,14 @@ public class ProductController extends AbstractRestController<Product, Long> {
     }
 
     @GetMapping("/{id}")
-    public ProductDto getProductDto(@PathVariable Long id) {
-        return productConverter.entityToDto(getService().findById(id));
+    public ProductDto getProductDto(@PathVariable @Min(0) Long id) {
+        return productConverter.entityToDto(productServiceImpl.findById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createOrUpdateProduct(@RequestHeader String username, @RequestBody ProductDto productDto) {
-        return productConverter.entityToDto(productServiceImpl.saveDto(productDto, username));
+        return productConverter.entityToDto(productServiceImpl.saveOrUpdate(productDto, username));
     }
 
     @GetMapping("/not_confirmed")
@@ -83,9 +95,12 @@ public class ProductController extends AbstractRestController<Product, Long> {
     }
 
     @GetMapping("/confirm/{title}")
-    public void confirm(@PathVariable String title) {
+    public void confirm(@PathVariable @NotBlank String title) {
         productServiceImpl.confirm(title);
     }
 
-    //deleteById
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        productServiceImpl.deleteById(id);
+    }
 }

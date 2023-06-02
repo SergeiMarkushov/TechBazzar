@@ -1,25 +1,11 @@
 package ru.bazzar.core.services.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.bazzar.core.services.interf.SimpleService;
+import javax.validation.Valid;
 
-public abstract class AbstractService<E, K> implements SimpleService<E, K> {
-    abstract JpaRepository<E,K> getRepository();
 
-    @Override
-    public E findById(K id) {
-        return getRepository()
-                .findById(id)
-                .orElseThrow();
-    }
+public abstract class AbstractService<E>{
 
-    @Override
-    public void save(E object) {
-        getRepository().save(object);
-    }
-
-    @Override
-    public void deleteById(K id) {
-        getRepository().deleteById(id);
-    }
+    //Общая валидация(наследуются, реализуют, а тут - @Valid)
+    abstract E validSaveAndReturn(@Valid E entity);
 }
