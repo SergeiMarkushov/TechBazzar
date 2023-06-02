@@ -5,6 +5,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/Bazzar/pom.xml" />
+        <option value="$PROJECT_DIR$/Bazzar/notification-service/pom.xml" />
+        <option value="$PROJECT_DIR$/Bazzar/core-service/pom.xml" />
       </list>
     </option>
   </component>

@@ -1,0 +1,87 @@
+server:
+  port: 5555
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+            allowedHeaders: "*"
+
+
+      routes:
+        - id: front-service
+          uri: http://localhost:3000
+          predicates:
+            - Path=/front/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/front
+            - JwtAuthFilter
+
+        - id: core-service
+          uri: http://localhost:8183
+          predicates:
+            - Path=/core/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-core
+            - JwtAuthFilter
+        #            - NotForGuestsFilter
+
+        - id: cart-service
+          uri: http://localhost:8182
+          predicates:
+            - Path=/cart/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-cart
+            - JwtAuthFilter
+            - NotForGuestsFilter
+
+        - id: notification-service
+          uri: http://localhost:8184
+          predicates:
+            - Path=/notification/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-notification
+            - JwtAuthFilter
+
+        - id: organization-service
+          uri: http://localhost:8185
+          predicates:
+            - Path=/organization/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-organization
+            - JwtAuthFilter
+
+        - id: auth-service
+          uri: http://localhost:8181
+          predicates:
+            - Path=/auth/api/v1/users/set_role
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-auth
+            - JwtAuthFilter
+            - NotForRoleUserFilter
+        - id: auth-service
+          uri: http://localhost:8181
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-auth
+            - JwtAuthFilter
+
+jwt:
+  secret: ${jwt_secret}

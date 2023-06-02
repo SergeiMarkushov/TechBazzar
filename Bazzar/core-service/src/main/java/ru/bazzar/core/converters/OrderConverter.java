@@ -2,7 +2,7 @@ package ru.bazzar.core.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.bazzar.api.OrderDto;
+import ru.bazzar.core.api.OrderDto;
 import ru.bazzar.core.entities.Order;
 
 import java.time.format.DateTimeFormatter;

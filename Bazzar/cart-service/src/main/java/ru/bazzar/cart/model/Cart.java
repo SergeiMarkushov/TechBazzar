@@ -1,7 +1,7 @@
 package ru.bazzar.cart.model;
 
 import lombok.Data;
-import ru.bazzar.api.ProductDto;
+import ru.bazzar.cart.api.ProductDto;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -66,4 +66,5 @@ public class Cart {
         }
         recalculate();
     }
+
 }

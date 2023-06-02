@@ -1,0 +1,35 @@
+server:
+  port: 8181
+  servlet:
+    context-path: /tech-bazzar-auth
+
+spring:
+  flyway:
+    baselineOnMigrate: true
+    url: ${url_db}
+    user: ${db_username}
+    password: ${db_password}
+    validateOnMigrate: false
+
+  datasource:
+    url: ${url_db}
+    driverClassName: org.postgresql.Driver
+    username: ${db_username}
+    password: ${db_password}
+
+  jpa:
+    showSql: true
+    databasePlatform: org.hibernate.dialect.PostgreSQL94Dialect
+    hibernate:
+      ddlAuto: update
+
+jwt:
+  secret: ${jwt_secret}
+  lifetime: 36_000_000_000
+
+integrations:
+  notification-service:
+    url: http://localhost:8184/tech-bazzar-notifi/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000

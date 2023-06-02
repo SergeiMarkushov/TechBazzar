@@ -1,20 +1,21 @@
 angular.module('store').controller('lkController', function ($scope, $http, $localStorage, $rootScope) {
     // использовать для локального подключения
-    const contextPath = 'http://localhost:5555/core/api/v1/';
-    const contextPathAuth = 'http://localhost:5555/auth/api/v1/';
+    const contextPathCore = 'http://localhost:5555/core/api/v1/';
+    const contextPathNotification = 'http://localhost:5555/notification/api/v1/';
+    const contextPathOrganization = 'http://localhost:5555/organization/api/v1/';
     // использовать для удаленного подключения
     // const contextPath = 'http://95.165.90.118:443/core/api/v1';
     // const contextPathAuth = 'http://95.165.90.118:443/auth/api/v1/';
 
     $scope.loadHistory = function () {
-        $http.get(contextPath + 'history')
+        $http.get(contextPathCore + 'history')
             .then(function (response) {
                 $scope.historyList = response.data;
             });
     };
 
     $scope.saveProduct = function () {
-        $http.post(contextPath + 'products', $scope.save_product)
+        $http.post(contextPathCore + 'products', $scope.save_product)
             .then(function (response) {
                 alert("Успех!");
                 $scope.save_product.title = null;
@@ -28,6 +29,7 @@ angular.module('store').controller('lkController', function ($scope, $http, $loc
     $scope.createCompany = function () {
         // Получаем значения полей из формы
         const companyOwner = $localStorage.simpleUser.username;
+        console.log(companyOwner);
         const companyName = document.getElementById("companyName").value;
         const companyDescription = document.getElementById("companyDescription").value;
         const companyImage = document.getElementById("companyImage").files[0];
@@ -40,7 +42,7 @@ angular.module('store').controller('lkController', function ($scope, $http, $loc
         formData.append("companyImage", companyImage);
 
         // Отправляем POST запрос на сервер, передавая объект FormData
-        fetch(contextPath + 'org', {
+        fetch(contextPathOrganization + 'organizations', {
             method: "POST",
             body: formData
         }).then(function (response) {
@@ -49,14 +51,14 @@ angular.module('store').controller('lkController', function ($scope, $http, $loc
     };
 
     $scope.loadNotification = function () {
-        $http.get(contextPathAuth + 'notification')
+        $http.get(contextPathNotification + 'notifications')
             .then(function (response) {
                 $scope.notificationList = response.data;
             });
     };
 
     $scope.deleteNotification = function (id) {
-        $http.delete(contextPathAuth + 'notification/' + id)
+        $http.delete(contextPathNotification + 'notifications/' + id)
             .then(function (response) {
                 alert('Сообщение удалено.');
                 $scope.loadNotification();

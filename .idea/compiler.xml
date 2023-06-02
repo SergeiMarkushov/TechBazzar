@@ -10,9 +10,10 @@
         <module name="auth-service" />
         <module name="cart-service" />
         <module name="front-service" />
-        <module name="api" />
-        <module name="core-service" />
         <module name="gateway-service" />
+        <module name="organization-service" />
+        <module name="notification-service" />
+        <module name="core-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -23,6 +24,8 @@
       <module name="core-service" options="-parameters" />
       <module name="front-service" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
+      <module name="notification-service" options="-parameters" />
+      <module name="organization-service" options="-parameters" />
     </option>
   </component>
 </project>

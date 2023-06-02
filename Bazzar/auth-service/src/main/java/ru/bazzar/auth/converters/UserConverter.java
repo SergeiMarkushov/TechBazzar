@@ -1,7 +1,7 @@
 package ru.bazzar.auth.converters;
 
 import org.springframework.stereotype.Component;
-import ru.bazzar.api.UserDto;
+import ru.bazzar.auth.api.UserDto;
 import ru.bazzar.auth.entities.User;
 
 @Component

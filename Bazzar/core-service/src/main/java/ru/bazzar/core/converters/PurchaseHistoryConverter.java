@@ -2,7 +2,7 @@ package ru.bazzar.core.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.bazzar.api.PurchaseHistoryDto;
+import ru.bazzar.core.api.PurchaseHistoryDto;
 import ru.bazzar.core.entities.PurchaseHistory;
 
 import java.time.format.DateTimeFormatter;
@@ -16,7 +16,7 @@ public class PurchaseHistoryConverter {
         historyDto.setId(history.getId());
         historyDto.setEmail(history.getEmail());
         historyDto.setProductTitle(history.getProductTitle());
-        historyDto.setOrganization(history.getOrganization());
+        historyDto.setOrganizationTitle(history.getOrganization());
         historyDto.setQuantity(history.getQuantity());
         historyDto.setDatePurchase(history.getDatePurchase().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
         return historyDto;
@@ -26,7 +26,7 @@ public class PurchaseHistoryConverter {
         PurchaseHistory history = new PurchaseHistory();
         history.setEmail(historyDto.getEmail());
         history.setProductTitle(historyDto.getProductTitle());
-        history.setOrganization(historyDto.getOrganization());
+        history.setOrganization(historyDto.getOrganizationTitle());
         history.setQuantity(historyDto.getQuantity());
         return history;
     }

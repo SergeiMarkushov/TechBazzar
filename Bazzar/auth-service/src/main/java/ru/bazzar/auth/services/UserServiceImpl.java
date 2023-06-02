@@ -9,12 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bazzar.api.NotificationDto;
-import ru.bazzar.api.ResourceNotFoundException;
-import ru.bazzar.api.UserDto;
+import ru.bazzar.auth.api.NotificationDto;
+import ru.bazzar.auth.api.ResourceNotFoundException;
+import ru.bazzar.auth.api.UserDto;
 import ru.bazzar.auth.entities.Role;
 import ru.bazzar.auth.entities.User;
-import ru.bazzar.auth.mail.MyMailSender;
+import ru.bazzar.auth.integrations.NotificationServiceIntegration;
 import ru.bazzar.auth.repositories.UserRepository;
 
 import java.math.BigDecimal;
@@ -25,12 +25,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleServiceImpl roleServiceImpl;
-    private final MyMailSender myMailSender;
+    private final NotificationServiceIntegration notificationService;
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmailIgnoreCase(email);
@@ -104,7 +105,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             notification.setContent("В процессе возврата средств за ранее приобретенный товар Вашей организации, на Вашем счете " +
                     "оказалось недостаточно средств в размере: " + flaw + ". Ваш аккаунт заблокирован. Необходимо связаться с администратором n.v.bekhter@mail.ru !");
             notification.setSendTo(owner.getEmail());
-            myMailSender.sendMailNotification(notification);
+            notificationService.sendNotification(notification);
         }
         owner.setBalance(owner.getBalance().subtract(userDto.getBalance().subtract(userDto.getBalance().multiply(new BigDecimal("0.05")))));
         admin.setBalance(admin.getBalance().subtract(userDto.getBalance().multiply(new BigDecimal("0.05"))));

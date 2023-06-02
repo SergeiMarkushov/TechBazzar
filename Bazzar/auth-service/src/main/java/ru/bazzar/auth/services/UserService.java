@@ -1,6 +1,6 @@
 package ru.bazzar.auth.services;
 
-import ru.bazzar.api.UserDto;
+import ru.bazzar.auth.api.UserDto;
 import ru.bazzar.auth.entities.Role;
 import ru.bazzar.auth.entities.User;
 

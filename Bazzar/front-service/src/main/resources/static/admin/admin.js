@@ -2,6 +2,8 @@ angular.module('store').controller('adminController', function ($scope, $http, $
     // использовать для локального подключения
     const contextPathCore = 'http://localhost:5555/core/api/v1/';
     const contextPathAuth = 'http://localhost:5555/auth/api/v1/';
+    const contextPathNotification = 'http://localhost:5555/notification/api/v1/notifications';
+    const contextPathOrganization = 'http://localhost:5555/organization/api/v1/organizations';
     // использовать для удаленного подключения
     // const contextPathCore = 'http://95.165.90.118:443/core/api/v1/';
     // const contextPathAuth = 'http://95.165.90.118:443/auth/api/v1/';
@@ -81,7 +83,7 @@ angular.module('store').controller('adminController', function ($scope, $http, $
     };
 
     $scope.sendMessage = function () {
-        $http.post(contextPathAuth + 'users/notification', $scope.users_msg)
+        $http.post(contextPathNotification, $scope.users_msg)
             .then(function (response) {
                 alert('Уведомление отправлено!');
                 $scope.users_msg.sendTo = null;
@@ -91,7 +93,7 @@ angular.module('store').controller('adminController', function ($scope, $http, $
     };
 
     $scope.notConfirmed = function () {
-        $http.get(contextPathCore + 'org/not_confirmed')
+        $http.get(contextPathOrganization + '/not_confirmed')
             .then(function (response) {
                 $scope.notConfirmedOrg = response.data;
                 $scope.isUnconfirmedOrg = true;
@@ -99,7 +101,7 @@ angular.module('store').controller('adminController', function ($scope, $http, $
     };
 
     $scope.confirmedOrg = function (title) {
-        $http.get(contextPathCore + 'org/confirm/' + title)
+        $http.get(contextPathOrganization + '/confirm/' + title)
             .then(function (response) {
                 alert('Организация успешно одобрена.');
                 $scope.notConfirmed();
@@ -107,7 +109,7 @@ angular.module('store').controller('adminController', function ($scope, $http, $
     };
 
     $scope.findAllOrg = function () {
-        $http.get(contextPathCore + 'org')
+        $http.get(contextPathOrganization)
             .then(function (response) {
                 $scope.orgList = response.data;
             });
@@ -130,7 +132,7 @@ angular.module('store').controller('adminController', function ($scope, $http, $
     };
 
     $scope.orgBun = function (id) {
-        $http.get(contextPathCore + 'org/bun/' + id)
+        $http.get(contextPathOrganization + '/bun/' + id)
             .then(function (response) {
                 $scope.findAllOrg();
             });

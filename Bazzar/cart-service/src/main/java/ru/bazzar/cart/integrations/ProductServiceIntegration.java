@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.bazzar.api.ProductDto;
-import ru.bazzar.api.ResourceNotFoundException;
+import ru.bazzar.cart.api.ProductDto;
+import ru.bazzar.cart.api.ResourceNotFoundException;
 
 @Component
 @RequiredArgsConstructor
