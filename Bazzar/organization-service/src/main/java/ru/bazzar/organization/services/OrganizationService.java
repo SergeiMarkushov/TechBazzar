@@ -15,6 +15,7 @@ import ru.bazzar.organization.utils.MyQueue;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,14 +50,8 @@ public class OrganizationService {
         return myQueue.dequeue();
     }
 
-    public Organization findByTitleIgnoreCase(String title) throws ResourceNotFoundException {
-        Organization organization = repository.findByTitleIgnoreCase(title)
-                .orElseThrow(() -> new ResourceNotFoundException("Организация с названием: " + title + " не найдена."));
-        if (organization.isActive()) {
-            return organization;
-        } else {
-            throw new ResourceNotFoundException("Организация с названием: " + title + " не подтверждена.");
-        }
+    public Optional<Organization> findByTitleIgnoreCase(String title) {
+        return repository.findByTitleIgnoreCase(title);
     }
 
     public Organization findByTitle(String title) throws ResourceNotFoundException {

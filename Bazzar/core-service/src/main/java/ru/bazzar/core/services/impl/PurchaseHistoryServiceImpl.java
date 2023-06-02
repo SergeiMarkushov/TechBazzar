@@ -1,14 +1,12 @@
 package ru.bazzar.core.services.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bazzar.core.api.PurchaseHistoryDto;
 import ru.bazzar.core.converters.PurchaseHistoryConverter;
 import ru.bazzar.core.entities.PurchaseHistory;
 import ru.bazzar.core.repositories.PurchaseHistoryRepository;
-import ru.bazzar.core.services.interf.PurchaseHistoryService;
 
 import java.util.List;
 
@@ -16,17 +14,17 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 //история покупки
-public class PurchaseHistoryServiceImpl extends AbstractService<PurchaseHistory, Long> implements PurchaseHistoryService {
+public class PurchaseHistoryServiceImpl extends AbstractService<PurchaseHistory> {
     private final PurchaseHistoryRepository purchaseHistoryRepository;
     private final PurchaseHistoryConverter historyConverter;
 
     @Override
-    JpaRepository<PurchaseHistory, Long> getRepository() {
-        return purchaseHistoryRepository;
+    PurchaseHistory validSaveAndReturn(PurchaseHistory entity) {
+        return purchaseHistoryRepository.save(entity);
     }
 
     public void saveDto(PurchaseHistoryDto historyDto) {
-        getRepository().save(historyConverter.dtoToEntity(historyDto));
+        validSaveAndReturn(historyConverter.dtoToEntity(historyDto));
     }
 
     public List<PurchaseHistory> findAll() {
@@ -36,5 +34,4 @@ public class PurchaseHistoryServiceImpl extends AbstractService<PurchaseHistory,
     public List<PurchaseHistory> findAllByEmail(String email) {
         return purchaseHistoryRepository.findAllByEmailIgnoreCase(email);
     }
-
 }

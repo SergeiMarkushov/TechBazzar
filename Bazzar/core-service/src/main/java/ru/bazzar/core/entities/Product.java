@@ -4,8 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Entity
@@ -17,20 +22,34 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id")
-    private Long id;
+    private Long id;//присваивается БД,
+
     @Column(name = "title")
+    @Size(min = 2, max = 100)
     private String title;
+
     @Column(name = "description")
+    @Size(min = 10, max = 1000)
     private String description;
+
     @Column(name = "organization_title")
+    @Size(min = 1, max = 200)
     private String organizationTitle;
+
     @Column(name = "price")
+    @Digits(integer=8, fraction=2)
     private BigDecimal price;
+
     @Column(name = "quantity")
+    @Min(0)//вопрос-может 1???
     private int quantity;
+
     @Column(name = "is_confirmed")
+    @NotNull
     private boolean isConfirmed;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "discount_id")
     private Discount discount;

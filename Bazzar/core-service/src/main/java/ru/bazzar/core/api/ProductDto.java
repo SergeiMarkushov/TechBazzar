@@ -1,8 +1,11 @@
 package ru.bazzar.core.api;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class ProductDto {
+
     private Long id;
     private String title;
     private String description;

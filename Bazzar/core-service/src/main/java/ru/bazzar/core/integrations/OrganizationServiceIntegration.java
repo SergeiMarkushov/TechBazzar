@@ -18,11 +18,12 @@ public class OrganizationServiceIntegration {
                 .uri("api/v1/organizations/" + title)
                 .retrieve()
                 .onStatus(
-                        httpStatus -> httpStatus.value() == HttpStatus.NOT_FOUND.value(),
+                        httpStatus -> httpStatus.value() == HttpStatus.BAD_REQUEST.value(),
                         clientResponse -> Mono.error(new ResourceNotFoundException("Организация не найдена в organization-service."))
                 )
                 .bodyToMono(OrganizationDto.class)
                 .block();
+
     }
 
     public boolean isOrgActive(String title) {

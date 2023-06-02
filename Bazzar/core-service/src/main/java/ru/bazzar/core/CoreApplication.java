@@ -9,7 +9,6 @@ import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import java.util.concurrent.TimeUnit;
-
 import com.google.common.cache.CacheBuilder;
 
 @SpringBootApplication
@@ -39,4 +38,6 @@ public class CoreApplication {
 			}
 		};
 	}
+
+
 }

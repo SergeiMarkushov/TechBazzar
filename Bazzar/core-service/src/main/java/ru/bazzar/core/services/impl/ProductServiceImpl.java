@@ -10,44 +10,48 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bazzar.core.api.*;
+import ru.bazzar.core.api.AccessException;
+import ru.bazzar.core.api.OrganizationDto;
+import ru.bazzar.core.api.ProductDto;
+import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.configs.GlobalEnum;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
-import ru.bazzar.core.services.interf.ProductService;
 import ru.bazzar.core.utils.MyQueue;
+
+import javax.validation.constraints.NotBlank;
 import java.util.List;
+
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class ProductServiceImpl extends AbstractService<Product, Long> implements ProductService {
+public class ProductServiceImpl extends AbstractService<Product>  {
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
     private MyQueue<Product> productQueue = new MyQueue<>();
-    private String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
+    private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
+
     @Override
-    JpaRepository<Product, Long> getRepository() {
-        return productRepository;
+    Product validSaveAndReturn(Product entity) {
+        return productRepository.save(entity);
     }
 
     @CacheEvict("productCache")//чистка кэша при удалении(синхронизация БД и кэша)
     public void deleteById(Long id){
-        getRepository().deleteById(id);
+        productRepository.deleteById(id);
     }
 
-    @Override
     @Cacheable(cacheNames="productCache", sync=true, key="#id")
     public Product findById(Long id) {
-        return getRepository().findById(id)
+        return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
     }
-
     public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, Integer page) {
         Specification<Product> spec = Specification.where(null);
         if (minPrice != null) {
@@ -65,10 +69,11 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
         return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
     }
 
-    // TODO: 28.05.2023 подумать, может лучше валидацию сделать вместо ифов на ДТОшках
-    public Product saveDto(ProductDto productDto, String username) {
+    @Transactional
+    public Product saveOrUpdate(ProductDto productDto, @NotBlank String username) {
+        //update
         if (productDto.getId() != null) {
-            Product productFromBd = getRepository().findById(productDto.getId())
+            Product productFromBd = productRepository.findById(productDto.getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + productDto.getId()));
             if (productDto.getTitle() != null) {
                 productFromBd.setTitle(productDto.getTitle());
@@ -79,12 +84,14 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             if (productDto.getPrice() != null) {
                 productFromBd.setPrice(productDto.getPrice());
             }
-            // TODO: 28.05.2023 а разве не >0  - ?
             if (productDto.getQuantity() != 0) {
                 productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
             }
-            return productRepository.save(productFromBd);
+            //валидируем и возвращаем
+            return validSaveAndReturn(productFromBd);
+
         } else {
+        //save
             OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
             if (!organizationDto.isActive()) {
                 throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
@@ -97,17 +104,14 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             }
 
             Product product = new Product();
-            product.setId(productDto.getId());
             product.setTitle(productDto.getTitle());
             product.setDescription(productDto.getDescription());
-            product.setOrganizationTitle(organizationDto.getTitle());
+            product.setOrganizationTitle(organizationDto.getTitle());//OrganizationServiceIntegration
             product.setPrice(productDto.getPrice());
             product.setConfirmed(false);
             product.setQuantity(productDto.getQuantity());
-            //метод из интерфейса!
-            save(product);
-            return product;
-
+            //валидируем и возвращаем
+            return validSaveAndReturn(product);
         }
     }
 
@@ -132,7 +136,7 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
     }
 
     public void changeQuantity(Product product){
-        Product productFromDB = getRepository().findById(product.getId())
+        Product productFromDB = productRepository.findById(product.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + product.getId()));
         if (productFromDB.getQuantity() >= product.getQuantity()) {
             productFromDB.setQuantity(productFromDB.getQuantity() - product.getQuantity());
@@ -141,5 +145,4 @@ public class ProductServiceImpl extends AbstractService<Product, Long> implement
             throw new AccessException("Недостаточное количество продукта, id: " + product.getId());
         }
     }
-
 }

@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.bazzar.core.api.OrderDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.OrderConverter;
-import ru.bazzar.core.entities.Order;
 import ru.bazzar.core.services.impl.OrderServiceImpl;
-import ru.bazzar.core.services.interf.SimpleService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,14 +16,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/orders")
 @Log4j2
-public class OrderController extends AbstractRestController<Order, Long> {
+public class OrderController {
     private final OrderServiceImpl orderServiceImpl;
     private final OrderConverter orderConverter;
-
-    @Override
-    SimpleService<Order, Long> getService() {
-        return orderServiceImpl;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -53,12 +46,5 @@ public class OrderController extends AbstractRestController<Order, Long> {
     public void payment(@RequestHeader String username, @PathVariable Long id) throws ResourceNotFoundException {
         orderServiceImpl.payment(username, id);
     }
-    //deleteById(рабочий эндпоинт)
 
-
-//    @ExceptionHandler({ResourceNotFoundException.class})
-//    private ResponseEntity<String> handleNotFound(Exception e) {
-//        log.error(e.getMessage());
-//        return ResponseEntity.badRequest().body(e.getMessage());
-//    }
 }

@@ -1,7 +1,6 @@
 package ru.bazzar.core.services.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bazzar.core.api.*;
@@ -12,8 +11,6 @@ import ru.bazzar.core.integrations.CartServiceIntegration;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.OrderRepository;
-import ru.bazzar.core.services.interf.OrderService;
-
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -23,7 +20,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class OrderServiceImpl extends AbstractService<Order, Long> implements OrderService {
+public class OrderServiceImpl extends AbstractService<Order> {
     private final ProductServiceImpl productServiceImpl;
     private final OrderItemServiceImpl orderItemServiceImpl;
     private final OrderRepository orderRepository;
@@ -33,8 +30,8 @@ public class OrderServiceImpl extends AbstractService<Order, Long> implements Or
     private final OrganizationServiceIntegration organizationService;
 
     @Override
-    JpaRepository<Order, Long> getRepository() {
-        return orderRepository;
+    Order validSaveAndReturn(Order entity) {
+        return orderRepository.save(entity);
     }
 
     @Transactional
@@ -43,7 +40,7 @@ public class OrderServiceImpl extends AbstractService<Order, Long> implements Or
         Order order = new Order();
         order.setUsername(username);
         order.setTotalPrice(cartDto.getTotalPrice());
-        getRepository().save(order);
+        orderRepository.save(order);
 
         List<OrderItem> orderItems = cartDto.getItems().stream()
                 .map(cartItem -> {
@@ -53,7 +50,7 @@ public class OrderServiceImpl extends AbstractService<Order, Long> implements Or
                     orderItem.setPrice(cartItem.getPrice());
                     orderItem.setPricePerProduct(cartItem.getPricePerProduct());
                     orderItem.setQuantity(cartItem.getQuantity());
-                    return orderItemServiceImpl.saveAndReturnOrderItem(orderItem);
+                    return orderItemServiceImpl.validSaveAndReturn(orderItem);
                 }).toList();
         return order;
 
@@ -101,18 +98,18 @@ public class OrderServiceImpl extends AbstractService<Order, Long> implements Or
             }
             order.setStatus(true);
         }
-        getRepository().save(order);
+        validSaveAndReturn(order);
     }
-
     public boolean isRefundOrder(Long id) {
-        Order order = getRepository().findById(id)
+        Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Заказ с id: " + id + " не найден!"));
         Duration d = Duration.between(order.getUpdatedAt(), LocalDateTime.now());
         return d.toSeconds() <= 86400;
     }
     //проведение оплаты
+
     public void refundPayment(String username, Long orderId) {
-        Order order = getRepository().findById(orderId)
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(()->new ResourceNotFoundException("Ордер с id: " + orderId +" не найден!"));
         if (order.isStatus()) {
             List<UserDto> listUserDto = new ArrayList<>();
@@ -139,6 +136,6 @@ public class OrderServiceImpl extends AbstractService<Order, Long> implements Or
             }
             order.setStatus(false);
         }
-        getRepository().save(order);
+        validSaveAndReturn(order);
     }
 }
