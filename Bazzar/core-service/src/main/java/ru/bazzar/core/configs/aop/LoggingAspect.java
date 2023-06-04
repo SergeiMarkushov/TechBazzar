@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class LoggingAspect {
-    //перехват работы всех методов ProductServiceImpl (пример)
-    @Before("execution(public * ru.bazzar.core.services.impl.ProductServiceImpl.*(..))")
+    //перехват работы всех методов ProductService (пример)
+    @Before("execution(public * ru.bazzar.core.services.ProductService.*(..))")
     public void beforeAllMethodInProductServiceImplAdvice(){
         System.out.println("Вызван метод, тут будет логирование");
     }

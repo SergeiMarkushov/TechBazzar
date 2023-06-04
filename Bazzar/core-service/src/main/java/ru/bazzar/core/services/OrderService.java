@@ -1,4 +1,4 @@
-package ru.bazzar.core.services.impl;
+package ru.bazzar.core.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,19 +20,14 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class OrderServiceImpl extends AbstractService<Order> {
-    private final ProductServiceImpl productServiceImpl;
-    private final OrderItemServiceImpl orderItemServiceImpl;
+public class OrderService {
+    private final ProductService productService;
+    private final OrderItemService orderItemService;
     private final OrderRepository orderRepository;
     private final CartServiceIntegration cartService;
     private final UserServiceIntegration userService;
-    private final PurchaseHistoryServiceImpl historyService;
+    private final PurchaseHistoryService historyService;
     private final OrganizationServiceIntegration organizationService;
-
-    @Override
-    Order validSaveAndReturn(Order entity) {
-        return orderRepository.save(entity);
-    }
 
     @Transactional
     public Order create(String username) {
@@ -45,12 +40,12 @@ public class OrderServiceImpl extends AbstractService<Order> {
         List<OrderItem> orderItems = cartDto.getItems().stream()
                 .map(cartItem -> {
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setProduct(productServiceImpl.findById(cartItem.getProductId()));
+                    orderItem.setProduct(productService.findById(cartItem.getProductId()));
                     orderItem.setOrder(order);
                     orderItem.setPrice(cartItem.getPrice());
                     orderItem.setPricePerProduct(cartItem.getPricePerProduct());
                     orderItem.setQuantity(cartItem.getQuantity());
-                    return orderItemServiceImpl.validSaveAndReturn(orderItem);
+                    return orderItemService.save(orderItem);
                 }).toList();
         return order;
 
@@ -87,7 +82,7 @@ public class OrderServiceImpl extends AbstractService<Order> {
                 historyDtoList.add(historyDto);
             }
             for (Product product : listProduct) {
-                productServiceImpl.changeQuantity(product);
+                productService.changeQuantity(product);
             }
             userService.payment(username, order.getTotalPrice());
             for (PurchaseHistoryDto historyDto : historyDtoList) {
@@ -98,7 +93,7 @@ public class OrderServiceImpl extends AbstractService<Order> {
             }
             order.setStatus(true);
         }
-        validSaveAndReturn(order);
+        orderRepository.save(order);
     }
     public boolean isRefundOrder(Long id) {
         Order order = orderRepository.findById(id)
@@ -127,7 +122,7 @@ public class OrderServiceImpl extends AbstractService<Order> {
                 listProduct.add(product);
             }
             for (Product product : listProduct) {
-                productServiceImpl.changeQuantity(product);
+                productService.changeQuantity(product);
             }
             userService.refundPayment(username, order.getTotalPrice());
 
@@ -136,6 +131,6 @@ public class OrderServiceImpl extends AbstractService<Order> {
             }
             order.setStatus(false);
         }
-        validSaveAndReturn(order);
+        orderRepository.save(order);
     }
 }

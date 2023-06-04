@@ -1,4 +1,4 @@
-package ru.bazzar.core.services.impl;
+package ru.bazzar.core.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +18,9 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class DiscountServiceImpl /*extends AbstractService<Discount>*/{
+public class DiscountService {
     private final DiscountRepository discountRepository;
-    private final ProductServiceImpl productServiceImpl;
+    private final ProductService productService;
     private ListsForDiscount productsList;
 
     public void saveDto(DiscountDto discountDto) {
@@ -60,7 +60,7 @@ public class DiscountServiceImpl /*extends AbstractService<Discount>*/{
     }
 
     public void addToList(Long id) {
-        productsList.add(productServiceImpl.findById(id));
+        productsList.add(productService.findById(id));
     }
 
     public void removeFromList(Long id) {
