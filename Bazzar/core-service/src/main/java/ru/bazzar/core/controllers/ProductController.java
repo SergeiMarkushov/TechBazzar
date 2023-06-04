@@ -83,7 +83,7 @@ public class ProductController {
         return productConverter.entityToDto(productService.findById(id));
     }
 
-    @PostMapping
+    @PostMapping//AOP
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createOrUpdateProduct(@RequestHeader String username, @RequestBody ProductDto productDto) {
         return productConverter.entityToDto(productService.saveOrUpdate(productDto, username));
@@ -94,12 +94,12 @@ public class ProductController {
         return productConverter.entityToDto(productService.notConfirmed());
     }
 
-    @GetMapping("/confirm/{title}")
+    @GetMapping("/confirm/{title}")//AOP
     public void confirm(@PathVariable @NotBlank String title) {
         productService.confirm(title);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")//AOP
     public void deleteById(@PathVariable Long id) {
         productService.deleteById(id);
     }

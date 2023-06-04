@@ -13,12 +13,12 @@ import java.util.List;
 public class DiscountController {
     private final DiscountService discountService;
 
-    @PostMapping("/new")
+    @PostMapping("/new")//AOP
     public void saveDto(@RequestBody DiscountDto discountDto) {
         discountService.saveDto(discountDto);
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update")//AOP
     public void updateDto(@RequestBody DiscountDto discountDto) {
         discountService.update(discountDto);
     }
@@ -28,17 +28,17 @@ public class DiscountController {
         return discountService.getProductsList();
     }
 
-    @GetMapping("/add/{id}")
+    @GetMapping("/add/{id}")//AOP
     public void addToList(@PathVariable Long id) {
         discountService.addToList(id);
     }
 
-    @GetMapping("/remove/{id}")
+    @GetMapping("/remove/{id}")//AOP
     public void deleteByIdFromList(@PathVariable Long id) {
         discountService.removeFromList(id);
     }
 
-    @GetMapping("/clear")
+    @GetMapping("/clear")//AOP
     public void clear() {
         discountService.clearList();
     }
