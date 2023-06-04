@@ -86,21 +86,21 @@ public class ProductService {
 
         } else {
         //save
-//            OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
-//            if (!organizationDto.isActive()) {
-//                throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
-//            }
-//            if (!username.equalsIgnoreCase(organizationDto.getOwner())) {
-//                throw new AccessException("Только владелец компании может добавлять товары в магазин.");
-//            }
-//            if (!userService.getUser(organizationDto.getOwner()).isActive()) {
-//                throw new AccessException("Владелец организации забанен, обратитесь к администратору: " + adminEmail);
-//            }
+            OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
+            if (!organizationDto.isActive()) {
+                throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
+            }
+            if (!username.equalsIgnoreCase(organizationDto.getOwner())) {
+                throw new AccessException("Только владелец компании может добавлять товары в магазин.");
+            }
+            if (!userService.getUser(organizationDto.getOwner()).isActive()) {
+                throw new AccessException("Владелец организации забанен, обратитесь к администратору: " + adminEmail);
+            }
 
             Product product = new Product();
             product.setTitle(productDto.getTitle());
             product.setDescription(productDto.getDescription());
-//            product.setOrganizationTitle(organizationDto.getTitle());//OrganizationServiceIntegration
+            product.setOrganizationTitle(organizationDto.getTitle());//OrganizationServiceIntegration
             product.setPrice(productDto.getPrice());
             product.setConfirmed(false);
             product.setQuantity(productDto.getQuantity());
