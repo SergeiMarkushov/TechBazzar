@@ -5,6 +5,7 @@ server:
   port: 8183
   servlet:
     context-path: /tech-bazzar-core
+
 spring:
   datasource:
     url: ${url_db}
@@ -31,11 +32,13 @@ integrations:
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
+
   cart-service:
     url: http://localhost:8182/tech-bazzar-cart/
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
+
   organization-service:
     url: http://localhost:8185/tech-bazzar-organization/
     read-timeout: 10000

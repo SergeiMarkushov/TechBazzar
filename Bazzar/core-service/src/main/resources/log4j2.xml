@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" strict="true"
+               name="XMLConfigTest" packages="org.apache.logging.log4j.test">
+    <Filter type="ThresholdFilter" level="trace" />
+    <Appenders>
+        <Console name="STDOUT">
+            <PatternLayout pattern="%d %highlight{%-5level}{
+                        ERROR=Bright RED,
+                        WARN=Bright Yellow,
+                        INFO=Bright Green,
+                        DEBUG=Bright Cyan,
+                        TRACE=Bright White
+            } %style{[%t]}{bright,magenta} %style{%c{1.}.%M(%L)}{cyan}: %msg%n"/>
+        </Console>
+
+        <RollingFile name="rollingFile"
+                     fileName="logs_core_errors/log4j2.log" append="true"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <LevelRangeFilter minLevel="WARNING" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval = "7" />
+                <SizeBasedTriggeringPolicy
+                        size="100 MB" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="rollingFile" />
+        </Root>
+    </Loggers>
+
+</Configuration>
