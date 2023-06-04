@@ -32,15 +32,15 @@ public class OrderItem {
     private Order order;
 
     @Column(name = "quantity")
-    @Min(1)//вопрос-может 1???
+    @Min(value = 1, message = "Минимальное значение поля quantity: {value}.")
     private int quantity;
 
     @Column(name = "price_per_product")
-    @Digits(integer=6, fraction=2)
+    @Digits(integer=8, fraction=2, message = "Поле price_per_product должно соответствовать формату: {integer} знаков до, и {fraction} знаков после точки (денежный формат).")
     private BigDecimal pricePerProduct;
 
     @Column(name = "price")
-    @Digits(integer=8, fraction=2)
+    @Digits(integer=8, fraction=2, message = "Поле price должно соответствовать формату: {integer} знаков до, и {fraction} знаков после точки (денежный формат).")
     private BigDecimal price;
 
     @CreationTimestamp
