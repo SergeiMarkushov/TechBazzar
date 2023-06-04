@@ -1,4 +1,4 @@
-package ru.bazzar.core.services.impl;
+package ru.bazzar.core.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,17 +14,12 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 //история покупки
-public class PurchaseHistoryServiceImpl extends AbstractService<PurchaseHistory> {
+public class PurchaseHistoryService {
     private final PurchaseHistoryRepository purchaseHistoryRepository;
     private final PurchaseHistoryConverter historyConverter;
 
-    @Override
-    PurchaseHistory validSaveAndReturn(PurchaseHistory entity) {
-        return purchaseHistoryRepository.save(entity);
-    }
-
     public void saveDto(PurchaseHistoryDto historyDto) {
-        validSaveAndReturn(historyConverter.dtoToEntity(historyDto));
+        purchaseHistoryRepository.save(historyConverter.dtoToEntity(historyDto));
     }
 
     public List<PurchaseHistory> findAll() {

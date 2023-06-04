@@ -1,4 +1,4 @@
-package ru.bazzar.core.services.impl;
+package ru.bazzar.core.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,11 +9,11 @@ import ru.bazzar.core.repositories.OrderItemRepository;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class OrderItemServiceImpl extends AbstractService<OrderItem> {
+public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
-    @Override
-    OrderItem validSaveAndReturn(OrderItem entity) {
+
+    OrderItem save(OrderItem entity) {
         return orderItemRepository.save(entity);
     }
 }

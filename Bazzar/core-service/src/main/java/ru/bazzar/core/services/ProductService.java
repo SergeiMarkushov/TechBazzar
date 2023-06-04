@@ -1,4 +1,4 @@
-package ru.bazzar.core.services.impl;
+package ru.bazzar.core.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bazzar.core.api.AccessException;
@@ -30,17 +29,12 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class ProductServiceImpl extends AbstractService<Product>  {
+public class ProductService {
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
     private MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
-
-    @Override
-    Product validSaveAndReturn(Product entity) {
-        return productRepository.save(entity);
-    }
 
     @CacheEvict("productCache")//чистка кэша при удалении(синхронизация БД и кэша)
     public void deleteById(Long id){
@@ -88,7 +82,7 @@ public class ProductServiceImpl extends AbstractService<Product>  {
                 productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
             }
             //валидируем и возвращаем
-            return validSaveAndReturn(productFromBd);
+            return productRepository.save(productFromBd);
 
         } else {
         //save
@@ -111,7 +105,7 @@ public class ProductServiceImpl extends AbstractService<Product>  {
             product.setConfirmed(false);
             product.setQuantity(productDto.getQuantity());
             //валидируем и возвращаем
-            return validSaveAndReturn(product);
+            return productRepository.save(product);
         }
     }
 
