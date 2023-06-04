@@ -38,7 +38,7 @@ export let getProfileSvg = () => {
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-person-circle" viewBox="0 0 16 16">
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd"
+            <path fillRule="evenodd"
                   d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
         </svg>
     );
@@ -120,7 +120,7 @@ export let getAdminMenuProductChangeSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-box-seam-fill" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
+            <path fillRule="evenodd"
                   d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003 6.97 2.789ZM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461L10.404 2Z"/>
         </svg>
     );
@@ -142,7 +142,7 @@ export let getPlusSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-plus-lg"
              viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
+            <path fillRule="evenodd"
                   d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
         </svg>
     );
@@ -154,37 +154,37 @@ export let getDeveloperSvg = () => {
             <switch>
                 <g>
                     <linearGradient id="a" x1="250" x2="250" y1="314" y2="363" gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#FEC797"/>
-                        <stop offset="1" stop-color="#FFD9A9"/>
+                        <stop offset="0" stopColor="#FEC797"/>
+                        <stop offset="1" stopColor="#FFD9A9"/>
                     </linearGradient>
                     <path fill="url(#a)"
                           d="M454.3 402.4C442.5 376.8 367 354 323 342.1c-28.2-7.6-19.9-132.1-19.9-132.1H197s8.3 124.4-19.9 132.1c-44 11.9-119.5 34.6-131.3 60.3-10.1 21.9-5.9 102.1-5.9 102.1h420.2c0 .1 4.2-80.2-5.8-102.1z"/>
                     <linearGradient id="b" x1="98.827" x2="131.381" y1="163.929" y2="163.929"
                                     gradientTransform="rotate(2.018 157.512 997.518) scale(1.00002)"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#FEC797"/>
-                        <stop offset="1" stop-color="#FFD9A9"/>
+                        <stop offset="0" stopColor="#FEC797"/>
+                        <stop offset="1" stopColor="#FFD9A9"/>
                     </linearGradient>
                     <path fill="url(#b)"
                           d="M154.3 117.5c-16.5 2.2-31.5 15.5-23.1 44.9 6.3 22.3-4.5 45.6 28 46.7l-4.9-91.6z"/>
                     <linearGradient id="c" x1="388.793" x2="421.344" y1="164.828" y2="164.828"
                                     gradientTransform="rotate(-3.4 341.976 995.964) scale(.99996)"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#FEC797"/>
-                        <stop offset="1" stop-color="#FFD9A9"/>
+                        <stop offset="0" stopColor="#FEC797"/>
+                        <stop offset="1" stopColor="#FFD9A9"/>
                     </linearGradient>
                     <path fill="url(#c)"
                           d="M344.8 117.4c16.5 1.8 31.8 14.7 24.2 44.4-5.8 22.5 5.6 45.5-26.8 47.4l2.6-91.8z"/>
                     <linearGradient id="d" x1="250" x2="250" y1="78.057" y2="280.025" gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#FEC797"/>
-                        <stop offset="1" stop-color="#FFD9A9"/>
+                        <stop offset="0" stopColor="#FEC797"/>
+                        <stop offset="1" stopColor="#FFD9A9"/>
                     </linearGradient>
                     <path fill="url(#d)"
                           d="M346.5 109.8c.1-2.3.2-4.7.2-7.1C346.6 37.8 308 0 260 0c-3.4 0-6.7.2-10 .6-3.3-.4-6.6-.6-10-.6-48 0-86.7 37.8-86.7 102.7 0 2.4.1 4.7.2 7.1-2 43.2-8.1 110.7 11.4 137.1 19.2 26 49.8 54.4 64.3 54.4h41.6c14.4 0 45.1-28.3 64.3-54.4 19.5-26.4 13.4-93.9 11.4-137.1z"/>
                     <linearGradient id="e" x1="151.025" x2="348.975" y1="235.309" y2="235.309"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#665242"/>
-                        <stop offset="1" stop-color="#2A1B00"/>
+                        <stop offset="0" stopColor="#665242"/>
+                        <stop offset="1" stopColor="#2A1B00"/>
                     </linearGradient>
                     <path fill="url(#e)"
                           d="M335.1 237.8c-19.2 26-49.8 48.3-64.3 48.3h-41.6c-14.4 0-45.1-22.2-64.3-48.3-10.5-14.3-13.6-40.5-13.8-68.4-.3 31.2 2.2 61.8 13.8 77.6 19.2 26 49.8 54.4 64.3 54.4h41.6c14.4 0 45.1-28.3 64.3-54.4 11.6-15.8 14.1-46.3 13.8-77.6-.2 27.9-3.3 54.1-13.8 68.4z"/>
@@ -192,86 +192,86 @@ export let getDeveloperSvg = () => {
                           d="M454.3 402.4c-10.2-22.1-67.8-42.1-111.7-54.8-21.8 28.9-55.2 47.5-92.6 47.5s-70.8-18.5-92.6-47.5c-43.9 12.7-101.5 32.6-111.7 54.8-10.1 21.9-5.9 102.1-5.9 102.1H460c.1.1 4.3-80.2-5.7-102.1z"/>
                     <linearGradient id="f" x1="356.555" x2="354.317" y1="528.501" y2="394.806"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#F24856"/>
-                        <stop offset="1" stop-color="#D02A54"/>
+                        <stop offset="0" stopColor="#F24856"/>
+                        <stop offset="1" stopColor="#D02A54"/>
                     </linearGradient>
                     <path fill="url(#f)"
                           d="M454.3 402.4c-7.7-16.7-42.4-32.2-77.9-44.2-11.5-3.9-23.1-7.5-33.8-10.6-15 19.8-35.4 34.8-58.8 42.2l-26.2 50.8-7.1 63.9h209.6c0 .1 4.2-80.2-5.8-102.1z"/>
                     <linearGradient id="g" x1="145.522" x2="143.284" y1="532.421" y2="398.688"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#F24856"/>
-                        <stop offset="1" stop-color="#D02A54"/>
+                        <stop offset="0" stopColor="#F24856"/>
+                        <stop offset="1" stopColor="#D02A54"/>
                     </linearGradient>
                     <path fill="url(#g)"
                           d="m243.5 440.7-25.9-50.4c-24-7.3-44.9-22.4-60.2-42.6-10.4 3-21.6 6.4-32.7 10.2-35.8 12.1-71.1 27.7-78.9 44.6-10.1 21.9-5.9 102.1-5.9 102.1h210.7l-7.1-63.9z"/>
                     <linearGradient id="h" x1="183.048" x2="183.048" y1="314.443" y2="416.49"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#F24856"/>
-                        <stop offset="1" stop-color="#D02A54"/>
+                        <stop offset="0" stopColor="#F24856"/>
+                        <stop offset="1" stopColor="#D02A54"/>
                     </linearGradient>
                     <path fill="url(#h)"
                           d="M217.6 390.3 188 332.8v-2.4c4.2-9.2 6.7-22.7 8.2-37.4H188s-15.6-3.6-30.8 0c-17.4 4.1-39.8 22.8-33.5 60.9.2 1.3.6 2.6 1 3.9 9.7 28.4 73.2 61.4 103.2 75.7 9.5 4.5 15.7 7.2 15.7 7.2l-26-50.4z"/>
                     <linearGradient id="i" x1="318.147" x2="318.147" y1="314.443" y2="416.49"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#F24856"/>
-                        <stop offset="1" stop-color="#D02A54"/>
+                        <stop offset="0" stopColor="#F24856"/>
+                        <stop offset="1" stopColor="#D02A54"/>
                     </linearGradient>
                     <path fill="url(#i)"
                           d="M344 293.1c-15.2-3.6-30.8 0-30.8 0h-9.4c1.6 16 4.5 30.6 9.4 39.8l-29.3 57-26.2 50.8s6.2-2.6 15.7-7.2c29.9-14.2 92.9-47 103-75.3.5-1.4.9-2.8 1.1-4.2 6.3-38.1-16.1-56.9-33.5-60.9z"/>
                     <linearGradient id="j" x1="277.045" x2="370.219" y1="361.188" y2="361.188"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#F24856"/>
-                        <stop offset="1" stop-color="#D02A54"/>
+                        <stop offset="0" stopColor="#F24856"/>
+                        <stop offset="1" stopColor="#D02A54"/>
                     </linearGradient>
                     <path fill="url(#j)"
                           d="M321.6 335.2 310.4 303c2.2-.2 16-2.3 18.9-2.3 4.7 0 9.1.5 13 1.4 12.6 2.9 32.6 16.9 27 50.4-.1.7-.4 1.6-.7 2.5-6.1 16.9-40.1 41.7-91.5 66.9l44.5-86.7z"/>
                     <linearGradient id="k" x1="129.781" x2="222.955" y1="361.188" y2="361.188"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#F24856"/>
-                        <stop offset="1" stop-color="#D02A54"/>
+                        <stop offset="0" stopColor="#F24856"/>
+                        <stop offset="1" stopColor="#D02A54"/>
                     </linearGradient>
                     <path fill="url(#k)"
                           d="m178.4 335.2 11.2-32.3c-2.2-.2-16-2.3-18.9-2.3-4.7 0-9.1.5-13 1.4-12.6 2.9-32.6 16.9-27 50.4.1.7.4 1.6.7 2.5 6.1 16.9 40.1 41.7 91.5 66.9l-44.5-86.6z"/>
                     <path d="M396.4 504.6v-55l-6.6 55zm-292.8 0v-55l6.6 55z" opacity=".2"/>
                     <linearGradient id="l" x1="251.333" x2="251.333" y1="281.667" y2="265.446"
                                     gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#665242"/>
-                        <stop offset="1" stop-color="#2A1B00"/>
+                        <stop offset="0" stopColor="#665242"/>
+                        <stop offset="1" stopColor="#2A1B00"/>
                     </linearGradient>
                     <path fill="url(#l)"
                           d="M259.2 283.1h-15.8c-3.7 0-5.2-4-3.7-8l3.9-10.1c.5-1.4 2.3-2.4 4-2.4h7.2c1.7 0 3.5 1 4 2.4l3.9 10.1c1.7 3.9.3 8-3.5 8z"/>
                     <linearGradient id="m" x1="148.5" x2="175" y1="123" y2="123" gradientUnits="userSpaceOnUse">
                         <stop offset="0"/>
-                        <stop offset="1" stop-color="#111"/>
+                        <stop offset="1" stopColor="#111"/>
                     </linearGradient>
-                    <path fill="none" stroke="url(#m)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="7"
+                    <path fill="none" stroke="url(#m)" strokeLinecap="round" strokeMiterlimit="10" strokeWidth="7"
                           d="m152 115 19.5 16"/>
                     <linearGradient id="n" x1="327.5" x2="353.333" y1="125.417" y2="125.417"
                                     gradientUnits="userSpaceOnUse">
                         <stop offset="0"/>
-                        <stop offset="1" stop-color="#111"/>
+                        <stop offset="1" stopColor="#111"/>
                     </linearGradient>
-                    <path fill="none" stroke="url(#n)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="7"
+                    <path fill="none" stroke="url(#n)" strokeLinecap="round" strokeMiterlimit="10" strokeWidth="7"
                           d="m331 133.7 18.8-16.5"/>
                     <linearGradient id="o" x1="199.333" x2="199.333" y1="185.5" y2="112.5"
                                     gradientUnits="userSpaceOnUse">
                         <stop offset="0"/>
-                        <stop offset="1" stop-color="#111"/>
+                        <stop offset="1" stopColor="#111"/>
                     </linearGradient>
-                    <circle cx="199.3" cy="149" r="33" fill="none" stroke="url(#o)" stroke-linecap="round"
-                            stroke-miterlimit="10" stroke-width="7"/>
+                    <circle cx="199.3" cy="149" r="33" fill="none" stroke="url(#o)" strokeLinecap="round"
+                            strokeMiterlimit="10" strokeWidth="7"/>
                     <linearGradient id="p" x1="300.667" x2="300.667" y1="185.5" y2="112.5"
                                     gradientUnits="userSpaceOnUse">
                         <stop offset="0"/>
-                        <stop offset="1" stop-color="#111"/>
+                        <stop offset="1" stopColor="#111"/>
                     </linearGradient>
-                    <circle cx="300.7" cy="149" r="33" fill="none" stroke="url(#p)" stroke-linecap="round"
-                            stroke-miterlimit="10" stroke-width="7"/>
+                    <circle cx="300.7" cy="149" r="33" fill="none" stroke="url(#p)" strokeLinecap="round"
+                            strokeMiterlimit="10" strokeWidth="7"/>
                     <linearGradient id="q" x1="228.833" x2="271.167" y1="149" y2="149" gradientUnits="userSpaceOnUse">
                         <stop offset="0"/>
-                        <stop offset="1" stop-color="#111"/>
+                        <stop offset="1" stopColor="#111"/>
                     </linearGradient>
-                    <path fill="none" stroke="url(#q)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="7"
+                    <path fill="none" stroke="url(#q)" strokeLinecap="round" strokeMiterlimit="10" strokeWidth="7"
                           d="M232.3 149h35.4"/>
                 </g>
             </switch>

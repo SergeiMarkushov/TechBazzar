@@ -5,9 +5,6 @@ import {Header} from "./view/Header";
 import {AuthProvider} from "./auth/Auth";
 import {RoleProvider} from "./auth/Role";
 import {SearchProvider} from "./context/Search";
-import AddIcon from '@mui/icons-material/Add';
-import {Fab} from '@mui/material';
-import {getDeveloperSvg, getOrderSvg} from "./Svg";
 import { FloatingButton } from './view/FloatingButton';
 
 function App() {

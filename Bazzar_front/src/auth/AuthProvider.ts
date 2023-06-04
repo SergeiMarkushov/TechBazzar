@@ -1,4 +1,4 @@
-import {deleteToken, getRoles, getToken, isTokenExist, setToken} from "../util/TokenUtil";
+import {deleteToken, getRoles, isTokenExist, setToken} from "../util/TokenUtil";
 import {deleteUser, getUserNew, setUserNew} from "../util/UserUtil";
 import {apiAuthWithPasswordNew} from "../api/AuthApi";
 import {AxiosResponse} from "axios";
@@ -21,8 +21,12 @@ export const AuthPasswordProvider = {
                     setUserNew(user.data);
                     AuthPasswordProvider.isAuthenticated = true;
                     callback();
+                }).catch((error) => {
+                    console.log(error);
                 })
             }
+        }).catch((error) => {
+            console.log(error);
         })
     },
     signout(callback: VoidFunction) {

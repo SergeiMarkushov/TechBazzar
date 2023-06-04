@@ -14,7 +14,7 @@ import {AdminMenu} from "./profile/admin/AdminMenu";
 import {AdminMenuAllUsers} from "./profile/admin/AdminMenuAllUsers";
 import {AdminMenuProductChanger} from "./profile/admin/AdminMenuProductChanger";
 import {AdminMenuProductChangerForm} from "./profile/admin/AdminMenuProductChangerForm";
-import {RequireRoleADMIN, useRole} from "../auth/Role";
+import {RequireRoleADMIN} from "../auth/Role";
 import {HeaderLinkProfile} from "./HeaderLinkProfile";
 import {HeaderLinkCart} from "./HeaderLinkCart";
 import {HeaderLinkAuth} from "./HeaderLinkAuth";
@@ -32,7 +32,6 @@ import { CreateOrganization } from "./profile/organization/CreateOrganization";
 
 export function Header() {
     let auth = useAuth();
-    let role = useRole();
 
     return (
             <div className="bg-white">
@@ -75,6 +74,7 @@ export function Header() {
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/signUp" element={<Registration/>}/>
                             <Route path="/catalog" element={<Catalog/>}/>
+                            <Route path="/" element={<Catalog/>}/>
                             <Route path="/cart" element={<Cart/>}/>
                         </Route>
 
