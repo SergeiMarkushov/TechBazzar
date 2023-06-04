@@ -1,5 +1,6 @@
 package ru.bazzar.core.entities;
 
+import jdk.jfr.BooleanFlag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -27,27 +28,28 @@ public class Product {
     private Long id;//присваивается БД,
 
     @Column(name = "title")
-    @Size(min = 2, max = 100)
+    @Size(min = 2, max = 100, message = "Поле title должно быть в диапазоне от {min} до {max} символов.")
     private String title;
 
     @Column(name = "description")
-    @Size(min = 10, max = 1000)
+    @Size(min = 10, max = 1000, message = "Поле description должно быть в диапазоне от {min} до {max} символов.")
     private String description;
 
     @Column(name = "organization_title")
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 200, message = "Поле organization_title должно быть в диапазоне от {min} до {max} символов.")
     private String organizationTitle;
 
     @Column(name = "price")
-    @Digits(integer=8, fraction=2)
+    @Digits(integer=8, fraction=2, message = "Поле price должно соответствовать формату: {integer} знаков до, и {fraction} знаков после точки (денежный формат).")
     private BigDecimal price;
 
     @Column(name = "quantity")
-    @Min(0)//вопрос-может 1???
+    @Min(value = 0, message = "Поле quantity не может быть отрицательным")
     private int quantity;
 
     @Column(name = "is_confirmed")
-    @NotNull
+    @NotNull(message = "Поле is_confirmed должно быть NotNull.")
+    @BooleanFlag
     private boolean isConfirmed;
 
     @ManyToOne(fetch = FetchType.EAGER)

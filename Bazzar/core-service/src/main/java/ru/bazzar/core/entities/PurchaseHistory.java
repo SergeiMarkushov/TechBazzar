@@ -21,18 +21,22 @@ public class PurchaseHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "email")
-    @Email
     private String email;
+
     @Column(name = "product_title")
-    @Size(min = 2, max = 100)
+    @Size(min = 2, max = 100, message = "Поле product_title должно быть в диапазоне от {min} до {max} символов.")
     private String productTitle;
+
     @Column(name = "organization")
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 200, message = "Поле organization должно быть в диапазоне от {min} до {max} символов.")
     private String organization;
+
     @Column(name = "quantity")
-    @Min(1)
+    @Min(value = 1, message = "Минимальное значение поля quantity: {value}." )
     private int quantity;
+
     @CreationTimestamp
     @Column(name = "date_purchase", nullable = false, updatable = false)
     private LocalDateTime datePurchase;
