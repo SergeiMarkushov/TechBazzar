@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bazzar.core.api.PurchaseHistoryDto;
 import ru.bazzar.core.converters.PurchaseHistoryConverter;
-import ru.bazzar.core.services.impl.PurchaseHistoryServiceImpl;
+import ru.bazzar.core.services.PurchaseHistoryService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/history")
 public class PurchaseHistoryController {
-    private final PurchaseHistoryServiceImpl historyService;
+    private final PurchaseHistoryService historyService;
     private final PurchaseHistoryConverter historyConverter;
 
     @GetMapping("/all")

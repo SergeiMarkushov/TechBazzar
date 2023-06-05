@@ -9,7 +9,7 @@ import ru.bazzar.core.api.*;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
-import ru.bazzar.core.services.impl.ProductServiceImpl;
+import ru.bazzar.core.services.ProductService;
 import ru.bazzar.core.utils.MyQueue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
 public class ProductController {
-    private final ProductServiceImpl productServiceImpl;
+    private final ProductService productService;
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
     private MyQueue<Product> productQueue = new MyQueue<>();//?
@@ -60,7 +60,7 @@ public class ProductController {
             page = 1;
         }
 
-        Page<ProductDto> jpaPage = productServiceImpl.find(minPrice, maxPrice, titlePart, page).map(
+        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, page).map(
                 productConverter::entityToDto
         );
         PageDto<ProductDto> out = new PageDto<>();
@@ -80,27 +80,27 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto getProductDto(@PathVariable @Min(0) Long id) {
-        return productConverter.entityToDto(productServiceImpl.findById(id));
+        return productConverter.entityToDto(productService.findById(id));
     }
 
-    @PostMapping
+    @PostMapping//AOP
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createOrUpdateProduct(@RequestHeader String username, @RequestBody ProductDto productDto) {
-        return productConverter.entityToDto(productServiceImpl.saveOrUpdate(productDto, username));
+        return productConverter.entityToDto(productService.saveOrUpdate(productDto, username));
     }
 
     @GetMapping("/not_confirmed")
     public ProductDto notConfirmed() throws ResourceNotFoundException {
-        return productConverter.entityToDto(productServiceImpl.notConfirmed());
+        return productConverter.entityToDto(productService.notConfirmed());
     }
 
-    @GetMapping("/confirm/{title}")
+    @GetMapping("/confirm/{title}")//AOP
     public void confirm(@PathVariable @NotBlank String title) {
-        productServiceImpl.confirm(title);
+        productService.confirm(title);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")//AOP
     public void deleteById(@PathVariable Long id) {
-        productServiceImpl.deleteById(id);
+        productService.deleteById(id);
     }
 }

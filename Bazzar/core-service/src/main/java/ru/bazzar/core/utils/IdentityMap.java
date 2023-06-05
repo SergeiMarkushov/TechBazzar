@@ -1,6 +1,7 @@
 package ru.bazzar.core.utils;
 // TODO: 27.05.2023 выпиливаем, так как используем встроенное кэширование через аннотации
 import lombok.Getter;
+
 import lombok.extern.log4j.Log4j2;
 import ru.bazzar.core.entities.Product;
 
