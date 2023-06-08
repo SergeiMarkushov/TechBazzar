@@ -5,8 +5,8 @@ import React, {useEffect, useState} from "react";
 import {primary} from "../../../Colors";
 
 export function ProductPageBuy(props: ProductCard) {
-    let auth = useAuth();
-    let [discount, setDiscount] = useState(0);
+    const auth = useAuth();
+    const [discount, setDiscount] = useState(0);
 
     useEffect(() => {
         /*setDiscount(props.product.discount !== null && props.product.discount.dis != null ? props.product.discount.dis : props.product.price);*/

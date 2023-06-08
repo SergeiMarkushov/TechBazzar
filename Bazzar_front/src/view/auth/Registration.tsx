@@ -1,8 +1,11 @@
+import React from 'react';
 import {Field, Form, Formik} from "formik";
 import {useAuth} from "../../auth/Auth";
 import {useNavigate} from "react-router-dom";
-import {AxiosResponse} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {apiSignUpWithPasswordNew} from "../../api/AuthApi";
+import {useState} from "react";
+import {ErrorComponent} from "../../ErrorComponent";
 
 interface loginInit {
     email: string,
@@ -11,10 +14,12 @@ interface loginInit {
 }
 
 export function Registration() {
-    let navigate = useNavigate();
-    let auth = useAuth();
+    const navigate = useNavigate();
+    const auth = useAuth();
+    const [error, setError] = useState<any>("")
+    const [success, setSuccess] = useState<boolean>(false)
 
-    let from = "/catalog";
+    const from = "/catalog";
 
     return (
         <Formik initialValues={{
@@ -25,14 +30,14 @@ export function Registration() {
         }}
                 onSubmit={(values: loginInit) => {
                     apiSignUpWithPasswordNew(values.email, values.username, values.password).then((value: AxiosResponse) => {
-                        if (value.status === 200) {
-                            auth.signin(values.username, values.password, () => {
-                                navigate(from, {replace: true});
-                            })
-                        }
+                        setSuccess(true);
+                    }).catch((reason: AxiosError) => {
+                        setError(reason.response?.data);
                     })
                 }}>
             <Form>
+                <ErrorComponent error={error} success={success} showSuccess={true}
+                                textIfSuccess={"Поздравляю вы зарегистрированы"}/>
                 <div className="w-100 d-flex justify-content-center">
                     <div className="w-50">
                         <div className="mb-3 row">
@@ -45,14 +50,16 @@ export function Registration() {
                         <div className="mb-3 row">
                             <Field as="label" htmlFor="username" className="col-sm-2 col-form-label">username</Field>
                             <div className="col-sm-10">
-                                <Field as="input" type="text" name="username" className="form-control shadow-sm" id="username"
+                                <Field as="input" type="text" name="username" className="form-control shadow-sm"
+                                       id="username"
                                        required={true}/>
                             </div>
                         </div>
                         <div className="mb-3 row">
                             <Field as="label" htmlFor="password" className="col-sm-2 col-form-label">Password</Field>
                             <div className="col-sm-10">
-                                <Field as="input" name="password" type="password" className="form-control shadow-sm" id="password"
+                                <Field as="input" name="password" type="password" className="form-control shadow-sm"
+                                       id="password"
                                        required={true}/>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+import React from 'react';
 import {ProductCard} from "./ProductPage";
 
 export function ProductPageTitleCard(props: ProductCard) {

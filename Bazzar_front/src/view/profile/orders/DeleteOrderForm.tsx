@@ -1,10 +1,7 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import {useEffect, useState} from "react";
-import {apiGetMyUser, apiGetMyUserById} from "../../../api/UserApi";
-import {AxiosResponse} from "axios";
-import {OrderNew, UserNew} from "../../../newInterfaces";
-import {useAuth} from "../../../auth/Auth";
-import {apiOrderRefund, apiOrderPayment} from "../../../api/OrderApi";
+import React, {useState} from "react";
+import {Button, Dialog, DialogActions, DialogTitle} from "@mui/material";
+import {OrderNew} from "../../../newInterfaces";
+import {apiOrderRefund} from "../../../api/OrderApi";
 
 interface PayFormProps {
     order: OrderNew
@@ -13,8 +10,6 @@ interface PayFormProps {
 }
 
 export function DeleteOrderForm(props: PayFormProps) {
-    let auth = useAuth();
-
     const [open, setOpen] = useState(false);
 
 
@@ -28,10 +23,8 @@ export function DeleteOrderForm(props: PayFormProps) {
 
     const deleteHandle = () => {
         apiOrderRefund(props.order.id).then((resp) => {
-            if (resp.statusText === "OK") {
                 handleClose();
                 props.onReloadOrder();
-            }
         })
     };
 

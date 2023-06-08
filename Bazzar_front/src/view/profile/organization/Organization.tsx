@@ -1,3 +1,4 @@
+import React from 'react';
 import {CreateOrganizationButton} from "./CreateOrganizationButton";
 import {getPlusSvg} from "../../../Svg";
 

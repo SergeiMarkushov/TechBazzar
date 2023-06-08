@@ -1,3 +1,4 @@
+import React from 'react';
 import {ReviewNew} from "../../../newInterfaces";
 import Rating from "@mui/material/Rating/Rating";
 

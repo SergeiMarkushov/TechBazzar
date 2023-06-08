@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactPaginate from "react-paginate";
 
 interface CatalogPaginationProps {
@@ -12,12 +13,12 @@ export function CatalogPagination(props: CatalogPaginationProps) {
 
     return (
         <ReactPaginate
-            nextLabel="next >"
+            nextLabel="Следующая >"
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             marginPagesDisplayed={3}
             pageCount={props.pages}
-            previousLabel="< previous"
+            previousLabel="< Предыдущая"
             pageClassName="page-item"
             pageLinkClassName="page-link"
             previousClassName="page-item"

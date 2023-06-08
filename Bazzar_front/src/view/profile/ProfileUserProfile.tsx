@@ -1,3 +1,4 @@
+import React from 'react';
 import {Link} from "react-router-dom";
 import {useAuth} from "../../auth/Auth";
 import {primary} from "../../Colors";
@@ -9,7 +10,7 @@ interface ProfileUserProfileProps {
 }
 
 export function ProfileUserProfile(props: ProfileUserProfileProps) {
-    let auth = useAuth();
+    const auth = useAuth();
     return (
         <Link style={{color: primary}} to="/profile/userProfile" className="text-decoration-none">
             <div className="card border-0">

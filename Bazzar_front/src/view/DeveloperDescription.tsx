@@ -1,6 +1,6 @@
+import React from "react";
 import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import React from "react";
 
 interface DeveloperDescriptionProps {
 	name: string,

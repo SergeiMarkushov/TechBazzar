@@ -1,7 +1,7 @@
 import {UserNew} from "../newInterfaces";
 
 export function getUserNew(): UserNew | null {
-    let user = localStorage.getItem('user');
+    const user = localStorage.getItem('user');
     if (user !== null) {
         return JSON.parse(user);
     }

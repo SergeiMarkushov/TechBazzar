@@ -1,3 +1,4 @@
+import React from 'react';
 import {AdminMenuCard} from "./AdminMenuCard";
 import {
     getAdminMenuProductAddSvg,

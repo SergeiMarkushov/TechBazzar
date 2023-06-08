@@ -1,5 +1,7 @@
+import React from 'react';
 import {Field, Form} from "formik";
 import {ErrorComponent} from "../../../ErrorComponent";
+import {useAuth} from "../../../auth/Auth";
 
 interface OrganizationCreateFormProps {
     onChoseFile: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -8,28 +10,32 @@ interface OrganizationCreateFormProps {
 }
 
 export function OrganizationCreateForm({onChoseFile, error, success}: OrganizationCreateFormProps) {
+    const auth = useAuth();
 
     return (
         <div>
-            <ErrorComponent error={error} success={success} showSuccess={true} textIfSuccess={"Организация отправлена на модерацию"}/>
+            <ErrorComponent error={error} success={success} showSuccess={true}
+                            textIfSuccess={"Организация отправлена на модерацию"}/>
             <Form className="row g-3 justify-content-center">
                 <div className="col-md-9">
-                    <Field as="label" htmlFor="owner" className="form-label">owner</Field>
-                    <Field as="input" name="owner" type="text" className="form-control shadow-sm" id="owner"
+                    <Field as="label" htmlFor="owner" className="form-label">Почта</Field>
+                    <Field as="input" name="owner" value={auth.user.email} disabled type="text"
+                           className="form-control shadow-sm" id="owner"
                            required={true}/>
                 </div>
                 <div className="col-md-9">
-                    <Field as="label" htmlFor="name" className="form-label">organization name</Field>
+                    <Field as="label" htmlFor="name" className="form-label">Название организации</Field>
                     <Field as="input" name="name" type="text" className="form-control shadow-sm" id="name"
                            required={true}/>
                 </div>
                 <div className="col-9">
-                    <Field as="label" htmlFor="description" className="form-label">description</Field>
-                    <Field as="textarea" name="description" className="form-control shadow-sm" id="description"
+                    <Field as="label" htmlFor="description" className="form-label">Описание</Field>
+                    <Field as="textarea" name="description" resize="auto" placeholder="Краткое описание вашей компании"
+                           className="form-control shadow-sm" id="description"
                            required={true}/>
                 </div>
                 <div className="col-9">
-                    <Field as="label" htmlFor="companyImage" className="form-label">image</Field>
+                    <Field as="label" htmlFor="companyImage" className="form-label">Логотип</Field>
                     <Field as="file" type="file" name="companyImage" className="form-control shadow-sm"
                            id="companyImage"
                            required={true}>
@@ -37,7 +43,7 @@ export function OrganizationCreateForm({onChoseFile, error, success}: Organizati
                     </Field>
                 </div>
                 <div className="col-9">
-                    <button type="submit" className="btn btn-sm btn-primary">save</button>
+                    <button type="submit" className="btn btn-sm btn-primary">Отправить</button>
                 </div>
             </Form>
         </div>

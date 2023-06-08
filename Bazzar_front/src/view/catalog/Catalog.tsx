@@ -8,6 +8,7 @@ import {useSearch} from "../../context/Search";
 import {defaultFilter, emptyProductNew} from "../../empty";
 import {FilterNew, FindRequest, PageProductNew} from "../../newInterfaces";
 import {CircularLoading} from "../CircularLoading";
+import {ErrorComponent} from "../../ErrorComponent";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGES = 1;
@@ -23,8 +24,10 @@ export function Catalog(props: CatalogProps) {
     const [pages, setPages] = useState(DEFAULT_PAGES)
     const [limit] = useState(20)
     const [load, setLoad] = useState(false)
-    let changing = props.isChanging === undefined ? false : props.isChanging;
-    let search = useSearch();
+    const changing = props.isChanging === undefined ? false : props.isChanging;
+    const search = useSearch();
+    const [error, setError] = useState<any>("")
+    const [success, setSuccess] = useState<boolean>(false)
 
     function filterChanged(filter: FilterNew) {
         setFilter(filter)
@@ -33,17 +36,15 @@ export function Catalog(props: CatalogProps) {
 
     function deleteHandler(id: number) {
         apiDeleteProductById(id).then(r => {
-                if (r.status === 200) {
-                    setProducts(products.filter(product => product.id !== id));
-                }
+                setProducts(products.filter(product => product.id !== id));
             }
         )
     }
 
     useEffect(() => {
-        console.log("useEffect")
+            console.log("useEffect")
             const queryParams: FindRequest = {
-                p: page,
+                p: page + 1,
             };
 
             if (filterNew.maxPrice !== defaultFilter.maxPrice) {
@@ -61,8 +62,6 @@ export function Catalog(props: CatalogProps) {
 
             apiGetProductsNew(queryParams)
                 .then((page: AxiosResponse<PageProductNew>) => {
-                    console.log(page.data)
-                    console.log(queryParams)
                     if (page.data !== undefined) {
                         setLoad(true);
                         setProducts(page.data.items);
@@ -70,10 +69,23 @@ export function Catalog(props: CatalogProps) {
                         if (page.data.totalPages !== undefined) {
                             setPages(page.data.totalPages);
                         }
+
+                        if (page.data.items.length === 0) {
+                            setError("Ничего не найдено");
+                            setSuccess(false);
+                            return;
+                        }
+                        setSuccess(true);
                     }
-                })
-        }, [filterNew, page, search.search]
-    );
+                }).catch((e) => {
+                setError("Упс... Что то пошло не так. Попробуйте позже")
+            })
+        }
+
+        ,
+        [filterNew, page, search.search]
+    )
+    ;
 
 
     function changePage(page: number) {
@@ -85,24 +97,29 @@ export function Catalog(props: CatalogProps) {
 
     return (
         <div>
-            <div className="d-flex row">
-                <div className="flex-grow-0" style={{maxWidth: "80px"}}>
-                    <CatalogFilter filterHandler={filterChanged} filter={filterNew}/>
-                </div>
-                <div className="container-fluid flex-grow-1">
-                    <div className="row justify-content-center">
-                        {load ?
-                            products.map((product) => (
-                                <CatalogCard product={product} deleteHandler={changing ? deleteHandler : undefined}
-                                             isChanging={changing} key={product.id}></CatalogCard>
-                            ))
-                            : <CircularLoading/>
-                        }
+            {success ?
+                <div>
+                    <div className="d-flex row">
+                        <div className="flex-grow-0" style={{maxWidth: "80px"}}>
+                            <CatalogFilter filterHandler={filterChanged} filter={filterNew}/>
+                        </div>
+                        <div className="container-fluid flex-grow-1">
+                            <div className="row justify-content-center">
+                                {load ?
+                                    products.map((product) => (
+                                        <CatalogCard product={product}
+                                                     deleteHandler={changing ? deleteHandler : undefined}
+                                                     isChanging={changing} key={product.id}></CatalogCard>
+                                    ))
+                                    : <CircularLoading/>
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            { pages > 1 &&
-                <CatalogPagination changePage={changePage} pages={pages}/>
+                    {pages > 1 &&
+                        <CatalogPagination changePage={changePage} pages={pages}/>
+                    }
+                </div> : <ErrorComponent error={error} success={success} showSuccess={false} textIfSuccess={""}/>
             }
         </div>
     );

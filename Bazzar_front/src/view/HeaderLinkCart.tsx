@@ -1,3 +1,4 @@
+import React from 'react';
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
@@ -24,7 +25,7 @@ export function HeaderLinkCart() {
                 </IconButton>
             </div>
             <div>
-                <small><b>Cart</b></small>
+                <small><b>Корзина</b></small>
             </div>
         </div>
     )

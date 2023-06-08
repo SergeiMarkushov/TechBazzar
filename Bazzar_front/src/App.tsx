@@ -5,7 +5,8 @@ import {Header} from "./view/Header";
 import {AuthProvider} from "./auth/Auth";
 import {RoleProvider} from "./auth/Role";
 import {SearchProvider} from "./context/Search";
-import { FloatingButton } from './view/FloatingButton';
+import { FloatingButtonWithDevelopers } from './view/FloatingButtonWithDevelopers';
+import { FloatingButtonWithChat } from './view/profile/chat/FloatingButtonWithChat';
 
 function App() {
     return (
@@ -15,7 +16,8 @@ function App() {
                     <RoleProvider>
                         <SearchProvider>
                             <Header/>
-                            <FloatingButton/>
+                            <FloatingButtonWithDevelopers/>
+                            <FloatingButtonWithChat/>
                         </SearchProvider>
                     </RoleProvider>
                 </AuthProvider>

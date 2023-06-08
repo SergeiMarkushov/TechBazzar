@@ -5,13 +5,15 @@ import {OrganizationCreateForm} from "../admin/OrganizationCreateForm";
 import {apiCreateOrganization} from "../../../api/OrganizationApi";
 import React, {useState} from "react";
 import {AxiosError, AxiosResponse} from "axios";
+import {useAuth} from "../../../auth/Auth";
 
 export function CreateOrganization() {
-    let [file, setFile] = useState<File | null>(null)
-    let [error, setError] = useState<any>("")
-    let [success, setSuccess] = useState<boolean>(false)
+    const [file, setFile] = useState<File | null>(null)
+    const [error, setError] = useState<any>("")
+    const [success, setSuccess] = useState<boolean>(false)
+    const auth = useAuth()
 
-    let onChoseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChoseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             setFile(event.target.files[0])
         }
@@ -24,8 +26,8 @@ export function CreateOrganization() {
                 <Formik initialValues={emptyOrganizationCreate}
                         onSubmit={(values: OrganizationCreate) => {
                             setSuccess(false)
-                            let formData = new FormData()
-                            formData.append("owner", values.owner)
+                            const formData = new FormData()
+                            formData.append("owner", auth.user.email)
                             formData.append("name", values.name)
                             formData.append("description", values.description)
                             if (file !== null)
