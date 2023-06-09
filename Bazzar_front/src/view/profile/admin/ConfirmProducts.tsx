@@ -10,11 +10,11 @@ import {primary} from "../../../Colors";
 import {ErrorComponent} from "../../../ErrorComponent";
 
 export function ConfirmProducts() {
-    let [load, setLoad] = useState(false);
-    let [loadProduct, setLoadProduct] = useState(false);
-    let [product, setProduct] = useState(emptyProductNew);
-    let [error, setError] = useState<any>("")
-    let [success, setSuccess] = useState<boolean>(false)
+    const [load, setLoad] = useState(false);
+    const [loadProduct, setLoadProduct] = useState(false);
+    const [product, setProduct] = useState(emptyProductNew);
+    const [error, setError] = useState<any>("")
+    const [success, setSuccess] = useState<boolean>(false)
 
     useEffect(() => {
         if (!load) {
@@ -38,6 +38,8 @@ export function ConfirmProducts() {
             console.log(r.data)
             setLoad(false);
             setLoadProduct(false);
+        }).catch(e => {
+            console.log(e)
         });
     }
 
@@ -51,8 +53,8 @@ export function ConfirmProducts() {
             <div>
                 <ErrorComponent error={error} success={success} showSuccess={false} textIfSuccess={""}/>
                 {loadProduct ?
-                    <div className="d-flex row justify-content-center p-0 m-0 g-0">
-                        <Button style={{backgroundColor: primary}} onClick={reloadHandler}>Reload</Button>
+                    < div className="d-flex row justify-content-center p-0 m-0 g-0">
+                        < Button style={{backgroundColor: primary}} onClick={reloadHandler}>Reload</Button>
                         <div className="d-flex justify-content-center p-0">
                             <CatalogCard product={product} deleteHandler={undefined}
                                          isChanging={false} key={product.id}></CatalogCard>
@@ -60,7 +62,7 @@ export function ConfirmProducts() {
                         <Button style={{backgroundColor: primary}} onClick={confirmHandler}>Confirm</Button>
                     </div>
 
-                    : <CircularLoading/>
+                    : error === "" ? <CircularLoading/> : <div></div>
                 }
             </div>
         </div>

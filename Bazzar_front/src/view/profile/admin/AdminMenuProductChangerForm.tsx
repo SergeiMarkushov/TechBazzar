@@ -1,3 +1,4 @@
+import React from 'react';
 import {Formik} from "formik";
 import {ProductForm} from "../../ProductForm";
 import {useEffect, useState} from "react";
@@ -8,11 +9,11 @@ import {apiCreateOrUpdateProductNew, apiGetProductByIdNew} from "../../../api/Pr
 import {ErrorMessage, ProductNew} from "../../../newInterfaces";
 
 export function AdminMenuProductChangerForm() {
-    let [error, setError] = useState<any>("")
-    let [success, setSuccess] = useState<boolean>(false)
+    const [error, setError] = useState<any>("")
+    const [success, setSuccess] = useState<boolean>(false)
     const [product, setProduct] = useState(emptyProductNew);
     const [isLoad, setLoad] = useState(false);
-    let {id} = useParams();
+    const {id} = useParams();
 
     useEffect(() => {
             if (id !== undefined && !isLoad) {
@@ -22,10 +23,17 @@ export function AdminMenuProductChangerForm() {
                             setProduct(pr.data)
                             setLoad(true);
                         }
-                    })
+                    }).catch(() => {
+                        setError("Упс... Что-то пошло не так, попробуйте позже");
+                        setSuccess(false);
+                });
             }
-        }, [product]
-    );
+        }
+
+        ,
+        [product]
+    )
+    ;
 
     return (
         <div className="row justify-content-center">
@@ -34,7 +42,6 @@ export function AdminMenuProductChangerForm() {
                 <Formik initialValues={product}
                         enableReinitialize={true}
                         onSubmit={(values: ProductNew) => {
-                            setSuccess(false)
                             apiCreateOrUpdateProductNew(values).then(r => {
                                 setSuccess(true)
                             }).catch((e: AxiosError<ErrorMessage>) => {
@@ -44,7 +51,8 @@ export function AdminMenuProductChangerForm() {
                                 }
                             })
                         }}>
-                    <ProductForm product={product} error={error} success={success}/>
+                    <ProductForm product={product} textIfSuccess={"Продукт успешно изменён"} error={error}
+                                 success={success}/>
                 </Formik>
             </div>
         </div>

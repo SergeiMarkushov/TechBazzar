@@ -1,8 +1,8 @@
+import React from 'react';
 import {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import {primary} from "../../../Colors";
 import {UserNew} from "../../../newInterfaces";
-import {apiUpBalance} from "../../../api/UserApi";
 
 interface UpBalanceProps {
     user: UserNew

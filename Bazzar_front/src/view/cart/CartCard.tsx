@@ -1,3 +1,4 @@
+import React from 'react';
 import {apiRemoveItem, apiUpdateQuantity} from "../../api/CartApi";
 import {useEffect, useState} from "react";
 import {useAuth} from "../../auth/Auth";
@@ -13,7 +14,7 @@ export function CartCard(props: ProductCart) {
     const [quantity, setQuantity] = useState(props.product.quantity);
     const [product, setProduct] = useState(props.product);
     const [isQuantityMore, setQuantityMore] = useState(false);
-    let auth = useAuth();
+    const auth = useAuth();
 
     useEffect(() => {
         if (quantity > 9) {
@@ -22,7 +23,7 @@ export function CartCard(props: ProductCart) {
     })
 
     const handleChange = (event: any) => {
-        let value = quantityValidate(event.currentTarget.value);
+        const value = quantityValidate(event.currentTarget.value);
         if (value < 10) {
             apiUpdateQuantity(product, value, auth.isAuth).then((data) => {
                 setQuantity(value);
@@ -35,7 +36,7 @@ export function CartCard(props: ProductCart) {
     }
 
     const customHandleChange = (event: any) => {
-        let value = quantityValidate(event.currentTarget.value);
+        const value = quantityValidate(event.currentTarget.value);
         apiUpdateQuantity(product, value, auth.isAuth).then((data) => {
             setQuantity(value);
             props.onReloadCart()

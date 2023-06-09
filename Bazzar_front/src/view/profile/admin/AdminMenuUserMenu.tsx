@@ -1,3 +1,4 @@
+import React from 'react';
 import {useState} from "react";
 import {Dialog, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import {UpBalance} from "./UpBalance";

@@ -1,3 +1,4 @@
+import React from 'react';
 import {useParams} from "react-router-dom";
 import {Field, Form, Formik} from "formik";
 import {useEffect, useState} from "react";
@@ -7,9 +8,9 @@ import {UserNew} from "../../../newInterfaces";
 
 
 export function AdminMenuChangeUser() {
-    let {id} = useParams();
-    let [isLoad, setLoad] = useState(false);
-    let [user, setUser] = useState(defaultUserNew);
+    const {id} = useParams();
+    const [isLoad, setLoad] = useState(false);
+    const [user, setUser] = useState(defaultUserNew);
     let usersome: UserNew = defaultUserNew;
 
     useEffect(() => {

@@ -98,14 +98,14 @@ class RandomProduct {
     }
 
     private static async getPictures(size: number): Promise<Pictures[]> {
-        const url: string = `https://picsum.photos/v2/list?page=2&limit=${size}`;
+        const url = `https://picsum.photos/v2/list?page=2&limit=${size}`;
         const response: AxiosResponse<Pictures[]> = await axios.get<Pictures[]>(url);
         return response.data;
     }
 
     private static randomString(length: number): string {
-        const chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result: string = '';
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
 
         for (let i = 0; i < length; i++) {
             const randomIndex: number = Math.floor(Math.random() * chars.length);

@@ -1,3 +1,4 @@
+import React from 'react';
 import {CartCard} from "./CartCard";
 import {CartBuyForm} from "./CartBuyForm";
 import {useEffect, useState} from "react";
@@ -12,7 +13,7 @@ export function Cart() {
     const [isDone, setIsDone] = useState(false)
     const [cart, setCart] = useState(emptyCart)
     const [isEmpty, setEmpty] = useState(true)
-    let auth = useAuth();
+    const auth = useAuth();
 
     useEffect(() => {
         if (!isDone) {
@@ -44,8 +45,8 @@ export function Cart() {
     }
 
     return (<div className="container text-center">
-            <h1 hidden={isEmpty}>Cart</h1>
-            <h1 hidden={!isEmpty}>Cart is empty</h1>
+            <h1 hidden={isEmpty}>Корзина</h1>
+            <h1 hidden={!isEmpty}>Корзина пуста</h1>
             <div hidden={isEmpty}>
                 <div className="row align-items-start">
                     <div className="col">

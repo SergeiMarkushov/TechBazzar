@@ -1,15 +1,11 @@
 import {getDeveloperSvg} from "../Svg";
-import {
-    Accordion,
-    AccordionDetails, AccordionSummary, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography
-} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle} from "@mui/material";
 import React, {useState} from "react";
 import {primary} from "../Colors";
 import {Button} from "react-bootstrap";
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import {DeveloperDescription} from "./DeveloperDescription";
 
-export function FloatingButton() {
+export function FloatingButtonWithDevelopers() {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {

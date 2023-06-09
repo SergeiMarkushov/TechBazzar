@@ -1,7 +1,7 @@
 import jwtDecode from "jwt-decode";
 
 export function getToken(): string {
-    let token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token !== null) {
         return token;
     }
@@ -10,12 +10,13 @@ export function getToken(): string {
 
 export function setToken(token: string): void {
     localStorage.setItem('token', token);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     localStorage.setItem('userRoles', jwtDecode(token).roles);
 }
 
 export function getRoles(): string[] {
-    let roles: string | null = localStorage.getItem('userRoles');
+    const roles: string | null = localStorage.getItem('userRoles');
     let rolesArray: string[] = [];
     if (roles !== null) {
         rolesArray = roles.split(',');

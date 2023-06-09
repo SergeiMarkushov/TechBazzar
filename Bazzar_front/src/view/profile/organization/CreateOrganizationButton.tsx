@@ -1,3 +1,4 @@
+import React from 'react';
 import {primary} from "../../../Colors";
 import {Link} from "react-router-dom";
 

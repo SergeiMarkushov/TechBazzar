@@ -1,4 +1,4 @@
-import {Button} from "react-bootstrap";
+import React from 'react';
 import {UserNew} from "../../../newInterfaces";
 import {primary} from "../../../Colors";
 import {Link} from "react-router-dom";

@@ -1,9 +1,8 @@
-import {useEffect, useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Dialog, DialogContent, DialogTitle} from "@mui/material";
 import {primary} from "../../../Colors";
 import {Role, UserNew} from "../../../newInterfaces";
-import {apiGetUserRoles, apiSetRoleUser, apiUpBalance} from "../../../api/UserApi";
-import {emptyRole} from "../../../empty";
+import {apiGetUserRoles, apiSetRoleUser} from "../../../api/UserApi";
 import {existingRoles} from "../../../auth/Roles";
 import {AxiosError, AxiosResponse} from "axios";
 
@@ -67,7 +66,7 @@ export function ChangeRoles({user}: ChangeRolesProps) {
     )
 }
 
-function isPresent(role: string, roles: Array<String>) {
+function isPresent(role: string, roles: Array<string>) {
     for (const element of roles) {
         if (element === role) {
             return true;
