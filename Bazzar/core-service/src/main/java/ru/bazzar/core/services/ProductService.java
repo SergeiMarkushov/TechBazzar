@@ -3,6 +3,7 @@ package ru.bazzar.core.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +22,6 @@ import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
 import ru.bazzar.core.utils.MyQueue;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 
@@ -36,16 +36,26 @@ public class ProductService {
     private MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
 
-    @CacheEvict("productCache")//чистка кэша при удалении(синхронизация БД и кэша)
+    @CacheEvict(value = "productCache", key = "#id")
     public void deleteById(Long id){
         productRepository.deleteById(id);
     }
 
-    @Cacheable(cacheNames="productCache", sync=true, key="#id")
+    @CacheEvict(value = "productCache", allEntries = true)
+    public void evictCache() {}
+
+    @Cacheable(value = "productCache", key = "#id")
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
     }
+
+    @CachePut(value = "productCache", key = "#id")
+    public Product updateAndFindById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
+    }
+
     public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, Integer page) {
         Specification<Product> spec = Specification.where(null);
         if (minPrice != null) {
@@ -61,52 +71,6 @@ public class ProductService {
 //            spec = spec.and(ProductSpecifications.keywordLike(keywordPart));
 //        }
         return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
-    }
-
-    @Transactional
-    public Product saveOrUpdate(ProductDto productDto, @NotBlank String username) {
-        //update
-        if (productDto.getId() != null) {
-            Product productFromBd = productRepository.findById(productDto.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + productDto.getId()));
-            if (productDto.getTitle() != null) {
-                productFromBd.setTitle(productDto.getTitle());
-            }
-            if (productDto.getDescription() != null) {
-                productFromBd.setDescription(productDto.getDescription());
-            }
-            if (productDto.getPrice() != null) {
-                productFromBd.setPrice(productDto.getPrice());
-            }
-            if (productDto.getQuantity() != 0) {
-                productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
-            }
-            //валидируем и возвращаем
-            return productRepository.save(productFromBd);
-
-        } else {
-        //save
-            OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
-            if (!organizationDto.isActive()) {
-                throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
-            }
-            if (!username.equalsIgnoreCase(organizationDto.getOwner())) {
-                throw new AccessException("Только владелец компании может добавлять товары в магазин.");
-            }
-            if (!userService.getUser(organizationDto.getOwner()).isActive()) {
-                throw new AccessException("Владелец организации забанен, обратитесь к администратору: " + adminEmail);
-            }
-
-            Product product = new Product();
-            product.setTitle(productDto.getTitle());
-            product.setDescription(productDto.getDescription());
-            product.setOrganizationTitle(organizationDto.getTitle());//OrganizationServiceIntegration
-            product.setPrice(productDto.getPrice());
-            product.setConfirmed(false);
-            product.setQuantity(productDto.getQuantity());
-            //валидируем и возвращаем
-            return productRepository.save(product);
-        }
     }
 
     public Product notConfirmed(){
@@ -138,5 +102,57 @@ public class ProductService {
         } else {
             throw new AccessException("Недостаточное количество продукта, id: " + product.getId());
         }
+    }
+
+    public Product saveOrUpdate(ProductDto productDto, String username) {
+        if(productDto.getId() != null) {
+            return updateProduct(productDto.getId(), productDto);
+        }else {
+            return saveProduct(productDto, username);
+        }
+    }
+
+    private Product saveProduct(ProductDto productDto, String username) {
+        //save
+        OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
+        if (!organizationDto.isActive()) {
+            throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
+        }
+        if (!username.equalsIgnoreCase(organizationDto.getOwner())) {
+            throw new AccessException("Только владелец компании может добавлять товары в магазин.");
+        }
+        if (!userService.getUser(organizationDto.getOwner()).isActive()) {
+            throw new AccessException("Владелец организации забанен, обратитесь к администратору: " + adminEmail);
+        }
+
+        Product product = new Product();
+        product.setTitle(productDto.getTitle());
+        product.setDescription(productDto.getDescription());
+        product.setOrganizationTitle(organizationDto.getTitle());//OrganizationServiceIntegration
+        product.setPrice(productDto.getPrice());
+        product.setConfirmed(false);
+        product.setQuantity(productDto.getQuantity());
+        //валидируем и возвращаем
+        return productRepository.save(product);
+    }
+    private Product updateProduct(Long id, ProductDto productDto) {
+        //update
+        Product productFromBd = productRepository.findById(productDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
+
+            if (productDto.getTitle() != null) {
+                productFromBd.setTitle(productDto.getTitle());
+            }
+            if (productDto.getDescription() != null) {
+                productFromBd.setDescription(productDto.getDescription());
+            }
+            if (productDto.getPrice() != null) {
+                productFromBd.setPrice(productDto.getPrice());
+            }
+            if (productDto.getQuantity() != 0) {
+                productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
+            }
+            //валидируем и возвращаем
+            return productRepository.save(productFromBd);
     }
 }

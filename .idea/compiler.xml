@@ -16,6 +16,9 @@
         <module name="core-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="picture-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
