@@ -14,6 +14,7 @@ import ru.bazzar.core.api.OrganizationDto;
 import ru.bazzar.core.api.ProductDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.configs.GlobalEnum;
+import ru.bazzar.core.entities.Characteristic;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
@@ -33,11 +34,13 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
+    private final CharacteristicService characteristicService;
     private MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
 
     @CacheEvict("productCache")//чистка кэша при удалении(синхронизация БД и кэша)
     public void deleteById(Long id){
+        characteristicService.deleteByProductId(id);
         productRepository.deleteById(id);
     }
 
@@ -81,6 +84,8 @@ public class ProductService {
             if (productDto.getQuantity() != 0) {
                 productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
             }
+                characteristicService.saveOrUpdateCharacteristicsInProduct(productFromBd.getId(), productDto.getCharacteristicsDto());
+
             //валидируем и возвращаем
             return productRepository.save(productFromBd);
 

@@ -9,6 +9,7 @@ import ru.bazzar.core.api.*;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
+import ru.bazzar.core.services.CharacteristicService;
 import ru.bazzar.core.services.ProductService;
 import ru.bazzar.core.utils.MyQueue;
 import javax.validation.constraints.Min;
@@ -24,6 +25,7 @@ public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
+    private final CharacteristicService characteristicService;
     private MyQueue<Product> productQueue = new MyQueue<>();//?
 
 //********************************************

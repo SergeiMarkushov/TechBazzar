@@ -1,5 +1,6 @@
 package ru.bazzar.core.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.jfr.BooleanFlag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Builder
@@ -59,6 +61,10 @@ public class Product {
     @OneToOne
     @JoinColumn(name = "review_id")
     private Review review;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Characteristic> characteristics;
 
     /*
     - Ключевых слов;
@@ -150,5 +156,13 @@ public class Product {
 
     public void setReview(Review review) {
         this.review = review;
+    }
+
+    public List<Characteristic> getCharacteristics() {
+        return characteristics;
+    }
+
+    public void setCharacteristics(List<Characteristic> characteristics) {
+        this.characteristics = characteristics;
     }
 }
