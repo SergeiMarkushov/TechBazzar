@@ -1,10 +1,11 @@
+import React from 'react';
 import {ProductCard} from "./ProductPage";
 import {apiGetLogo} from "../../../api/OrganizationApi";
 import {useEffect, useState} from "react";
 
 export function ProductCompanyCard(props: ProductCard) {
-    let [logo, setLogo] = useState<string>("");
-    let [load, setLoad] = useState<boolean>(false);
+    const [logo, setLogo] = useState<string>("");
+    const [load, setLoad] = useState<boolean>(false);
 
     useEffect(() => {
         if (props.product.organizationTitle !== '' && !load) {

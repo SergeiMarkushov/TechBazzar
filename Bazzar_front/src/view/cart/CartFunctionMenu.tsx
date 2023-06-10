@@ -1,3 +1,4 @@
+import React from 'react';
 import {apiClearCart} from "../../api/CartApi";
 import {useAuth} from "../../auth/Auth";
 import {primary} from "../../Colors";
@@ -7,7 +8,7 @@ interface CartFunctionMenuProps {
 }
 
 export function CartFunctionMenu(props: CartFunctionMenuProps) {
-    let auth = useAuth();
+    const auth = useAuth();
     return (
         <div className="card border-0">
             <div className="d-flex justify-content-start m-1">

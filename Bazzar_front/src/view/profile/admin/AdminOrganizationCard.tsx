@@ -1,6 +1,6 @@
+import React from 'react';
 import {Organization} from "../../../newInterfaces";
 import {AdminMenuOrganization} from "./AdminMenuOrganization";
-import {useEffect, useState} from "react";
 
 interface AdminOrganizationCardProps {
 	org: Organization

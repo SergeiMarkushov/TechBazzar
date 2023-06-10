@@ -1,7 +1,7 @@
+import React, {useEffect, useState} from 'react';
 import {OrderTabCard} from "./OrderTabCard";
 import {Link} from "react-router-dom";
 import {OrderNew} from "../../../newInterfaces";
-import {useState} from "react";
 import {PayForm} from "./PayForm";
 import {DeleteOrderForm} from "./DeleteOrderForm";
 
@@ -13,18 +13,21 @@ export interface OrderProps {
 export function OrderTab(props: OrderProps) {
     const [status, setStatus] = useState(props.order.status);
 
+    useEffect(() => {
+        setStatus(props.order.status);
+    }, [props.order.status]);
+
     return (
         <div className="card mb-3">
             <div className="card-header d-flex justify-content-between">
                 <div>
-                    <span>Order #{props.order.id} </span>
+                    <span className="me-2">Order #{props.order.id} </span>
                     <span>from {props.order.createdAt}</span>
-                    <div className="d-flex justify-content-between">
-                        {!status ? <PayForm setStatus={setStatus} order={props.order}
-                                            onReloadOrder={props.onReloadOrder}/> : null}
-                        {!status ? <DeleteOrderForm setStatus={setStatus} order={props.order}
-                                                    onReloadOrder={props.onReloadOrder}/> : null}
-                    </div>
+
+                    {!status ? <PayForm setStatus={setStatus} order={props.order}
+                                        onReloadOrder={props.onReloadOrder}/> : <div></div>}
+                    {status ? <DeleteOrderForm setStatus={setStatus} order={props.order}
+                                               onReloadOrder={props.onReloadOrder}/> : <div></div>}
                 </div>
                 <div>Total price {props.order.totalPrice} ₽</div>
             </div>

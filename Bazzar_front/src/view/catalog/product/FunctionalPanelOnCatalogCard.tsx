@@ -1,3 +1,4 @@
+import React from 'react';
 import Rating from "@mui/material/Rating/Rating";
 import {useEffect, useState} from "react";
 import {ProductNew} from "../../../newInterfaces";

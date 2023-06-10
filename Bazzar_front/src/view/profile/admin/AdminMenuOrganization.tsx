@@ -1,3 +1,4 @@
+import React from 'react';
 import {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import {Organization} from "../../../newInterfaces";

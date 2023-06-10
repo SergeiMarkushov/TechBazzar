@@ -1,18 +1,18 @@
-import React, {useMemo} from "react";
+import React from "react";
 
 export interface SearchContextType {
     search: string,
     changeSearch: (search: string) => void;
 }
 
-let SearchContext = React.createContext<SearchContextType>(null!);
+const SearchContext = React.createContext<SearchContextType>(null!);
 
 export function SearchProvider({children}: { children: React.ReactNode }) {
-    let [search, setSearch] = React.useState<string>("");
-    let changeSearch = (search: string) => {
+    const [search, setSearch] = React.useState<string>("");
+    const changeSearch = (search: string) => {
         setSearch(search);
     }
-    let value = {search, changeSearch};
+    const value = {search, changeSearch};
     return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
 }
 

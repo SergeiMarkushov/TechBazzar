@@ -29,7 +29,7 @@ export function CatalogFilter(props: CatalogFilterProps) {
     return (
         <div className="text-center d-flex flex-column ms-2"
              style={{position: 'relative', display: 'inline-block', zIndex: '9999'}}>
-            <button style={{backgroundColor: primary}} className="btn btn-sm shadow-sm text-white rounded" onClick={handleButtonClick}>Price</button>
+            <button style={{backgroundColor: primary}} className="btn btn-sm shadow-sm text-white rounded" onClick={handleButtonClick}>Цена</button>
             {isOpen && (
                 <div className="bg-light rounded shadow-sm" style={{
                     position: 'absolute',
@@ -41,12 +41,12 @@ export function CatalogFilter(props: CatalogFilterProps) {
                     minWidth: "10em"
                 }}>
                     <div className="input-group input-group-sm m-1">
-                        <span style={{backgroundColor: primary}} className="input-group-text text-white">from</span>
+                        <span style={{backgroundColor: primary}} className="input-group-text text-white">От</span>
                         <input style={{borderColor: primary}} type="number" value={minPrice} className="form-control" min={0}
                                onChange={(event) => filterChanged(event.currentTarget.valueAsNumber, defaultFilter.minPrice, setMinPrice)}/>
                     </div>
                     <div className="input-group input-group-sm m-1">
-                        <span style={{backgroundColor: primary}} className="input-group-text text-white">to</span>
+                        <span style={{backgroundColor: primary}} className="input-group-text text-white">До</span>
                         <input style={{borderColor: primary}} type="number" value={maxPrice} className="form-control" min={0}
                                onChange={(event) => filterChanged(event.currentTarget.valueAsNumber, defaultFilter.maxPrice, setMaxPrice)}/>
                     </div>

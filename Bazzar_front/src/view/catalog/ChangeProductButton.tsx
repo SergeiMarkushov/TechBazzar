@@ -1,4 +1,4 @@
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import {Dialog, DialogActions, DialogTitle} from "@mui/material";
 import React, {useState} from "react";
 import {ProductNew} from "../../newInterfaces";
 import {Link} from "react-router-dom";

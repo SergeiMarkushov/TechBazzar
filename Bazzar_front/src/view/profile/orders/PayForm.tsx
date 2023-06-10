@@ -1,9 +1,8 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import {useEffect, useState} from "react";
-import {apiGetMyUser, apiGetMyUserById} from "../../../api/UserApi";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {apiGetMyUser} from "../../../api/UserApi";
 import {AxiosResponse} from "axios";
 import {OrderNew, UserNew} from "../../../newInterfaces";
-import {useAuth} from "../../../auth/Auth";
 import {apiOrderPayment} from "../../../api/OrderApi";
 
 interface PayFormProps {
@@ -14,7 +13,7 @@ interface PayFormProps {
 
 export function PayForm(props: PayFormProps) {
     const [balance, setBalance] = useState(0);
-    let [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(false);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
@@ -38,17 +37,15 @@ export function PayForm(props: PayFormProps) {
 
     const payHandle = () => {
         apiOrderPayment(props.order.id).then((resp) => {
-            if (resp.statusText === "OK") {
-                handleClose();
-                props.onReloadOrder();
-                props.setStatus(true);
-            }
+            handleClose();
+            props.onReloadOrder();
+            props.setStatus(true);
         })
     };
 
     return (
         <div>
-            <button className="btn btn-sm btn-success" style={{zIndex: "99999", position: "absolute"}}
+            <button className="btn btn-sm btn-success"
                     onClick={handleClickOpen}>Оплатить
             </button>
             <Dialog open={open} onClose={handleClose}>

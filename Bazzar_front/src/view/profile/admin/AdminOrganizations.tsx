@@ -1,3 +1,4 @@
+import React from 'react';
 import {useEffect, useState} from "react";
 import {emptyOrganization} from "../../../empty";
 import {apiGetAllOrganization} from "../../../api/OrganizationApi";

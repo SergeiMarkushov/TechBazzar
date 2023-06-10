@@ -1,3 +1,4 @@
+import React from 'react';
 import {Link, Route, Routes} from "react-router-dom";
 import {Catalog} from "./catalog/Catalog";
 import {Home} from "./Home";
@@ -28,123 +29,124 @@ import {primary} from "../Colors";
 import {AdminMenuChangeUser} from "./profile/admin/AdminMenuChangeUser";
 import {ConfirmProducts} from "./profile/admin/ConfirmProducts";
 import {AdminOrganizations} from "./profile/admin/AdminOrganizations";
-import { CreateOrganization } from "./profile/organization/CreateOrganization";
+import {CreateOrganization} from "./profile/organization/CreateOrganization";
 
 export function Header() {
-    let auth = useAuth();
+    const auth = useAuth();
 
     return (
-            <div className="bg-white">
-                <div style={{width: "auto"}} className="bg-light shadow-sm rounded-bottom">
-                    <nav style={{maxWidth: "1200px", marginLeft: "auto", marginRight: "auto"}}
-                         className="navbar navbar-expand-sm bg-light mb-3">
-                        <div className="container-fluid">
-                            <div className="collapse navbar-collapse" id="navbarNav">
-                                <div className="navbar-nav">
-                                    <Link style={{color: primary}} className="nav-link fw-bold" to="/home">
-                                        TECHBAZZAR
-                                    </Link>
-                                    <Link className="nav-link" to="/catalog">
-                                        Catalog
-                                    </Link>
-                                </div>
-                            </div>
-                            <SearchTab/>
+        <div className="bg-white">
+            <div style={{width: "auto"}} className="bg-light shadow-sm rounded-bottom">
+                <nav style={{maxWidth: "1200px", marginLeft: "auto", marginRight: "auto"}}
+                     className="navbar navbar-expand-sm bg-light mb-3">
+                    <div className="container-fluid">
+                        <div className="collapse navbar-collapse" id="navbarNav">
                             <div className="navbar-nav">
-                                <Link className="nav-link" to="/cart">
-                                    <HeaderLinkCart/>
+                                <Link style={{color: primary}} className="nav-link fw-bold" to="/home">
+                                    TECHBAZZAR
                                 </Link>
-                                <Link className="nav-link" to="/profile">
-                                    <HeaderLinkProfile/>
-                                </Link>
-                                <Link className="nav-link" to={!auth.isAuth ? "/login" : "/logout"}>
-                                    <HeaderLinkAuth/>
+                                <Link className="nav-link" to="/catalog">
+                                    Каталог
                                 </Link>
                             </div>
                         </div>
-                    </nav>
-                </div>
-                <div style={{maxWidth: "1200px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white"}}>
-
-                    <Routes>
-
-                        {/*public rotes*/}
-                        <Route>
-                            <Route path="/home" element={<Home/>}/>
-                            <Route path="/login" element={<Login/>}/>
-                            <Route path="/signUp" element={<Registration/>}/>
-                            <Route path="/catalog" element={<Catalog/>}/>
-                            <Route path="/" element={<Catalog/>}/>
-                            <Route path="/cart" element={<Cart/>}/>
-                        </Route>
-
-                        {/*auth and has any private roles rotes*/}
-                        <Route>
-                            <Route path="/function/menu" element={
-                                <RequireAuth>
-                                    <RequireRoleADMIN>
-                                        <AdminMenu/>
-                                    </RequireRoleADMIN>
-                                </RequireAuth>
-                            }/>
-                            <Route path="/function/menu/addProduct" element={
-                                <RequireAuth>
-                                    <RequireRoleADMIN>
-                                        <ProductCreator/>
-                                    </RequireRoleADMIN>
-                                </RequireAuth>}/>
-                            <Route path="/function/menu/productChanger" element={
-                                <RequireAuth>
-                                    <RequireRoleADMIN>
-                                        <AdminMenuProductChanger/>
-                                    </RequireRoleADMIN>
-                                </RequireAuth>}/>
-                            <Route path="/function/menu/productChanger/:id" element={
-                                <RequireAuth>
-                                    <RequireRoleADMIN>
-                                        <AdminMenuProductChangerForm/>
-                                    </RequireRoleADMIN>
-                                </RequireAuth>}/>
-                            <Route path="/function/menu/allUsers" element={
-                                <RequireAuth>
-                                    <RequireRoleADMIN>
-                                        <AdminMenuAllUsers/>
-                                    </RequireRoleADMIN>
-                                </RequireAuth>}/>
-                            <Route path="/function/menu/allUsers/:id" element={
-                                <RequireAuth>
-                                    <RequireRoleADMIN>
-                                        <AdminMenuChangeUser/>
-                                    </RequireRoleADMIN>
-                                </RequireAuth>}/>
-                            <Route path="/function/menu/confirmProduct" element={
-                                <RequireAuth>
-                                    <RequireRoleADMIN>
-                                        <ConfirmProducts/>
-                                    </RequireRoleADMIN>
-                                </RequireAuth>}/>
-                            <Route path="/function/menu/organizations" element={
-                                <RequireAuth>
-                                    <RequireRoleADMIN>
-                                        <AdminOrganizations/>
-                                    </RequireRoleADMIN>
-                                </RequireAuth>}/>
-                        </Route>
-
-                        {/*auth rotes*/}
-                        <Route>
-                            <Route path="/logout" element={<RequireAuth><Logout/></RequireAuth>}/>
-                            <Route path="/profile" element={<RequireAuth><Profile/></RequireAuth>}/>
-                            <Route path="/product/:name/:id" element={<ProductPage/>}/>
-                            <Route path="/profile/orders" element={<RequireAuth><Orders/></RequireAuth>}/>
-                            <Route path="/profile/orders/order/:id" element={<RequireAuth><OrderInfo/></RequireAuth>}/>
-                            <Route path="/profile/userProfile" element={<RequireAuth><UserProfile/></RequireAuth>}/>
-                            <Route path="/profile/balance" element={<RequireAuth><Balance/></RequireAuth>}/>
-                            <Route path="/profile/organization" element={<RequireAuth><Organization/></RequireAuth>}/>
-                            <Route path="/profile/organization/create" element={<RequireAuth><CreateOrganization/></RequireAuth>}/>
-                        </Route>
-                    </Routes>
-                </div>
+                        <SearchTab/>
+                        <div className="navbar-nav">
+                            <Link className="nav-link" to="/cart">
+                                <HeaderLinkCart/>
+                            </Link>
+                            <Link className="nav-link" to="/profile">
+                                <HeaderLinkProfile/>
+                            </Link>
+                            <Link className="nav-link" to={!auth.isAuth ? "/login" : "/logout"}>
+                                <HeaderLinkAuth/>
+                            </Link>
+                        </div>
+                    </div>
+                </nav>
             </div>
+            <div style={{maxWidth: "1200px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white"}}>
+
+                <Routes>
+
+                    {/*public rotes*/}
+                    <Route>
+                        <Route path="/home" element={<Home/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/signUp" element={<Registration/>}/>
+                        <Route path="/catalog" element={<Catalog/>}/>
+                        <Route path="/" element={<Catalog/>}/>
+                        <Route path="/cart" element={<Cart/>}/>
+                    </Route>
+
+                    {/*auth and has any private roles rotes*/}
+                    <Route>
+                        <Route path="/function/menu" element={
+                            <RequireAuth>
+                                <RequireRoleADMIN>
+                                    <AdminMenu/>
+                                </RequireRoleADMIN>
+                            </RequireAuth>
+                        }/>
+                        <Route path="/function/menu/addProduct" element={
+                            <RequireAuth>
+                                <RequireRoleADMIN>
+                                    <ProductCreator/>
+                                </RequireRoleADMIN>
+                            </RequireAuth>}/>
+                        <Route path="/function/menu/productChanger" element={
+                            <RequireAuth>
+                                <RequireRoleADMIN>
+                                    <AdminMenuProductChanger/>
+                                </RequireRoleADMIN>
+                            </RequireAuth>}/>
+                        <Route path="/function/menu/productChanger/:id" element={
+                            <RequireAuth>
+                                <RequireRoleADMIN>
+                                    <AdminMenuProductChangerForm/>
+                                </RequireRoleADMIN>
+                            </RequireAuth>}/>
+                        <Route path="/function/menu/allUsers" element={
+                            <RequireAuth>
+                                <RequireRoleADMIN>
+                                    <AdminMenuAllUsers/>
+                                </RequireRoleADMIN>
+                            </RequireAuth>}/>
+                        <Route path="/function/menu/allUsers/:id" element={
+                            <RequireAuth>
+                                <RequireRoleADMIN>
+                                    <AdminMenuChangeUser/>
+                                </RequireRoleADMIN>
+                            </RequireAuth>}/>
+                        <Route path="/function/menu/confirmProduct" element={
+                            <RequireAuth>
+                                <RequireRoleADMIN>
+                                    <ConfirmProducts/>
+                                </RequireRoleADMIN>
+                            </RequireAuth>}/>
+                        <Route path="/function/menu/organizations" element={
+                            <RequireAuth>
+                                <RequireRoleADMIN>
+                                    <AdminOrganizations/>
+                                </RequireRoleADMIN>
+                            </RequireAuth>}/>
+                    </Route>
+
+                    {/*auth rotes*/}
+                    <Route>
+                        <Route path="/logout" element={<RequireAuth><Logout/></RequireAuth>}/>
+                        <Route path="/profile" element={<RequireAuth><Profile/></RequireAuth>}/>
+                        <Route path="/product/:name/:id" element={<ProductPage/>}/>
+                        <Route path="/profile/orders" element={<RequireAuth><Orders/></RequireAuth>}/>
+                        <Route path="/profile/orders/order/:id" element={<RequireAuth><OrderInfo/></RequireAuth>}/>
+                        <Route path="/profile/userProfile" element={<RequireAuth><UserProfile/></RequireAuth>}/>
+                        <Route path="/profile/balance" element={<RequireAuth><Balance/></RequireAuth>}/>
+                        <Route path="/profile/organization" element={<RequireAuth><Organization/></RequireAuth>}/>
+                        <Route path="/profile/organization/create"
+                               element={<RequireAuth><CreateOrganization/></RequireAuth>}/>
+                    </Route>
+                </Routes>
+            </div>
+        </div>
     )
 }

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface ErrorProps {
     error: any,
     success: boolean,

@@ -9,12 +9,12 @@ import {
     UserNew
 } from "./newInterfaces";
 
-export let emptyCart: CartNew = {
+export const emptyCart: CartNew = {
     totalPrice: 0,
     items: Array.of(),
 }
 
-export let emptyCartItemsNew: CartItemNew = {
+export const emptyCartItemsNew: CartItemNew = {
     productId: 0,
     productTitle: "",
     quantity: 0,
@@ -22,25 +22,25 @@ export let emptyCartItemsNew: CartItemNew = {
     price: 0
 }
 
-export let defaultFilter: FilterNew = {
+export const defaultFilter: FilterNew = {
     maxPrice: 2147483647,
     minPrice: 1,
 }
-export let emptyDiscountNew: DiscountNew = {
+export const emptyDiscountNew: DiscountNew = {
     id: 0,
     dis: 0,
     startDate: new Date(),
     expiryDate: new Date(),
 }
 
-export let emptyReviewNew: ReviewNew = {
+export const emptyReviewNew: ReviewNew = {
     id: 0,
     username: "",
     reviewText: "",
     mark: 0,
 }
 
-export let emptyProductNew: ProductNew = {
+export const emptyProductNew: ProductNew = {
     id: 0,
     title: "",
     description: "",
@@ -52,7 +52,7 @@ export let emptyProductNew: ProductNew = {
     review: emptyReviewNew,
 }
 
-export let defaultUserNew: UserNew = {
+export const defaultUserNew: UserNew = {
     id: -1,
     email: "",
     username: "",
@@ -60,7 +60,7 @@ export let defaultUserNew: UserNew = {
     active: true,
 }
 
-export let emptyOrderItemNew: OrderItemNew = {
+export const emptyOrderItemNew: OrderItemNew = {
     id: 0,
     productTitle: "",
     orderId: 0,
@@ -69,7 +69,7 @@ export let emptyOrderItemNew: OrderItemNew = {
     price: 0,
 }
 
-export let emptyOrderNew = {
+export const emptyOrderNew = {
     id: 0,
     username: "",
     items: Array.of(emptyOrderItemNew),
@@ -78,7 +78,7 @@ export let emptyOrderNew = {
     status: false,
 }
 
-export let emptyProductCreateNew: ProductCreateNew = {
+export const emptyProductCreateNew: ProductCreateNew = {
     title: '',
     description: '',
     organizationTitle: '',
@@ -86,12 +86,12 @@ export let emptyProductCreateNew: ProductCreateNew = {
     quantity: 0
 }
 
-export let emptyRole = {
+export const emptyRole = {
     id: 0,
     name: ""
 }
 
-export let emptyOrganization: Organization = {
+export const emptyOrganization: Organization = {
     id: 0,
     title: "",
     description: "",
@@ -99,7 +99,7 @@ export let emptyOrganization: Organization = {
     active: false,
 }
 
-export let emptyOrganizationCreate: OrganizationCreate = {
+export const emptyOrganizationCreate: OrganizationCreate = {
     name: "",
     description: "",
     owner: "",

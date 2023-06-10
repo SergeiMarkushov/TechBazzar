@@ -1,6 +1,6 @@
-import {getComments} from "../../../FakeData";
+import React from 'react';
 import {CommentCard} from "./CommentCard";
-import {ProductNew, ReviewNew} from "../../../newInterfaces";
+import {ProductNew} from "../../../newInterfaces";
 import {useState} from "react";
 
 interface ProductPageCommentsCardProps {
