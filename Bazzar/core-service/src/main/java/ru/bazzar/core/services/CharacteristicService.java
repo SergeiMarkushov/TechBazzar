@@ -102,6 +102,10 @@ public List<Characteristic> findByProductId(Long productId) {
         return characteristicRepository.findProductsByCharacteristicName(characteristicName);
     }
 
+    public List<Characteristic> dtoToEntity(List<CharacteristicDto> characteristicDto) {
+        return characteristicDto.stream().map(characteristicConverter::dtoToEntity).collect(Collectors.toList());
+    }
+
     public void deleteByProductId(Long productId) {
         characteristicRepository.deleteByProductId(productId);
     }

@@ -24,6 +24,7 @@ import ru.bazzar.core.utils.MyQueue;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -84,7 +85,6 @@ public class ProductService {
             if (productDto.getQuantity() != 0) {
                 productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
             }
-                characteristicService.saveOrUpdateCharacteristicsInProduct(productFromBd.getId(), productDto.getCharacteristicsDto());
 
             //валидируем и возвращаем
             return productRepository.save(productFromBd);
@@ -109,7 +109,9 @@ public class ProductService {
             product.setPrice(productDto.getPrice());
             product.setConfirmed(false);
             product.setQuantity(productDto.getQuantity());
+            product.setCharacteristics(characteristicService.dtoToEntity(productDto.getCharacteristicsDto()));
             //валидируем и возвращаем
+            characteristicService.saveOrUpdateCharacteristicsInProduct(product.getId(), productDto.getCharacteristicsDto());
             return productRepository.save(product);
         }
     }
