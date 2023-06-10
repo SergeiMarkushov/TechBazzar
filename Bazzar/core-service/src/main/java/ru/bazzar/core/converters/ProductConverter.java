@@ -5,9 +5,12 @@ import org.springframework.stereotype.Service;
 import ru.bazzar.core.api.ProductDto;
 import ru.bazzar.core.entities.Product;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ProductConverter {
+    private final CharacteristicConverter characteristicConverter;
 
     public ProductDto entityToDto(Product product) {
         ProductDto dto = new ProductDto();
@@ -18,6 +21,9 @@ public class ProductConverter {
         dto.setPrice(product.getPrice());
         dto.setQuantity(product.getQuantity());
         dto.setConfirmed(product.isConfirmed());
+        dto.setCharacteristicsDto(product.getCharacteristics()
+                .stream().map(characteristicConverter::entityToDto)
+                .collect(Collectors.toList()));
         return dto;
     }
 
@@ -29,6 +35,8 @@ public class ProductConverter {
                 .price(productDto.getPrice())
                 .quantity(productDto.getQuantity())
                 .isConfirmed(productDto.isConfirmed())
+                .characteristics(productDto.getCharacteristicsDto()
+                        .stream().map(characteristicConverter::dtoToEntity).collect(Collectors.toList()))
                 .build();
     }
 }

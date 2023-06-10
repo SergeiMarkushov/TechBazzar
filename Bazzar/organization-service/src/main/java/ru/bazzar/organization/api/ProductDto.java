@@ -1,6 +1,7 @@
 package ru.bazzar.organization.api;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductDto {
     private Long id;
@@ -11,10 +12,13 @@ public class ProductDto {
     private int quantity;
     private boolean isConfirmed;
 
+    private List<CharacteristicDto> characteristicsDto;
+
+
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String title, String description, String organizationTitle, BigDecimal price, int quantity, boolean isConfirmed) {
+    public ProductDto(Long id, String title, String description, String organizationTitle, BigDecimal price, int quantity, boolean isConfirmed, List<CharacteristicDto> characteristics) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -22,6 +26,7 @@ public class ProductDto {
         this.price = price;
         this.quantity = quantity;
         this.isConfirmed = isConfirmed;
+        this.characteristicsDto = characteristics;
     }
 
     public Long getId() {
@@ -78,5 +83,13 @@ public class ProductDto {
 
     public void setConfirmed(boolean confirmed) {
         isConfirmed = confirmed;
+    }
+
+    public List<CharacteristicDto> getCharacteristicsDto() {
+        return characteristicsDto;
+    }
+
+    public void setCharacteristicsDto(List<CharacteristicDto> characteristicsDto) {
+        this.characteristicsDto = characteristicsDto;
     }
 }

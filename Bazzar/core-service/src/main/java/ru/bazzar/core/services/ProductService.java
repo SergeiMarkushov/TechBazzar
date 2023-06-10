@@ -15,6 +15,7 @@ import ru.bazzar.core.api.OrganizationDto;
 import ru.bazzar.core.api.ProductDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.configs.GlobalEnum;
+import ru.bazzar.core.entities.Characteristic;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
@@ -23,6 +24,7 @@ import ru.bazzar.core.repositories.specifications.ProductSpecifications;
 import ru.bazzar.core.utils.MyQueue;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -33,11 +35,13 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
+    private final CharacteristicService characteristicService;
     private MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
 
     @CacheEvict(value = "productCache", key = "#id")
     public void deleteById(Long id){
+        characteristicService.deleteByProductId(id);
         productRepository.deleteById(id);
     }
 
@@ -132,6 +136,10 @@ public class ProductService {
         product.setPrice(productDto.getPrice());
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
+        product.setCharacteristics(characteristicService.dtoToEntity(productDto.getCharacteristicsDto()));
+      
+      
+        characteristicService.saveOrUpdateCharacteristicsInProduct(product.getId(), productDto.getCharacteristicsDto());
         //валидируем и возвращаем
         return productRepository.save(product);
     }
@@ -152,6 +160,8 @@ public class ProductService {
             if (productDto.getQuantity() != 0) {
                 productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
             }
+      
+            characteristicService.saveOrUpdateCharacteristicsInProduct(product.getId(), productDto.getCharacteristicsDto());
             //валидируем и возвращаем
             return productRepository.save(productFromBd);
     }
