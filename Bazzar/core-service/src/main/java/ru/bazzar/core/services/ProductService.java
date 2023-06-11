@@ -15,18 +15,14 @@ import ru.bazzar.core.api.OrganizationDto;
 import ru.bazzar.core.api.ProductDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.configs.GlobalEnum;
-import ru.bazzar.core.converters.CharacteristicConverter;
-import ru.bazzar.core.entities.Characteristic;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
-import ru.bazzar.core.repositories.CharacteristicRepository;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
 import ru.bazzar.core.utils.MyQueue;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -37,7 +33,6 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
-    private final CharacteristicConverter characteristicConverter;
     private MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
 
@@ -138,9 +133,6 @@ public class ProductService {
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
         //fixme: тут я хз
-        product.setCharacteristics(productDto.getCharacteristicsDto()
-                .stream().map(characteristicConverter::dtoToEntity)
-                .collect(Collectors.toList()));
 
         //валидируем и возвращаем
         return productRepository.save(product);
@@ -161,12 +153,6 @@ public class ProductService {
         }
         if (productDto.getQuantity() != 0) {
             productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
-        }
-        //fixme: тут я хз
-        if (productDto.getCharacteristicsDto() != null) {
-            productFromBd.setCharacteristics(productDto.getCharacteristicsDto()
-                    .stream().map(characteristicConverter::dtoToEntity)
-                    .collect(Collectors.toList()));
         }
 
         //валидируем и возвращаем

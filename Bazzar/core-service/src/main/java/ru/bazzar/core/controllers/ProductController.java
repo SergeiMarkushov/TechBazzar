@@ -27,7 +27,6 @@ public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
-    private final CharacteristicService characteristicService;
     private MyQueue<Product> productQueue = new MyQueue<>();//?
 
     @GetMapping
@@ -79,7 +78,6 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createOrUpdateProduct(@RequestHeader String username, @RequestBody ProductDto productDto, @RequestBody List<CharacteristicDto> characteristicDto) {
-        characteristicService.saveOrUpdateCharacteristicsInProduct(productDto.getId(), characteristicDto);
         return productConverter.entityToDto(productService.saveOrUpdate(productDto, username));
     }
 
