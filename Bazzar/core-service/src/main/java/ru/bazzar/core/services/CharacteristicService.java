@@ -24,7 +24,6 @@ public class CharacteristicService {
 
     private final CharacteristicRepository characteristicRepository;
     private final ProductRepository productRepository;
-    private final ProductService productService;
     private final CharacteristicConverter characteristicConverter;
 
 
@@ -48,12 +47,12 @@ public class CharacteristicService {
     }
 
     public List<Characteristic> findByProduct(ProductDto productDto) {
-        return productService.findById(productDto.getId()).getCharacteristics();
+        return characteristicRepository.findByProductId(productDto.getId());
     }
 
-public List<Characteristic> findByProductId(Long productId) {
-    return productService.findById(productId).getCharacteristics();
-}
+    public List<Characteristic> findByProductId(Long productId) {
+        return characteristicRepository.findByProductId(productId);
+    }
 
     public void saveOrUpdateCharacteristicsInProduct(Long productId, List<CharacteristicDto> characteristicsDto) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Продукт не найден"));

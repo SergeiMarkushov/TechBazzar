@@ -78,7 +78,8 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto createOrUpdateProduct(@RequestHeader String username, @RequestBody ProductDto productDto) {
+    public ProductDto createOrUpdateProduct(@RequestHeader String username, @RequestBody ProductDto productDto, @RequestBody List<CharacteristicDto> characteristicDto) {
+        characteristicService.saveOrUpdateCharacteristicsInProduct(productDto.getId(), characteristicDto);
         return productConverter.entityToDto(productService.saveOrUpdate(productDto, username));
     }
 

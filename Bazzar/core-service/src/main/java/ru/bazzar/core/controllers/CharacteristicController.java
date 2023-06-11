@@ -30,12 +30,16 @@ public class CharacteristicController {
 
     @GetMapping("/find-by-productId/{productId}")
     public List<CharacteristicDto> showProductCharacteristics(@PathVariable @Min(0) Long productId) {
-        return characteristicService.findByProductId(productId).stream().map(characteristicConverter::entityToDto).collect(Collectors.toList());
+        return characteristicService.findByProductId(productId)
+                .stream().map(characteristicConverter::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/find-products-by-characteristicName/{characteristicName}")
     public List<ProductDto> showProductsByCharacteristicName(@PathVariable String characteristicName) {
-        return characteristicService.findProductsByCharacteristicName(characteristicName).stream().map(productConverter::entityToDto).collect(Collectors.toList());
+        return characteristicService.findProductsByCharacteristicName(characteristicName)
+                .stream().map(productConverter::entityToDto)
+                .collect(Collectors.toList());
     }
 
     @DeleteMapping("/{characteristicId}")
