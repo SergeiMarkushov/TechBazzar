@@ -62,8 +62,7 @@ public class Product {
     @JoinColumn(name = "review_id")
     private Review review;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<Characteristic> characteristics;
 
     /*
