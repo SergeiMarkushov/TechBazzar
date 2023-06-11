@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.bazzar.core.api.CharacteristicDto;
 import ru.bazzar.core.api.ProductDto;
+import ru.bazzar.core.converters.CharacteristicConverter;
 import ru.bazzar.core.entities.Characteristic;
-import ru.bazzar.core.repositories.CharacteristicRepository;
 import ru.bazzar.core.services.CharacteristicService;
 
 import javax.validation.constraints.Min;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/characteristics")
 public class CharacteristicController {
     private final CharacteristicService characteristicService;
+    private final CharacteristicConverter characteristicConverter;
     private final ModelMapper modelMapper;
-    private final CharacteristicRepository characteristicRepository;
 
     @PostMapping("/{productId}/characteristics")
     public ResponseEntity<?> addCharacteristicsToProduct(@PathVariable Long productId, @RequestBody List<CharacteristicDto> characteristicDtos) {
@@ -39,7 +39,7 @@ public class CharacteristicController {
         List<Characteristic> characteristics = characteristicService.findByProductId(productId);
 
         return  characteristics.stream()
-                .map(characteristic -> modelMapper.map(characteristic, CharacteristicDto.class))
+                .map(characteristicConverter::entityToDto)
                 .collect(Collectors.toList());
     }
 
