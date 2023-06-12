@@ -1,16 +1,28 @@
-import React from 'react';
-import {Field, Form} from "formik";
-import {ProductCreateNew} from "../newInterfaces";
-import {ErrorComponent} from "../ErrorComponent";
+import {Field, FieldArray, Form} from "formik";
+import React, {useEffect, useState} from 'react';
+import {ErrorComponent} from "../../../ErrorComponent";
+import {ProductNew} from "../../../newInterfaces";
 
-interface ProductFormProps {
-    product: ProductCreateNew,
-    error: any,
-    success: any,
-    textIfSuccess: string
+interface ProductChangeFormProps {
+    product: ProductNew,
+    error: string,
+    success: boolean,
+    textIfSuccess: string,
+    titleOrg: string | undefined
 }
 
-export function ProductForm(props: ProductFormProps) {
+export function ProductChangeForm(props: ProductChangeFormProps) {
+    const [characteristics, setCharacteristics] = useState(props.product.characteristicsDto)
+
+    useEffect(() => {
+        setCharacteristics(props.product.characteristicsDto)
+    }, [props.product.characteristicsDto])
+
+    const addCharacteristic = () => {
+        console.log(characteristics)
+        setCharacteristics([...characteristics, {id: null, name: "", product: null}])
+    }
+
     return (
         <div>
             <ErrorComponent error={props.error} success={props.success} showSuccess={true}
@@ -39,6 +51,8 @@ export function ProductForm(props: ProductFormProps) {
                     <small className="form-text text-muted"> (Вы должны иметь доступ к этой организации)</small>
                     <Field as="input" name="organizationTitle"
                            placeholder="Название организации от имени которой предоставляется продукт" type="text"
+                           value={props.titleOrg ?? props.product.organizationTitle ?? ""}
+                           disabled={props.titleOrg ?? props.product.organizationTitle}
                            className="form-control shadow-sm"
                            id="organizationTitle"
                            required={true}/>
@@ -52,6 +66,31 @@ export function ProductForm(props: ProductFormProps) {
                     <Field as="label" htmlFor="quantity" className="form-label">Колличество</Field>
                     <Field as="input" name="quantity" type="number" className="form-control shadow-sm" id="quantity"
                            required={true}/>
+                </div>
+                <FieldArray name={"characteristicsDto"}
+                            validateOnChange={true}
+                            render={() => (
+                                <div className="row g-3">
+                                    {
+                                        characteristics.map((value, index) => {
+                                            return (
+                                                <div className="col-md-3" key={index}>
+                                                    <Field as="label" htmlFor={"characteristicsDto" + index}
+                                                           className="form-label">Характеристика {index + 1}</Field>
+                                                    <Field as="input" name={`characteristicsDto.${index}.name`} type="text"
+                                                           className="form-control shadow-sm"
+                                                           id={`characteristicsDto.${index}.name`}
+                                                           required={index === 0}/>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            )}/>
+                <div className="col-12">
+                    <button type={"button"} className="btn btn-sm btn-primary"
+                            onClick={addCharacteristic}>Добавить характеристику
+                    </button>
                 </div>
                 {/*<div className="col-12">
                 <Field as="label" htmlFor="image" className="form-label">Image URL</Field>

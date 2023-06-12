@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {OrderTabCard} from "./OrderTabCard";
 import {Link} from "react-router-dom";
 import {OrderNew} from "../../../newInterfaces";
-import {PayForm} from "./PayForm";
 import {DeleteOrderForm} from "./DeleteOrderForm";
+import {OrderTabCard} from "./OrderTabCard";
+import {PayForm} from "./PayForm";
 
 export interface OrderProps {
     order: OrderNew,

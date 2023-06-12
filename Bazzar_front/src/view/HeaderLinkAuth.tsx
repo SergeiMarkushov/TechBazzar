@@ -1,6 +1,6 @@
 import React from 'react';
-import {useAuth} from "../auth/Auth";
 import {getHeaderAuthCloseSvg, getHeaderAuthOpenSvg} from "../Svg";
+import {useAuth} from "../auth/Auth";
 
 export function HeaderLinkAuth() {
     const auth = useAuth();

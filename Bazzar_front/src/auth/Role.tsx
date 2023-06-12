@@ -8,7 +8,7 @@ export interface RoleContextType {
     isSuperAdmin: boolean,
 }
 
-const RoleContext = React.createContext<RoleContextType>(null!);
+const RoleContext = React.createContext<RoleContextType>("" as unknown as RoleContextType);
 
 export function RoleProvider({children}: { children: React.ReactNode }) {
     let isAdmin = false;

@@ -1,26 +1,24 @@
-import React, {useEffect, useState} from "react";
-import {ErrorMessage, ProductNew} from "../../../newInterfaces";
-import {emptyProductNew} from "../../../empty";
-import {apiConfirmProduct, apiGetProductsNotConfirmed} from "../../../api/ProductApi";
 import {AxiosError, AxiosResponse} from "axios";
-import {CatalogCard} from "../../catalog/CatalogCard";
-import {CircularLoading} from "../../CircularLoading";
+import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import {primary} from "../../../Colors";
 import {ErrorComponent} from "../../../ErrorComponent";
+import {apiConfirmProduct, apiGetProductsNotConfirmed} from "../../../api/ProductApi";
+import {emptyProductNew} from "../../../empty";
+import {ErrorMessage, ProductNew} from "../../../newInterfaces";
+import {CircularLoading} from "../../CircularLoading";
+import {CatalogCard} from "../../catalog/CatalogCard";
 
 export function ConfirmProducts() {
     const [load, setLoad] = useState(false);
     const [loadProduct, setLoadProduct] = useState(false);
     const [product, setProduct] = useState(emptyProductNew);
-    const [error, setError] = useState<any>("")
+    const [error, setError] = useState<string>("")
     const [success, setSuccess] = useState<boolean>(false)
 
     useEffect(() => {
         if (!load) {
-            console.log("useEffect")
             apiGetProductsNotConfirmed().then((products: AxiosResponse<ProductNew>) => {
-                console.log(products.data)
                 setProduct(products.data);
                 setLoadProduct(true);
             }).catch((e: AxiosError<ErrorMessage>) => {
@@ -34,12 +32,12 @@ export function ConfirmProducts() {
     }, [load]);
 
     const confirmHandler = () => {
-        apiConfirmProduct(product.title).then((r) => {
-            console.log(r.data)
+        apiConfirmProduct(product.title).then(() => {
             setLoad(false);
             setLoadProduct(false);
-        }).catch(e => {
-            console.log(e)
+        }).catch(() => {
+            setError("Ошибка подтверждения")
+            setSuccess(false)
         });
     }
 

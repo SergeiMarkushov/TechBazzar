@@ -1,15 +1,15 @@
+import {AxiosError, AxiosResponse} from "axios";
 import {Formik} from "formik";
+import React, {useState} from "react";
+import {apiCreateOrganization} from "../../../api/OrganizationApi";
+import {useAuth} from "../../../auth/Auth";
 import {emptyOrganizationCreate} from "../../../empty";
 import {ErrorMessage, OrganizationCreate} from "../../../newInterfaces";
 import {OrganizationCreateForm} from "../admin/OrganizationCreateForm";
-import {apiCreateOrganization} from "../../../api/OrganizationApi";
-import React, {useState} from "react";
-import {AxiosError, AxiosResponse} from "axios";
-import {useAuth} from "../../../auth/Auth";
 
 export function CreateOrganization() {
     const [file, setFile] = useState<File | null>(null)
-    const [error, setError] = useState<any>("")
+    const [error, setError] = useState<string>("")
     const [success, setSuccess] = useState<boolean>(false)
     const auth = useAuth()
 
@@ -27,12 +27,12 @@ export function CreateOrganization() {
                         onSubmit={(values: OrganizationCreate) => {
                             setSuccess(false)
                             const formData = new FormData()
-                            formData.append("owner", auth.user.email)
+                            formData.append("owner", auth.user?.email ?? "")
                             formData.append("name", values.name)
                             formData.append("description", values.description)
                             if (file !== null)
                                 formData.append("companyImage", file)
-                            apiCreateOrganization(formData).then(r => {
+                            apiCreateOrganization(formData).then(() => {
                                 setSuccess(true)
                             }).catch((e: AxiosError<ErrorMessage>) => {
                                 const data: AxiosResponse<ErrorMessage> | undefined = e.response;

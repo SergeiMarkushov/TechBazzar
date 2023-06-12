@@ -1,14 +1,19 @@
 import {
     CartItemNew,
-    CartNew,
+    CartNew, Characteristic,
     DiscountNew,
     FilterNew,
-    OrderItemNew, Organization, OrganizationCreate, ProductCreateNew,
+    OrderItemNew, Organization, OrganizationCreate, ProductCreateNew, ProductCreateNew2,
     ProductNew,
     ReviewNew,
     UserNew
 } from "./newInterfaces";
 
+export const emptyCharacteristic: Characteristic = {
+    id: null,
+    name: "",
+    product: null,
+}
 export const emptyCart: CartNew = {
     totalPrice: 0,
     items: Array.of(),
@@ -50,6 +55,7 @@ export const emptyProductNew: ProductNew = {
     isConfirmed: false,
     discount: emptyDiscountNew,
     review: emptyReviewNew,
+    characteristicsDto: Array.of(emptyCharacteristic),
 }
 
 export const defaultUserNew: UserNew = {
@@ -84,6 +90,15 @@ export const emptyProductCreateNew: ProductCreateNew = {
     organizationTitle: '',
     price: 0,
     quantity: 0
+}
+
+export const emptyProductCreateNew2: ProductCreateNew2 = {
+    title: '',
+    description: '',
+    organizationTitle: '',
+    price: 0,
+    quantity: 0,
+    characteristicsDto: Array.of(),
 }
 
 export const emptyRole = {

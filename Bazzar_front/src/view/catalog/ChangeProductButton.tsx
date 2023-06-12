@@ -1,8 +1,8 @@
 import {Dialog, DialogActions, DialogTitle} from "@mui/material";
 import React, {useState} from "react";
-import {ProductNew} from "../../newInterfaces";
 import {Link} from "react-router-dom";
 import {primary} from "../../Colors";
+import {ProductNew} from "../../newInterfaces";
 
 interface ChangeProductButtonProps {
     product: ProductNew,

@@ -42,7 +42,6 @@ export function Review() {
 					/>
 
 					<TextField
-						autoFocus
 						margin="dense"
 						id="name"
 						label="Отзыв"

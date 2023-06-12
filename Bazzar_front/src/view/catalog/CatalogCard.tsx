@@ -1,8 +1,8 @@
-import {Link} from "react-router-dom";
 import React, {useState} from "react";
+import {Link} from "react-router-dom";
+import {getMessageSvg, getStarSvg} from "../../Svg";
 import {ProductNew} from "../../newInterfaces";
 import {ChangeProductButton} from "./ChangeProductButton";
-import {getMessageSvg, getStarSvg} from "../../Svg";
 
 export interface ProductCard {
     product: ProductNew,
@@ -13,8 +13,8 @@ export interface ProductCard {
 
 export function CatalogCard(props: ProductCard) {
     const [isShown, setIsShown] = useState(false);
-    const [discount, setDiscount] = useState(0);
-    const [mark, setMark] = useState(0);
+    const [discount] = useState(0);
+    const [mark] = useState(0);
 
     return (
         <div style={{width: "15em", borderStyle: "none", textDecoration: "none", color: "black"}}>

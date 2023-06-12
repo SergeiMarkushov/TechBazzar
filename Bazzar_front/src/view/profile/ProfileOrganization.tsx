@@ -15,7 +15,7 @@ export function ProfileOrganization() {
                         </div>
                         <div className="">
                             <div className="card-body">
-                                <h5 className="card-title">Organization</h5>
+                                <h5 className="card-title">Организации</h5>
                             </div>
                         </div>
                     </div>
@@ -24,7 +24,7 @@ export function ProfileOrganization() {
                 <div className="">
                     <div className="card-body">
                         {/*TODO replace this*/}
-                        <small className="card-title text-sm-start">Your org: none</small>
+                        <small className="card-title text-sm-start">Ваши организации: none</small>
                     </div>
                 </div>
             </div>

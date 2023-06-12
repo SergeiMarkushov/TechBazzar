@@ -1,7 +1,7 @@
 import React, {Dispatch, useEffect, useState} from "react";
 import {primary} from "../../Colors";
-import {FilterNew} from "../../newInterfaces";
 import {defaultFilter} from "../../empty";
+import {FilterNew} from "../../newInterfaces";
 
 interface CatalogFilterProps {
     filter: FilterNew,
