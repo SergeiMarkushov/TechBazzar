@@ -1,8 +1,7 @@
-import React from 'react';
-import {Message} from "./LiveChat";
-import {useAuth} from "../../../auth/Auth";
+import React, {useEffect} from 'react';
 import {primary} from "../../../Colors";
-import {useEffect} from "react";
+import {useAuth} from "../../../auth/Auth";
+import {Message} from "./LiveChat";
 
 interface MessageProps {
     message: Message,
@@ -11,11 +10,11 @@ interface MessageProps {
 
 export function MessageComponent({message, scrollToBottom}: MessageProps) {
     const auth = useAuth();
-    const isAuthor = message.author === auth.user.email;
+    const isAuthor = message && auth && auth.user && message.author === auth.user.email;
 
     useEffect(() => {
         scrollToBottom();
-    }, [message]);
+    }, [message, scrollToBottom]);
 
     return (
         <div className={`mb-2 d-flex ${isAuthor ? "justify-content-end" : "justify-content-start"}`}>

@@ -1,11 +1,9 @@
-import React from 'react';
+import {AxiosError} from "axios";
 import {Field, Form, Formik} from "formik";
-import {useAuth} from "../../auth/Auth";
-import {useNavigate} from "react-router-dom";
-import {AxiosError, AxiosResponse} from "axios";
-import {apiSignUpWithPasswordNew} from "../../api/AuthApi";
-import {useState} from "react";
+import React, {useState} from 'react';
 import {ErrorComponent} from "../../ErrorComponent";
+import {apiSignUpWithPasswordNew} from "../../api/AuthApi";
+import {ErrorMessage} from "../../newInterfaces";
 
 interface loginInit {
     email: string,
@@ -14,12 +12,8 @@ interface loginInit {
 }
 
 export function Registration() {
-    const navigate = useNavigate();
-    const auth = useAuth();
-    const [error, setError] = useState<any>("")
+    const [error, setError] = useState<string>("")
     const [success, setSuccess] = useState<boolean>(false)
-
-    const from = "/catalog";
 
     return (
         <Formik initialValues={{
@@ -29,11 +23,11 @@ export function Registration() {
             password: "",
         }}
                 onSubmit={(values: loginInit) => {
-                    apiSignUpWithPasswordNew(values.email, values.username, values.password).then((value: AxiosResponse) => {
+                    apiSignUpWithPasswordNew(values.email, values.username, values.password).then(() => {
                         setSuccess(true);
-                    }).catch((reason: AxiosError) => {
-                        setError(reason.response?.data);
-                    })
+                    }).catch((reason: AxiosError<ErrorMessage>) =>
+                        setError(reason.response?.data.message ?? "Ошибка регистрации")
+                    )
                 }}>
             <Form>
                 <ErrorComponent error={error} success={success} showSuccess={true}

@@ -1,9 +1,9 @@
+import {Dialog, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import React from 'react';
 import {useState} from "react";
-import {Dialog, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
-import {UpBalance} from "./UpBalance";
 import {UserNew} from "../../../newInterfaces";
 import {ChangeRoles} from "./ChangeRoles";
+import {UpBalance} from "./UpBalance";
 import {UserActivity} from "./UserActivity";
 
 interface AdminMenuUserMenuProps {

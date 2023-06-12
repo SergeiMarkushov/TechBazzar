@@ -1,11 +1,11 @@
-import React from 'react';
 import {Field, Form} from "formik";
+import React from 'react';
 import {ErrorComponent} from "../../../ErrorComponent";
 import {useAuth} from "../../../auth/Auth";
 
 interface OrganizationCreateFormProps {
     onChoseFile: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    error: any,
+    error: string,
     success: boolean
 }
 
@@ -19,7 +19,7 @@ export function OrganizationCreateForm({onChoseFile, error, success}: Organizati
             <Form className="row g-3 justify-content-center">
                 <div className="col-md-9">
                     <Field as="label" htmlFor="owner" className="form-label">Почта</Field>
-                    <Field as="input" name="owner" value={auth.user.email} disabled type="text"
+                    <Field as="input" name="owner" value={auth.user?.email ?? ""} disabled type="text"
                            className="form-control shadow-sm" id="owner"
                            required={true}/>
                 </div>

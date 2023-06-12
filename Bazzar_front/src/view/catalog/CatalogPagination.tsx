@@ -7,7 +7,7 @@ interface CatalogPaginationProps {
 }
 
 export function CatalogPagination(props: CatalogPaginationProps) {
-    const handlePageClick = (event: any) => {
+    const handlePageClick = (event: {selected: number}) => {
         props.changePage(event.selected);
     };
 

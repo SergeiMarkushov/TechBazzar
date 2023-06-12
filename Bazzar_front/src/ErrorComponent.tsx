@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface ErrorProps {
-    error: any,
+    error: string,
     success: boolean,
     showSuccess: boolean,
     textIfSuccess: string,

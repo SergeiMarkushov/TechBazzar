@@ -54,6 +54,13 @@ public class OrganizationService {
         return repository.findByTitleIgnoreCase(title);
     }
 
+    public List<OrganizationDto> findAllByOwner(String owner) {
+        return repository.findAllByOwner(owner)
+                .stream()
+                .map(organizationConverter::entityToDto)
+                .collect(Collectors.toList());
+    }
+
     public Organization findByTitle(String title) throws ResourceNotFoundException {
         return repository.findByTitleIgnoreCase(title)
                 .orElseThrow(() -> new ResourceNotFoundException("Организация с названием: " + title + " не найдена."));

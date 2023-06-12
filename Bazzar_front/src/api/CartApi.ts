@@ -1,17 +1,17 @@
-import {axiosCustom} from "./AxiosConfig";
+import {CartItemNew} from "../newInterfaces";
 import {getToken} from "../util/TokenUtil";
-import {CartItemNew, ProductNew} from "../newInterfaces";
+import {axiosCustom} from "./AxiosConfig";
 
 const cart = axiosCustom('http://localhost:5555/cart/api/v1/cart', getToken());
 
-export const apiAddItemToCart = (id: number | undefined, isAuth: boolean) => addItemToCart(id, isAuth);
+export const apiAddItemToCart = (id: number | undefined) => addItemToCart(id);
 
-const addItemToCart = (id: number | undefined, isAuth: boolean) => {
+const addItemToCart = (id: number | undefined) => {
     return cart.get(`/add/${id}`);
 }
-export const apiUpdateQuantity = (product: CartItemNew, quantity: number, isAuth: boolean) => updateQuantity(product, quantity, isAuth);
+export const apiUpdateQuantity = (product: CartItemNew, quantity: number) => updateQuantity(product, quantity);
 
-const updateQuantity = (product: CartItemNew, quantity: number, isAuth: boolean) => {
+const updateQuantity = (product: CartItemNew, quantity: number) => {
     return cart.get("/change_quantity", {
         params: {
             productId: product.productId,
@@ -20,24 +20,20 @@ const updateQuantity = (product: CartItemNew, quantity: number, isAuth: boolean)
     });
 }
 
-export const apiClearCart = (isAuth: boolean) => clearCart(isAuth);
+export const apiClearCart = () => clearCart();
 
-const clearCart = (isAuth: boolean) => {
+const clearCart = () => {
     return cart.get(`/clear`);
 }
 
-export const apiGetCart = (isAuth: boolean) => getCart(isAuth);
+export const apiGetCart = () => getCart();
 
-const getCart = (isAuth: boolean) => {
+const getCart = () => {
     return cart.get("");
 }
 
-export const apiRemoveItem = (product: CartItemNew, isAuth: boolean) => removeItem(product, isAuth);
+export const apiRemoveItem = (product: CartItemNew) => removeItem(product);
 
-const removeItem = (product: CartItemNew, isAuth: boolean) => {
+const removeItem = (product: CartItemNew) => {
     return cart.get(`/remove/${product.productId}`);
-}
-
-export function apiIsExistInCart(product: ProductNew): boolean {
-    return false;
 }

@@ -1,16 +1,17 @@
-import {ProductPageTitleCard} from "./ProductPageTitleCard";
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {ProductPageDescriptionCard} from "./ProductPageDescriptionCard";
-import {ProductPageBuy} from "./ProductPageBuy";
-import {FunctionalPanelOnCatalogCard} from "./FunctionalPanelOnCatalogCard";
-import {ProductPageCommentsCard} from "./ProductPageCommentsCard";
-import {BreadCrumbForProductPage} from "./BreadCrumbForProductPage";
-import {ProductNew} from "../../../newInterfaces";
-import {emptyProductNew} from "../../../empty";
-import {apiGetProductByIdNew} from "../../../api/ProductApi";
-import {ProductCompanyCard} from "./ProductCompanyCard";
 import {ErrorComponent} from "../../../ErrorComponent";
+import {apiGetProductByIdNew} from "../../../api/ProductApi";
+import {emptyProductNew} from "../../../empty";
+import {ProductNew} from "../../../newInterfaces";
+import {BreadCrumbForProductPage} from "./BreadCrumbForProductPage";
+import {FunctionalPanelOnCatalogCard} from "./FunctionalPanelOnCatalogCard";
+import {ProductCharacteristic} from "./ProductCharacteristic";
+import {ProductCompanyCard} from "./ProductCompanyCard";
+import {ProductPageBuy} from "./ProductPageBuy";
+import {ProductPageCommentsCard} from "./ProductPageCommentsCard";
+import {ProductPageDescriptionCard} from "./ProductPageDescriptionCard";
+import {ProductPageTitleCard} from "./ProductPageTitleCard";
 
 export interface ProductCard {
     product: ProductNew;
@@ -22,17 +23,16 @@ export function ProductPage() {
         isLoad: false,
     });
     const {id} = useParams();
-    const [error, setError] = useState<any>("")
+    const [error, setError] = useState<string>("")
     const [success, setSuccess] = useState<boolean>(false)
 
     useEffect(() => {
             if (!load.isLoad && id !== undefined) {
                 setLoad({isLoad: true});
                 apiGetProductByIdNew(Number(id)).then((product) => {
-                    console.log(product)
                     setProduct(product.data);
                     setSuccess(true);
-                }).catch((error) => {
+                }).catch(() => {
                     setSuccess(false);
                     setError("Упс... Что то пошло не так. Попробуйте позже")
                 });
@@ -55,6 +55,7 @@ export function ProductPage() {
                         </div>
                     </div>
                     <ProductCompanyCard product={product}/>
+                    <ProductCharacteristic product={product}/>
                     <ProductPageDescriptionCard product={product}/>
                     <ProductPageCommentsCard product={product}/>
                 </div>

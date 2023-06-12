@@ -1,5 +1,5 @@
-import {axiosCustom} from "./AxiosConfig";
 import {getToken} from "../util/TokenUtil";
+import {axiosCustom} from "./AxiosConfig";
 
 const orders = axiosCustom('http://localhost:5555/core/api/v1/orders', getToken());
 

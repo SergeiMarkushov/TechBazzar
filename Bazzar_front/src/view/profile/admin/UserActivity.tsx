@@ -1,8 +1,8 @@
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import React, {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import {primary} from "../../../Colors";
-import {UserNew} from "../../../newInterfaces";
 import {apiBunUser} from "../../../api/UserApi";
+import {UserNew} from "../../../newInterfaces";
 
 interface UserActivityProps {
     user: UserNew
@@ -16,9 +16,7 @@ export function UserActivity({user}: UserActivityProps) {
     };
 
     const handleClick = () => {
-        if (check) {
-            console.log("true")
-        } else {
+        if (!check) {
             if (user.active) {
                 apiBunUser(user.id).then(() => {
                     setOpen(false);
@@ -44,7 +42,7 @@ export function UserActivity({user}: UserActivityProps) {
                     <div className="form-check form-switch">
                         <input className="form-check-input" onChange={(event) => setCheck(event.target.checked)}
                                type="checkbox" defaultChecked={user.active}/>
-                        <label className="form-check-label">активность</label>
+                        <span className="form-check-label">активность</span>
                     </div>
                 </DialogContent>
                 <DialogActions>

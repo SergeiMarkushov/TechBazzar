@@ -1,9 +1,9 @@
+import {AxiosResponse} from "axios";
 import React, {useEffect, useState} from "react";
-import {OrderTab} from "./OrderTab";
 import {apiGetUserOrders} from "../../../api/OrderApi";
 import {emptyOrderNew} from "../../../empty";
-import {AxiosResponse} from "axios";
 import {OrderNew} from "../../../newInterfaces";
+import {OrderTab} from "./OrderTab";
 
 export function Orders() {
     const [Orders, setOrders] = useState(Array.of(emptyOrderNew))
@@ -12,7 +12,6 @@ export function Orders() {
     useEffect(() => {
             if (!load) {
                 apiGetUserOrders().then((orders: AxiosResponse<Array<OrderNew>>) => {
-                    console.log(orders.data)
                     setOrders(orders.data);
                 })
                 setLoad(true);

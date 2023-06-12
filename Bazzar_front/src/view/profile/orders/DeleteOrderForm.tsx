@@ -1,7 +1,7 @@
-import React, {useState} from "react";
 import {Button, Dialog, DialogActions, DialogTitle} from "@mui/material";
-import {OrderNew} from "../../../newInterfaces";
+import React, {useState} from "react";
 import {apiOrderRefund} from "../../../api/OrderApi";
+import {OrderNew} from "../../../newInterfaces";
 
 interface PayFormProps {
     order: OrderNew
@@ -22,7 +22,7 @@ export function DeleteOrderForm(props: PayFormProps) {
     };
 
     const deleteHandle = () => {
-        apiOrderRefund(props.order.id).then((resp) => {
+        apiOrderRefund(props.order.id).then(() => {
                 handleClose();
                 props.onReloadOrder();
         })

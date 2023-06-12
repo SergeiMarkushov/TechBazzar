@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {useAuth} from "../../../auth/Auth";
 import {primary} from "../../../Colors";
+import {useAuth} from "../../../auth/Auth";
 import {MessageComponent} from "./MessageComponent";
 
 interface LiveChatProps {
     open: boolean,
-    handleClose: () => void
 }
 
 export interface Message {
@@ -20,23 +19,28 @@ const emptyMessage: Message = {
     text: ""
 }
 
-export function LiveChat({open, handleClose}: LiveChatProps) {
+export function LiveChat({open}: LiveChatProps) {
     const [messages, setMessages] = useState<Array<Message>>(Array.of(emptyMessage));
     const [inputMessage, setInputMessage] = useState("");
     const auth = useAuth();
 
     useEffect(() => {
-        //fetch messages
-        if (open) {
-            console.log("fetch messages");
-            setMessages([{id: 1, author: auth.user.email, text: "Hello"}, {id: 2, author: "support", text: "Hi"}]);
+        if (!auth.isAuth) {
+            return;
         }
-    }, [open]);
+    }, [auth.isAuth]);
+
+    useEffect(() => {
+        //fetch messages
+        if (open && auth.isAuth) {
+            setMessages([{id: 1, author: auth.user?.email ?? "", text: "Hello"}, {id: 2, author: "support", text: "Hi"}]);
+        }
+    }, [auth, open]);
 
     const handleSendMessage = () => {
         //send message
         console.log("send message");
-        setMessages([...messages, {id: 3, author: auth.user.email, text: inputMessage}]);
+        setMessages([...messages, {id: 3, author: auth.user?.email ?? "", text: inputMessage}]);
         setInputMessage("");
     }
 
@@ -54,8 +58,7 @@ export function LiveChat({open, handleClose}: LiveChatProps) {
             {open &&
                 <div className="rounded shadow"
                      style={{position: "fixed", bottom: "150px", right: "20px", maxWidth: "20rem", maxHeight: "20rem"}}>
-                    <div className="p-2 text-white rounded-top" style={{backgroundColor: primary}}
-                         onClick={handleClose}>
+                    <div className="p-2 text-white rounded-top" style={{backgroundColor: primary}}>
                         Чат с поддержкой
                     </div>
                     <div className="chat-messages p-2 m-2 bg-light rounded border-1 border-dark d-flex row"

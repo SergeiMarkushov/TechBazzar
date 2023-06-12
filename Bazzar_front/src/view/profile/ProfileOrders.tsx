@@ -13,7 +13,7 @@ export function ProfileOrders() {
                     </div>
                     <div className="">
                         <div className="card-body">
-                            <h5 className="card-title">Orders</h5>
+                            <h5 className="card-title">Заказы</h5>
                         </div>
                     </div>
                 </div>

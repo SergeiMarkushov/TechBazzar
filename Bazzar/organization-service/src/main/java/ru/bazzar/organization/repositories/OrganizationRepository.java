@@ -12,4 +12,5 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     Optional<Organization> findByTitleIgnoreCase(String title);
 
     List<Organization> findAllByIsActive(boolean isActive);
+    List<Organization> findAllByOwner(String owner);
 }

@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import {Link} from 'react-router-dom';
 import {Link as MuiLink} from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import * as React from 'react';
+import {Link} from 'react-router-dom';
 
 export function BreadCrumbForProductPage() {
     return (

@@ -1,9 +1,9 @@
-import React from 'react';
 import {Field, Form, Formik} from "formik";
-import {useAuth} from "../../auth/Auth";
-import {Link, useNavigate} from "react-router-dom";
+import React from 'react';
 import {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import {ErrorComponent} from "../../ErrorComponent";
+import {useAuth} from "../../auth/Auth";
 
 interface loginInit {
     login: string,
@@ -13,7 +13,7 @@ interface loginInit {
 export function Login() {
     const navigate = useNavigate();
     const auth = useAuth();
-    const [error, setError] = useState<any>("");
+    const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<boolean>(false);
     
     const from = "/catalog";
@@ -31,6 +31,7 @@ export function Login() {
                     }, () => {
                         console.log("error");
                         setError(auth.error);
+                        setSuccess(false)
                     });
                 }}>
 
@@ -41,7 +42,7 @@ export function Login() {
                         <div className="mb-3 row">
                             <Field as="label" htmlFor="login" className="col-sm-2 col-form-label">E-mail</Field>
                             <div className="col-sm-10">
-                                <Field as="input" type="text" placeholder="index@mail.ru" name="login"
+                                <Field as="input" type="text" autoComplete="username" placeholder="index@mail.ru" name="login"
                                        className="form-control shadow-sm" id="login"
                                        required={true}/>
                             </div>
@@ -49,7 +50,7 @@ export function Login() {
                         <div className="mb-3 row">
                             <Field as="label" htmlFor="password" className="col-sm-2 col-form-label">Password</Field>
                             <div className="col-sm-10">
-                                <Field as="input" name="password" type="password" className="form-control shadow-sm"
+                                <Field as="input" name="password" autoComplete="current-password"  type="password" className="form-control shadow-sm"
                                        id="password"
                                        required={true}/>
                             </div>

@@ -1,8 +1,8 @@
-import {getDeveloperSvg} from "../Svg";
 import {Dialog, DialogContent, DialogTitle} from "@mui/material";
 import React, {useState} from "react";
-import {primary} from "../Colors";
 import {Button} from "react-bootstrap";
+import {primary} from "../Colors";
+import {getDeveloperSvg} from "../Svg";
 import {DeveloperDescription} from "./DeveloperDescription";
 
 export function FloatingButtonWithDevelopers() {

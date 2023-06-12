@@ -1,9 +1,9 @@
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import React from 'react';
 import {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
-import {Organization} from "../../../newInterfaces";
 import {primary} from "../../../Colors";
 import {apiOrganizationBun, apiOrganizationConfirm} from "../../../api/OrganizationApi";
+import {Organization} from "../../../newInterfaces";
 
 interface AdminMenuOrganizationProps {
     org: Organization
@@ -16,7 +16,6 @@ export function AdminMenuOrganization({org}: AdminMenuOrganizationProps) {
 
     const handleClickOpen = () => {
         setOpen(true);
-        console.log(org.active)
     };
 
     const handleClose = () => {
@@ -26,13 +25,13 @@ export function AdminMenuOrganization({org}: AdminMenuOrganizationProps) {
     const handleClick = () => {
         if (check) {
             if (!org.active) {
-                apiOrganizationConfirm(org.title).then((resp) => {
+                apiOrganizationConfirm(org.title).then(() => {
                     window.location.reload();
                 });
             }
         } else {
             if (org.active) {
-                apiOrganizationBun(org.id).then((resp) => {
+                apiOrganizationBun(org.id).then(() => {
                     window.location.reload();
                 });
             }
@@ -51,7 +50,7 @@ export function AdminMenuOrganization({org}: AdminMenuOrganizationProps) {
                     <div className="form-check form-switch">
                         <input className="form-check-input" onChange={(event) => setCheck(event.target.checked)}
                                type="checkbox" defaultChecked={org.active}/>
-                        <label className="form-check-label">активность</label>
+                        <span className="form-check-label">активность</span>
                     </div>
                 </DialogContent>
                 <DialogActions>
