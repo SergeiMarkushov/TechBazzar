@@ -15,13 +15,16 @@ import ru.bazzar.core.api.OrganizationDto;
 import ru.bazzar.core.api.ProductDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.configs.GlobalEnum;
+import ru.bazzar.core.entities.Characteristic;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
+import ru.bazzar.core.integrations.PictureServiceIntegration;
 import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.specifications.ProductSpecifications;
 import ru.bazzar.core.utils.MyQueue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,6 +38,7 @@ public class ProductService {
     private final UserServiceIntegration userService;
     private MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
+    private final PictureServiceIntegration pictureServiceIntegration;
 
     @CacheEvict(value = "productCache", key = "#id")
     public void deleteById(Long id){
@@ -126,6 +130,12 @@ public class ProductService {
         }
 
         Product product = new Product();
+
+        if(productDto.getPicture_id() == null || productDto.getPicture_id() < 0){
+            product.setPictureId(1L);
+        } else {
+            product.setPictureId(productDto.getPicture_id());
+        }
         product.setTitle(productDto.getTitle());
         product.setDescription(productDto.getDescription());
         product.setOrganizationTitle(organizationDto.getTitle());//OrganizationServiceIntegration
@@ -133,7 +143,6 @@ public class ProductService {
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
         //fixme: тут я хз
-
         //валидируем и возвращаем
         return productRepository.save(product);
     }
@@ -153,6 +162,11 @@ public class ProductService {
         }
         if (productDto.getQuantity() != 0) {
             productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
+        }
+        // TODO: 12.06.2023 нужно тестить!
+        if(!productDto.getPicture_id().equals(productFromBd.getPictureId())){
+            pictureServiceIntegration.deletePictureById(productFromBd.getPictureId());
+            productFromBd.setPictureId(productDto.getPicture_id());
         }
 
         //валидируем и возвращаем

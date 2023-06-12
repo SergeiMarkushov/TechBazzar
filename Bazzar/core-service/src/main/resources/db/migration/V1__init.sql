@@ -24,7 +24,8 @@ create table products
     organization_title varchar(100),
     is_confirmed       boolean,
     discount_id        bigint references discounts(id),
-    review_id          bigint references reviews(id)
+    review_id          bigint references reviews(id),
+    picture_id         bigint
 );
 
 create table orders

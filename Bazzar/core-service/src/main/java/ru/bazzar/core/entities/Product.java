@@ -65,6 +65,10 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
     private List<Characteristic> characteristics;
 
+    @Column(name = "picture_id")
+    @Min(value = 0, message = "Поле pictureId должно быть больше 0")
+    private Long pictureId;
+
     /*
     - Ключевых слов;
     - Таблицы характеристик;
@@ -82,7 +86,16 @@ public class Product {
                 ", isConfirmed=" + isConfirmed +
                 ", discount=" + discount +
                 ", review=" + review +
+                ", pictureId=" + pictureId +
                 '}';
+    }
+
+    public Long getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
 
     public Long getId() {

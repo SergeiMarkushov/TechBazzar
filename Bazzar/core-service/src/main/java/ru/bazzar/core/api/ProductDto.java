@@ -13,11 +13,12 @@ public class ProductDto {
     private int quantity;
     private boolean isConfirmed;
     private List<CharacteristicDto> characteristicsDto;
+    private Long picture_id;
 
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String title, String description, String organizationTitle, BigDecimal price, int quantity, boolean isConfirmed, List<CharacteristicDto> characteristics) {
+    public ProductDto(Long id, String title, String description, String organizationTitle, BigDecimal price, int quantity, boolean isConfirmed, List<CharacteristicDto> characteristics, Long pictureId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -26,6 +27,15 @@ public class ProductDto {
         this.quantity = quantity;
         this.isConfirmed = isConfirmed;
         this.characteristicsDto = characteristics;
+        picture_id = pictureId;
+    }
+
+    public Long getPicture_id() {
+        return picture_id;
+    }
+
+    public void setPicture_id(Long picture_id) {
+        this.picture_id = picture_id;
     }
 
     public Long getId() {

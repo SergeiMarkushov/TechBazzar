@@ -44,3 +44,9 @@ integrations:
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
+
+  picture-service:
+    url: http://localhost:8555/tech-bazzar-picture/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000
