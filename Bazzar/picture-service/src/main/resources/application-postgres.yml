@@ -1,0 +1,4 @@
+server:
+  port: 8666
+  servlet:
+    context-path: /tech-bazzar-picture

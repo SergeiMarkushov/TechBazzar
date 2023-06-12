@@ -3,18 +3,21 @@ package ru.bazzar.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.bazzar.core.api.*;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
-import ru.bazzar.core.services.CharacteristicService;
+import ru.bazzar.core.integrations.PictureServiceIntegration;
 import ru.bazzar.core.services.ProductService;
 import ru.bazzar.core.utils.MyQueue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,9 @@ public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
+    private final PictureServiceIntegration pictureServiceIntegration;
     private MyQueue<Product> productQueue = new MyQueue<>();//?
+
 
     @GetMapping
     public PageDto<ProductDto> getProductDtosPage(
@@ -58,7 +63,22 @@ public class ProductController {
         out.setItems(productDtos);
         return out;
     }
-    //получает и кладёт вкэш(далее, если не обновляемся - используем этот эндпоинт)
+
+    //получение json PictureDto(может понадобится..)
+    @GetMapping("/find-pic-dto/{id}")
+    public PictureDto getPictureDtoById(@PathVariable Long id) {
+        return pictureServiceIntegration.getPictureDtoById(id);
+    }
+    @PostMapping(value = "/save-pic-return-id", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Long savePicAndReturnId(@RequestParam(value = "multipart-pic") MultipartFile pic) throws IOException{
+        PictureDto pictureDto = new PictureDto();
+        pictureDto.setFileName(pic.getOriginalFilename());
+        pictureDto.setContentType(pic.getContentType());
+        pictureDto.setBytes(pic.getBytes());
+        return pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
+    }
+
+    //получает и кладёт вкэш(далее, если НЕ обновляемся - используем этот эндпоинт)
     @GetMapping("/{id}")
     public ProductDto getProductDto(@PathVariable @Min(0) Long id) {
         return productConverter.entityToDto(productService.findById(id));
@@ -75,9 +95,29 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
+    // TODO: 12.06.2023 поддержать на фронте
+    //  созранение картинки @RequestParam(value = "product_picture"...)
+    //  , пока лошика по картинкам будет здесь для наглядности
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto createOrUpdateProduct(@RequestHeader String username, @RequestBody ProductDto productDto, @RequestBody List<CharacteristicDto> characteristicDto) {
+    public ProductDto createOrUpdateProduct(@RequestHeader String username,
+                                            @RequestBody ProductDto productDto,
+                                            @RequestBody List<CharacteristicDto> characteristicDto,
+                                            @RequestParam(value = "product_picture",
+                                                    required = false) MultipartFile multipartFile) throws IOException {
+        //если подгружена картинка - назначаем productDto.setPicture_id
+        if(multipartFile != null){
+           PictureDto pictureDto = PictureDto.builder()
+                   .fileName(multipartFile.getOriginalFilename())
+                   .contentType(multipartFile.getContentType())
+                   .bytes(multipartFile.getBytes())
+                   .build();
+
+            if(productDto.getPicture_id() > 1) pictureServiceIntegration.deletePictureById(productDto.getPicture_id());
+            Long picId = pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
+            productDto.setPicture_id(picId);
+        }
+
         return productConverter.entityToDto(productService.saveOrUpdate(productDto, username));
     }
 

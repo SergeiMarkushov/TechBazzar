@@ -10,6 +10,7 @@
         <module name="auth-service" />
         <module name="cart-service" />
         <module name="front-service" />
+        <module name="picture-service" />
         <module name="gateway-service" />
         <module name="organization-service" />
         <module name="notification-service" />
@@ -17,7 +18,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="picture-service" target="17" />
+      <module name="picture-ervice" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -29,6 +30,7 @@
       <module name="gateway-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="organization-service" options="-parameters" />
+      <module name="picture-service" options="-parameters" />
     </option>
   </component>
 </project>
