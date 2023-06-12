@@ -62,7 +62,7 @@ public class Product {
     @JoinColumn(name = "review_id")
     private Review review;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
     private List<Characteristic> characteristics;
 
     @Column(name = "picture_id")

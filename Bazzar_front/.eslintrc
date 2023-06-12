@@ -5,12 +5,21 @@
     "es6": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "import", "jsx-a11y", "react"],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "jsx-a11y",
+    "react",
+    "react-hooks",
+    "security"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:security/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2021,
@@ -20,8 +29,10 @@
     }
   },
   "rules": {
-    "no-console": "warn",
     "no-eval": "error",
-    "import/first": "error"
+    "import/first": "error",
+    "import/order": ["error", { "alphabetize": { "order": "asc" } }],
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

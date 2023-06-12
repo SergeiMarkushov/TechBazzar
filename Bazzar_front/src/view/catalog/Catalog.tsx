@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from "react";
-import {CatalogCard} from "./CatalogCard";
-import {CatalogFilter} from "./CatalogFilter";
-import {CatalogPagination} from "./CatalogPagination";
-import {apiDeleteProductById, apiGetProductsNew} from "../../api/ProductApi";
 import {AxiosResponse} from "axios";
+import React, {useEffect, useState} from "react";
+import {ErrorComponent} from "../../ErrorComponent";
+import {apiDeleteProductById, apiGetProductsNew} from "../../api/ProductApi";
 import {useSearch} from "../../context/Search";
 import {defaultFilter, emptyProductNew} from "../../empty";
 import {FilterNew, FindRequest, PageProductNew} from "../../newInterfaces";
 import {CircularLoading} from "../CircularLoading";
-import {ErrorComponent} from "../../ErrorComponent";
+import {CatalogCard} from "./CatalogCard";
+import {CatalogFilter} from "./CatalogFilter";
+import {CatalogPagination} from "./CatalogPagination";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGES = 1;
@@ -26,7 +26,7 @@ export function Catalog(props: CatalogProps) {
     const [load, setLoad] = useState(false)
     const changing = props.isChanging === undefined ? false : props.isChanging;
     const search = useSearch();
-    const [error, setError] = useState<any>("")
+    const [error, setError] = useState<string>("")
     const [success, setSuccess] = useState<boolean>(false)
 
     function filterChanged(filter: FilterNew) {
@@ -35,7 +35,7 @@ export function Catalog(props: CatalogProps) {
     }
 
     function deleteHandler(id: number) {
-        apiDeleteProductById(id).then(r => {
+        apiDeleteProductById(id).then(() => {
                 setProducts(products.filter(product => product.id !== id));
             }
         )
@@ -77,15 +77,10 @@ export function Catalog(props: CatalogProps) {
                         }
                         setSuccess(true);
                     }
-                }).catch((e) => {
+                }).catch(() => {
                 setError("Упс... Что то пошло не так. Попробуйте позже")
             })
-        }
-
-        ,
-        [filterNew, page, search.search]
-    )
-    ;
+        },[filterNew.maxPrice, filterNew.minPrice, limit, page, search.search]);
 
 
     function changePage(page: number) {

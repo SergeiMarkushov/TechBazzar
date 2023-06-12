@@ -1,9 +1,13 @@
 import jwtDecode from "jwt-decode";
 
 export function getToken(): string {
-    const token = localStorage.getItem('token');
-    if (token !== null) {
-        return token;
+    try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+            const token = localStorage.getItem('token');
+            return token ?? '';
+        }
+    } catch (error) {
+        console.error('Не удалось получить токен из localStorage:', error);
     }
     return '';
 }

@@ -1,6 +1,6 @@
-import {useSearch} from "../context/Search";
 import React, {useState} from "react";
 import {primary} from "../Colors";
+import {useSearch} from "../context/Search";
 
 export function SearchTab() {
     const search = useSearch();

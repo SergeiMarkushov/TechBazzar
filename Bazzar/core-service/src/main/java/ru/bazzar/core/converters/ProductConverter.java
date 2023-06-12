@@ -21,6 +21,10 @@ public class ProductConverter {
         ProductDto productDTO = modelMapper.map(product, ProductDto.class);
         List<CharacteristicDto> characteristicDTOs = new ArrayList<>();
 
+        if (product.getCharacteristics() == null) {
+            return productDTO;
+        }
+
         for (Characteristic characteristic : product.getCharacteristics()) {
             CharacteristicDto characteristicDTO = modelMapper.map(characteristic, CharacteristicDto.class);
             characteristicDTOs.add(characteristicDTO);

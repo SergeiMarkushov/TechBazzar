@@ -1,7 +1,7 @@
 import React from 'react';
-import {ProductCard} from "./ProductPage";
-import {apiGetLogo} from "../../../api/OrganizationApi";
 import {useEffect, useState} from "react";
+import {apiGetLogo} from "../../../api/OrganizationApi";
+import {ProductCard} from "./ProductPage";
 
 export function ProductCompanyCard(props: ProductCard) {
     const [logo, setLogo] = useState<string>("");

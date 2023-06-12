@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {primary} from "../../Colors";
-import {UserNew} from "../../newInterfaces";
 import {getMoneySvg} from "../../Svg";
+import {UserNew} from "../../newInterfaces";
 
 interface ProfileBalanceProps {
     user: UserNew
@@ -19,7 +19,7 @@ export function ProfileBalance(props: ProfileBalanceProps) {
                         </div>
                         <div className="">
                             <div className="card-body">
-                                <h5 className="card-title">Balance: {props.user.balance}</h5>
+                                <h5 className="card-title">Баланс: {props.user.balance}</h5>
                             </div>
                         </div>
                     </div>

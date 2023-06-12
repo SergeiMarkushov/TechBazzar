@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
-import {LiveChat} from "./LiveChat";
 import {getChatWithSupportsClosedSvg, getChatWithSupportsOpenedSvg} from "../../../Svg";
+import {LiveChat} from "./LiveChat";
 
 export function FloatingButtonWithChat() {
     const [open, setOpen] = useState(false);
@@ -28,7 +28,7 @@ export function FloatingButtonWithChat() {
                     onClick={open ? handleClose : handleClickOpen}>
                 {!open ? getChatWithSupportsClosedSvg(25, 25) : getChatWithSupportsOpenedSvg(25, 25)}
             </Button>
-            <LiveChat open={open} handleClose={handleClose}/>
+            <LiveChat open={open}/>
         </div>
     )
 }

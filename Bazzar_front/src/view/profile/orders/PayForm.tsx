@@ -1,9 +1,9 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
-import React, {useEffect, useState} from "react";
-import {apiGetMyUser} from "../../../api/UserApi";
 import {AxiosResponse} from "axios";
-import {OrderNew, UserNew} from "../../../newInterfaces";
+import React, {useEffect, useState} from "react";
 import {apiOrderPayment} from "../../../api/OrderApi";
+import {apiGetMyUser} from "../../../api/UserApi";
+import {OrderNew, UserNew} from "../../../newInterfaces";
 
 interface PayFormProps {
     order: OrderNew
@@ -18,13 +18,14 @@ export function PayForm(props: PayFormProps) {
 
     useEffect(() => {
         if (!load && open) {
-            console.log("useEffect")
             apiGetMyUser().then((data: AxiosResponse<UserNew>) => {
                 setBalance(data.data.balance);
+                setLoad(true);
+            }).catch(error => {
+                console.error('There was an error!', error);
             });
-            setLoad(true);
         }
-    });
+    }, [load, open]);
 
 
     const handleClickOpen = () => {
@@ -36,7 +37,7 @@ export function PayForm(props: PayFormProps) {
     };
 
     const payHandle = () => {
-        apiOrderPayment(props.order.id).then((resp) => {
+        apiOrderPayment(props.order.id).then(() => {
             handleClose();
             props.onReloadOrder();
             props.setStatus(true);

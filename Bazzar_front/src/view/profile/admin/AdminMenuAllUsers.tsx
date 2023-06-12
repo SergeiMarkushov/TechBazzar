@@ -1,8 +1,8 @@
 import React from 'react';
 import {useEffect, useState} from "react";
 import {apiGetUsers} from "../../../api/UserApi";
-import {AdminMenuAllUsersCard} from "./AdminMenuAllUsersCard";
 import {defaultUserNew} from "../../../empty";
+import {AdminMenuAllUsersCard} from "./AdminMenuAllUsersCard";
 
 export function AdminMenuAllUsers() {
     const [users, setUsers] = useState(Array.of(defaultUserNew));

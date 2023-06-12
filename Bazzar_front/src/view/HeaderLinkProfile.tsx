@@ -1,9 +1,9 @@
-import React from 'react';
-import {useAuth} from "../auth/Auth";
-import {styled} from "@mui/material/styles";
 import Badge, {BadgeProps} from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton/IconButton";
+import {styled} from "@mui/material/styles";
+import React from 'react';
 import {getHeaderProfileSvg} from "../Svg";
+import {useAuth} from "../auth/Auth";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({theme}) => ({
     '& .MuiBadge-badge': {

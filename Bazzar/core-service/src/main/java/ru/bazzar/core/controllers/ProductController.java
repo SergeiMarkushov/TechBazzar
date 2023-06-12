@@ -102,7 +102,6 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createOrUpdateProduct(@RequestHeader String username,
                                             @RequestBody ProductDto productDto,
-                                            @RequestBody List<CharacteristicDto> characteristicDto,
                                             @RequestParam(value = "product_picture",
                                                     required = false) MultipartFile multipartFile) throws IOException {
         //если подгружена картинка - назначаем productDto.setPicture_id
@@ -117,7 +116,6 @@ public class ProductController {
             Long picId = pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
             productDto.setPicture_id(picId);
         }
-
         return productConverter.entityToDto(productService.saveOrUpdate(productDto, username));
     }
 
