@@ -33,6 +33,20 @@ public class ProductController {
     private final PictureServiceIntegration pictureServiceIntegration;
     private MyQueue<Product> productQueue = new MyQueue<>();//?
 
+    @GetMapping("/not_confirmed")
+    public ProductDto notConfirmed() throws ResourceNotFoundException {
+        return productConverter.entityToDto(productService.notConfirmed());
+    }
+
+    @GetMapping("/confirm/{title}")
+    public void confirm(@PathVariable @NotBlank String title) {
+        productService.confirm(title);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        productService.deleteById(id);
+    }
 
     @GetMapping
     public PageDto<ProductDto> getProductDtosPage(
@@ -64,11 +78,16 @@ public class ProductController {
         return out;
     }
 
-    //получение json PictureDto(может понадобится..)
+    @GetMapping("/{id}")
+    public ProductDto getProductDto(@PathVariable @Min(0) Long id) {
+        return productConverter.entityToDto(productService.findById(id));
+    }
+
     @GetMapping("/find-pic-dto/{id}")
     public PictureDto getPictureDtoById(@PathVariable Long id) {
         return pictureServiceIntegration.getPictureDtoById(id);
     }
+
     @PostMapping(value = "/save-pic-return-id", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Long savePicAndReturnId(@RequestParam(value = "multipart-pic") MultipartFile pic) throws IOException{
         PictureDto pictureDto = new PictureDto();
@@ -78,59 +97,41 @@ public class ProductController {
         return pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
     }
 
-    //получает и кладёт вкэш(далее, если НЕ обновляемся - используем этот эндпоинт)
-    @GetMapping("/{id}")
-    public ProductDto getProductDto(@PathVariable @Min(0) Long id) {
-        return productConverter.entityToDto(productService.findById(id));
-    }
-    //получает и обновляет кэш
-    @GetMapping("/update/{id}")
-    public ProductDto updateAndGetProductDto(@PathVariable @Min(0) Long id) {
-        return productConverter.entityToDto(productService.updateAndFindById(id));
-    }
-    //чистка кэша
-    @GetMapping("/evict")
-    public ResponseEntity<?> evictCache(){
-        productService.evictCache();
-        return ResponseEntity.ok().build();
-    }
-
-    // TODO: 12.06.2023 поддержать на фронте
-    //  созранение картинки @RequestParam(value = "product_picture"...)
-    //  , пока лошика по картинкам будет здесь для наглядности
+    //кладёт в кэш...
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto createOrUpdateProduct(@RequestHeader String username,
-                                            @RequestBody ProductDto productDto,
-                                            @RequestParam(value = "product_picture",
-                                                    required = false) MultipartFile multipartFile) throws IOException {
+    public ProductDto createProduct(
+            @RequestHeader String username,
+            @RequestBody ProductDto productDto,
+            @RequestParam(value = "product_picture", required = false) MultipartFile multipartFile)
+            throws IOException {
         //если подгружена картинка - назначаем productDto.setPicture_id
-        if(multipartFile != null){
-           PictureDto pictureDto = PictureDto.builder()
-                   .fileName(multipartFile.getOriginalFilename())
-                   .contentType(multipartFile.getContentType())
-                   .bytes(multipartFile.getBytes())
-                   .build();
-
-            if(productDto.getPicture_id() > 1) pictureServiceIntegration.deletePictureById(productDto.getPicture_id());
-            Long picId = pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
-            productDto.setPicture_id(picId);
+        if(multipartFile == null) {
+            productDto.setPictureId(1L);
+        }else{
+            productDto = productService.setProductPicture(productDto, multipartFile);
         }
-        return productConverter.entityToDto(productService.saveOrUpdate(productDto, username));
+        return productConverter.entityToDto(productService.createProduct(productDto, username));
     }
 
-    @GetMapping("/not_confirmed")
-    public ProductDto notConfirmed() throws ResourceNotFoundException {
-        return productConverter.entityToDto(productService.notConfirmed());
-    }
+    //обновляет кэш...
+    @PutMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductDto updateProduct(
+            @RequestHeader String username,
+            @RequestBody ProductDto productDto,
+            @RequestParam(value = "product_picture", required = false) MultipartFile multipartFile)
+            throws IOException {
+        //если есть multipartFile картинка - удаляем старую, подгружаем новую
+        if(multipartFile != null) {
+            if(productDto.getPictureId() == null || productDto.getPictureId() < 0) {
+                productDto.setPictureId(1L);
+            }else {
+                pictureServiceIntegration.deletePictureById(productDto.getPictureId());
+                productDto = productService.setProductPicture(productDto, multipartFile);
+            }
 
-    @GetMapping("/confirm/{title}")
-    public void confirm(@PathVariable @NotBlank String title) {
-        productService.confirm(title);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        productService.deleteById(id);
+        }
+        return productConverter.entityToDto(productService.updateProduct(productDto, productDto.getId()));
     }
 }

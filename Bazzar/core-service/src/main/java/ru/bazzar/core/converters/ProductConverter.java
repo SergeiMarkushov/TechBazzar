@@ -10,7 +10,6 @@ import ru.bazzar.core.entities.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class ProductConverter {
         }
 
         productDTO.setCharacteristicsDto(characteristicDTOs);
-
+        productDTO.setPictureId(product.getPictureId());
         return productDTO;
     }
 
@@ -43,6 +42,7 @@ public class ProductConverter {
             Characteristic characteristic = modelMapper.map(characteristicFromProduct, Characteristic.class);
         }
         product.setCharacteristics(characteristics);
+        product.setPictureId(productDto.getPictureId());
         return product;
     }
 

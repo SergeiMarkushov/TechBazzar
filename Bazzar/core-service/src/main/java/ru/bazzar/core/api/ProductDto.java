@@ -13,7 +13,7 @@ public class ProductDto {
     private int quantity;
     private boolean isConfirmed;
     private List<CharacteristicDto> characteristicsDto;
-    private Long picture_id;
+    private Long pictureId;
 
     public ProductDto() {
     }
@@ -27,15 +27,15 @@ public class ProductDto {
         this.quantity = quantity;
         this.isConfirmed = isConfirmed;
         this.characteristicsDto = characteristics;
-        picture_id = pictureId;
+        this.pictureId = pictureId;
     }
 
-    public Long getPicture_id() {
-        return picture_id;
+    public Long getPictureId() {
+        return pictureId;
     }
 
-    public void setPicture_id(Long picture_id) {
-        this.picture_id = picture_id;
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
 
     public Long getId() {
