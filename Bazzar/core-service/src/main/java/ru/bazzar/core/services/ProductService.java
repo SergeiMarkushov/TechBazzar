@@ -67,6 +67,7 @@ public class ProductService {
     public Product saveOrUpdate(ProductDto productDto, @NotBlank String username) {
         //update
         if (productDto.getId() != null) {
+            log.info("Пользователь {} изменил продукт ({}, {}, {}, {}, {}, {}, {})", username, productDto.getId(), productDto.getTitle(), productDto.getDescription(), productDto.getOrganizationTitle(), productDto.getPrice(), productDto.getQuantity(), productDto.isConfirmed());
             Product productFromBd = productRepository.findById(productDto.getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + productDto.getId()));
             if (productDto.getTitle() != null) {
@@ -86,6 +87,7 @@ public class ProductService {
 
         } else {
         //save
+            log.info("Пользователь {} сохранил продукт ({}, {}, {}, {}, {}, {}, {})", username, productDto.getId(), productDto.getTitle(), productDto.getDescription(), productDto.getOrganizationTitle(), productDto.getPrice(), productDto.getQuantity(), productDto.isConfirmed());
             OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
             if (!organizationDto.isActive()) {
                 throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");

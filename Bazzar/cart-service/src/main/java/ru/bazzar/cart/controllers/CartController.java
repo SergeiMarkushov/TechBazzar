@@ -40,6 +40,7 @@ public class CartController {
 
     @GetMapping("/change_quantity")
     public void changeQuantity(@RequestHeader(name = "username") String username, @RequestParam Long productId, @RequestParam Integer delta) {
+        System.out.println("в картконтроллере" + delta);
         cartService.changeQuantity(username, productId, delta);
     }
 
