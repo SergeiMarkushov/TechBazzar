@@ -1,6 +1,7 @@
 import Badge, { BadgeProps } from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
+import React from 'react';
 import {getHeaderCartSvg} from "../Svg";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
@@ -24,7 +25,7 @@ export function HeaderLinkCart() {
                 </IconButton>
             </div>
             <div>
-                <small><b>Cart</b></small>
+                <small><b>Корзина</b></small>
             </div>
         </div>
     )

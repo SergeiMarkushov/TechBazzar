@@ -1,5 +1,5 @@
 export function getGuestId(): string | null {
-    let guestId = localStorage.getItem('guestId');
+    const guestId = localStorage.getItem('guestId');
     if (guestId !== null) {
         return guestId;
     }

@@ -1,24 +1,21 @@
-import {CartCard} from "./CartCard";
-import {CartBuyForm} from "./CartBuyForm";
-import {useEffect, useState} from "react";
+import {AxiosError, AxiosResponse} from "axios";
+import React, {useEffect, useState} from 'react';
 import {apiClearCart, apiGetCart} from "../../api/CartApi";
-import {CartFunctionMenu} from "./CartFunctionMenu";
-import {useAuth} from "../../auth/Auth";
 import {emptyCart} from "../../empty";
-import {AxiosResponse} from "axios";
 import {CartNew} from "../../newInterfaces";
+import {CartBuyForm} from "./CartBuyForm";
+import {CartCard} from "./CartCard";
+import {CartFunctionMenu} from "./CartFunctionMenu";
 
 export function Cart() {
     const [isDone, setIsDone] = useState(false)
     const [cart, setCart] = useState(emptyCart)
     const [isEmpty, setEmpty] = useState(true)
-    let auth = useAuth();
 
     useEffect(() => {
-        if (!isDone) {
             console.log("useEffect")
-            apiGetCart(auth.isAuth).then((data: AxiosResponse<CartNew>) => {
-            console.log(data.data)
+            apiGetCart().then((data: AxiosResponse<CartNew>) => {
+                    console.log(data.data)
                     if (data.data === null || (data.data.items.length === 0)) {
                         setEmpty(true)
                     } else {
@@ -27,25 +24,28 @@ export function Cart() {
                     }
                     setIsDone(true);
                 }
-            )
-        }
-    }, [isDone])
+            ).catch((reason: AxiosError) => {
+                console.log(reason)
+            });
+    }, [isDone]);
 
     function onReloadContext() {
         setIsDone(false);
     }
 
     function onClearCart() {
-        apiClearCart(auth.isAuth).then(() => {
+        apiClearCart().then(() => {
             setCart(emptyCart);
             setEmpty(true);
             onReloadContext();
+        }).catch((reason: AxiosError) => {
+            console.log(reason)
         });
     }
 
     return (<div className="container text-center">
-            <h1 hidden={isEmpty}>Cart</h1>
-            <h1 hidden={!isEmpty}>Cart is empty</h1>
+            <h1 hidden={isEmpty}>Корзина</h1>
+            <h1 hidden={!isEmpty}>Корзина пуста</h1>
             <div hidden={isEmpty}>
                 <div className="row align-items-start">
                     <div className="col">

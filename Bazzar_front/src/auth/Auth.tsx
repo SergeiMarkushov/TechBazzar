@@ -1,43 +1,41 @@
 import React from "react";
 import {Navigate, useLocation} from "react-router-dom";
-import {AuthPasswordProvider} from "./AuthProvider";
 import {UserNew} from "../newInterfaces";
-import {getUserNew} from "../util/UserUtil";
 import {getRoles} from "../util/TokenUtil";
+import {getUserNew} from "../util/UserUtil";
+import {AuthPasswordProvider} from "./AuthProvider";
 
 export interface AuthContextType {
-    user: UserNew;
+    user: UserNew | null;
     roles: string[];
     isAuth: boolean;
-    signin: (user: string, password: string, callback: VoidFunction) => void;
+    error: string;
+    signin: (user: string, password: string, callback: VoidFunction, errorCallBack: VoidFunction) => void;
     signout: (callback: VoidFunction) => void;
 }
 
 
-let AuthContext = React.createContext<AuthContextType>(null!);
+const AuthContext = React.createContext<AuthContextType>(null as unknown as AuthContextType);
 
 export function AuthProvider({children}: { children: React.ReactNode }) {
-    let [user, setUser] = React.useState<any>(AuthPasswordProvider.user);
-    let [roles, setRoles] = React.useState<any>(AuthPasswordProvider.roles);
-    let [isAuth, setIsAuth] = React.useState<any>(AuthPasswordProvider.isAuthenticated);
+    const [user, setUser] = React.useState<UserNew | null>(AuthPasswordProvider.user);
+    const [roles, setRoles] = React.useState<string[]>(AuthPasswordProvider.roles);
+    const [isAuth, setIsAuth] = React.useState<boolean>(AuthPasswordProvider.isAuthenticated);
+    const [error, setError] = React.useState<string>(AuthPasswordProvider.AuthError);
 
-    /*React.useEffect(() => {
-        console.log("Auth Provider");
-        if (!isAuth && getGuestId() === null) {
-            setGuestId(uuidv4());
-        }
-    });*/
-
-    let signin = (user: string, password: string, callback: VoidFunction) => {
+    const signin = (user: string, password: string, callback: VoidFunction, errorCallBack: VoidFunction) => {
         return AuthPasswordProvider.signin(user, password, () => {
             setUser(getUserNew());
-            setRoles(getRoles())
+            setRoles(getRoles());
             setIsAuth(true);
             callback();
+        }, () => {
+            setError(AuthPasswordProvider.AuthError);
+            errorCallBack();
         });
     };
 
-    let signout = (callback: VoidFunction) => {
+    const signout = (callback: VoidFunction) => {
         return AuthPasswordProvider.signout(() => {
             setUser(null);
             setRoles([]);
@@ -46,7 +44,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
         });
     };
 
-    let value = {user, roles, isAuth, signin, signout};
+    const value = {user, roles, isAuth, error, signin, signout};
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
@@ -56,8 +54,8 @@ export function useAuth() {
 }
 
 export function RequireAuth({children}: { children: JSX.Element }) {
-    let auth = useAuth();
-    let location = useLocation();
+    const auth = useAuth();
+    const location = useLocation();
 
     if (!auth.isAuth || auth.user === null) {
         return <Navigate to="/login" state={{from: location}} replace/>;

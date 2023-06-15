@@ -1,8 +1,9 @@
-import {useAuth} from "../auth/Auth";
-import {styled} from "@mui/material/styles";
 import Badge, {BadgeProps} from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton/IconButton";
+import {styled} from "@mui/material/styles";
+import React from 'react';
 import {getHeaderProfileSvg} from "../Svg";
+import {useAuth} from "../auth/Auth";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({theme}) => ({
     '& .MuiBadge-badge': {
@@ -14,7 +15,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({theme}) => ({
 }));
 
 export function HeaderLinkProfile() {
-    let auth = useAuth();
+    const auth = useAuth();
     return (
         <div className="d-flex justify-content-center align-items-center flex-column">
             <div>
@@ -27,7 +28,7 @@ export function HeaderLinkProfile() {
             </div>
             <div>
                 <small hidden={!auth.isAuth}><b>{auth.user === null ? '' : auth.user.username}</b></small>
-                <small hidden={auth.isAuth}><b>Guest</b></small>
+                <small hidden={auth.isAuth}><b>Гость</b></small>
             </div>
         </div>
     )

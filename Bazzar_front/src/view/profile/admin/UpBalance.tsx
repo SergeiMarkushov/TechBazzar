@@ -1,8 +1,8 @@
-import {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import React from 'react';
+import {useState} from "react";
 import {primary} from "../../../Colors";
 import {UserNew} from "../../../newInterfaces";
-import {apiUpBalance} from "../../../api/UserApi";
 
 interface UpBalanceProps {
     user: UserNew
@@ -40,7 +40,6 @@ export function UpBalance({user}: UpBalanceProps) {
                         Текущий баланс - {user.balance}
                     </DialogContentText>
                     <TextField
-                        autoFocus
                         margin="dense"
                         id="name"
                         label="Пополнить на"

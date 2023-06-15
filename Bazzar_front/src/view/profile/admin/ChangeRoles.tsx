@@ -1,11 +1,10 @@
-import {useEffect, useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle} from "@mui/material";
+import {AxiosResponse} from "axios";
+import React, {useEffect, useState} from 'react';
 import {primary} from "../../../Colors";
-import {Role, UserNew} from "../../../newInterfaces";
-import {apiGetUserRoles, apiSetRoleUser, apiUpBalance} from "../../../api/UserApi";
-import {emptyRole} from "../../../empty";
+import {apiGetUserRoles, apiSetRoleUser} from "../../../api/UserApi";
 import {existingRoles} from "../../../auth/Roles";
-import {AxiosError, AxiosResponse} from "axios";
+import {Role, UserNew} from "../../../newInterfaces";
 
 interface ChangeRolesProps {
     user: UserNew
@@ -20,10 +19,11 @@ export function ChangeRoles({user}: ChangeRolesProps) {
     };
 
     function changeRoles(someRole: string) {
-        apiSetRoleUser(user.email, someRole).then((response: AxiosResponse) => {
+        apiSetRoleUser(user.email, someRole).then(() => {
             setRoles(roles.concat(someRole))
-        }).catch((error: AxiosError) => {
-            console.log(error)
+        }).catch(() => {
+            /*TODO check it*/
+            setRoles(roles.filter(role => role !== someRole))
         })
     }
 
@@ -34,7 +34,7 @@ export function ChangeRoles({user}: ChangeRolesProps) {
                 isLoad(true);
             })
         }
-    }, [load]);
+    }, [load, user.email]);
 
     const handleClose = () => {
         setOpen(false);
@@ -67,7 +67,7 @@ export function ChangeRoles({user}: ChangeRolesProps) {
     )
 }
 
-function isPresent(role: string, roles: Array<String>) {
+function isPresent(role: string, roles: Array<string>) {
     for (const element of roles) {
         if (element === role) {
             return true;

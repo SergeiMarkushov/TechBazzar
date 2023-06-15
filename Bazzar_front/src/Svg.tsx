@@ -1,6 +1,6 @@
 import React from "react";
 
-export let getMoneySvg = () => {
+export const getMoneySvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-cash" viewBox="0 0 16 16">
@@ -11,7 +11,7 @@ export let getMoneySvg = () => {
     );
 }
 
-export let getOrderSvg = () => {
+export const getOrderSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-box-seam" viewBox="0 0 16 16">
@@ -21,7 +21,7 @@ export let getOrderSvg = () => {
     );
 }
 
-export let getOrganizationSvg = () => {
+export const getOrganizationSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-buildings" viewBox="0 0 16 16">
@@ -33,7 +33,7 @@ export let getOrganizationSvg = () => {
     );
 }
 
-export let getProfileSvg = () => {
+export const getProfileSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-person-circle" viewBox="0 0 16 16">
@@ -44,7 +44,7 @@ export let getProfileSvg = () => {
     );
 }
 
-export let getAdminMenuSvg = () => {
+export const getAdminMenuSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-person-fill-gear" viewBox="0 0 16 16">
@@ -54,7 +54,7 @@ export let getAdminMenuSvg = () => {
     );
 }
 
-export let getHeaderCartSvg = () => {
+export const getHeaderCartSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
              className="bi bi-cart" viewBox="0 0 16 16">
@@ -64,7 +64,7 @@ export let getHeaderCartSvg = () => {
     );
 }
 
-export let getHeaderProfileSvg = () => {
+export const getHeaderProfileSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
              className="bi bi-emoji-smile" viewBox="0 0 16 16">
@@ -75,7 +75,7 @@ export let getHeaderProfileSvg = () => {
     );
 }
 
-export let getHeaderAuthOpenSvg = () => {
+export const getHeaderAuthOpenSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
              className="bi bi-door-open" viewBox="0 0 16 16">
@@ -86,7 +86,7 @@ export let getHeaderAuthOpenSvg = () => {
     );
 }
 
-export let getHeaderAuthCloseSvg = () => {
+export const getHeaderAuthCloseSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
              className="bi bi-door-closed" viewBox="0 0 16 16">
@@ -97,7 +97,7 @@ export let getHeaderAuthCloseSvg = () => {
     );
 }
 
-export let getAdminMenuUserSvg = () => {
+export const getAdminMenuUserSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-person-fill"
              viewBox="0 0 16 16">
@@ -106,7 +106,7 @@ export let getAdminMenuUserSvg = () => {
     );
 }
 
-export let getAdminMenuProductAddSvg = () => {
+export const getAdminMenuProductAddSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-box-seam"
              viewBox="0 0 16 16">
@@ -116,7 +116,7 @@ export let getAdminMenuProductAddSvg = () => {
     );
 }
 
-export let getAdminMenuProductChangeSvg = () => {
+export const getAdminMenuProductChangeSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-box-seam-fill" viewBox="0 0 16 16">
@@ -126,7 +126,7 @@ export let getAdminMenuProductChangeSvg = () => {
     );
 }
 
-export let getAdminMenuProductConfirmSvg = () => {
+export const getAdminMenuProductConfirmSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
              className="bi bi-check2-circle" viewBox="0 0 16 16">
@@ -138,7 +138,7 @@ export let getAdminMenuProductConfirmSvg = () => {
     );
 }
 
-export let getPlusSvg = () => {
+export const getPlusSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-plus-lg"
              viewBox="0 0 16 16">
@@ -148,7 +148,7 @@ export let getPlusSvg = () => {
     );
 }
 
-export let getDeveloperSvg = () => {
+export const getDeveloperSvg = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 500 500">
             <switch>
@@ -279,7 +279,7 @@ export let getDeveloperSvg = () => {
     );
 }
 
-export let getStarSvg = (width: number, height: number) => {
+export const getStarSvg = (width: number, height: number) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="orange"
              className="bi bi-star-fill" viewBox="0 0 16 16">
@@ -289,12 +289,32 @@ export let getStarSvg = (width: number, height: number) => {
     );
 }
 
-export let getMessageSvg = (width: number, height: number) => {
+export const getMessageSvg = (width: number, height: number) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="grey"
              className="bi bi-chat-dots-fill" viewBox="0 0 16 16">
             <path
                 d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        </svg>
+    );
+}
+
+export const getChatWithSupportsClosedSvg = (width: number, height: number) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="currentColor"
+             className="bi bi-chat-left-dots-fill" viewBox="0 0 16 16">
+            <path
+                d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        </svg>
+    );
+}
+
+export const getChatWithSupportsOpenedSvg = (width: number, height: number) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="currentColor" className="bi bi-x-lg"
+             viewBox="0 0 16 16">
+            <path
+                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
         </svg>
     );
 }

@@ -1,8 +1,7 @@
 package ru.bazzar.core.api;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductDto {
 
@@ -13,11 +12,13 @@ public class ProductDto {
     private BigDecimal price;
     private int quantity;
     private boolean isConfirmed;
+    private List<CharacteristicDto> characteristicsDto;
+    private Long pictureId;
 
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String title, String description, String organizationTitle, BigDecimal price, int quantity, boolean isConfirmed) {
+    public ProductDto(Long id, String title, String description, String organizationTitle, BigDecimal price, int quantity, boolean isConfirmed, List<CharacteristicDto> characteristics, Long pictureId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -25,6 +26,16 @@ public class ProductDto {
         this.price = price;
         this.quantity = quantity;
         this.isConfirmed = isConfirmed;
+        this.characteristicsDto = characteristics;
+        this.pictureId = pictureId;
+    }
+
+    public Long getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
 
     public Long getId() {
@@ -81,5 +92,13 @@ public class ProductDto {
 
     public void setConfirmed(boolean confirmed) {
         isConfirmed = confirmed;
+    }
+
+    public List<CharacteristicDto> getCharacteristicsDto() {
+        return characteristicsDto;
+    }
+
+    public void setCharacteristicsDto(List<CharacteristicDto> characteristicsDto) {
+        this.characteristicsDto = characteristicsDto;
     }
 }

@@ -20,7 +20,7 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
 
-    @PostMapping
+    @PostMapping//AOP
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestHeader String username) {
         System.out.println(username + " оформил заказ!");
@@ -42,7 +42,7 @@ public class OrderController {
         orderService.refundPayment(username, id);
     }
 
-    @GetMapping("/payment/{id}")
+    @GetMapping("/payment/{id}")//AOP
     public void payment(@RequestHeader String username, @PathVariable Long id) throws ResourceNotFoundException {
         orderService.payment(username, id);
     }

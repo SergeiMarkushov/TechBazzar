@@ -1,5 +1,6 @@
-import {ReviewNew} from "../../../newInterfaces";
 import Rating from "@mui/material/Rating/Rating";
+import React from 'react';
+import {ReviewNew} from "../../../newInterfaces";
 
 export interface CommentCardProps {
     comment: ReviewNew;
@@ -17,7 +18,7 @@ export function CommentCard(props: CommentCardProps) {
                                     precision={0.5} readOnly/>
                         </div>
                 </div>
-                <label className="card-title">review:</label>
+                <span className="card-title">review:</span>
                 <p className="card-text">{props.comment.reviewText}</p>
             </div>
         </div>

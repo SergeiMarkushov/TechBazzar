@@ -11,8 +11,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/Bazzar/auth-keycloak/pom.xml" />
-        <option value="$PROJECT_DIR$/Bazzar/resource-server/pom.xml" />
+        <option value="$PROJECT_DIR$/Bazzar/picture-ervice/pom.xml" />
       </set>
     </option>
   </component>

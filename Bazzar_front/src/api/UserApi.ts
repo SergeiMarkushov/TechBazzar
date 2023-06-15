@@ -1,5 +1,5 @@
-import {axiosCustom} from "./AxiosConfig";
 import {getToken} from "../util/TokenUtil";
+import {axiosCustom} from "./AxiosConfig";
 
 const users = axiosCustom('http://localhost:5555/auth/api/v1/users', getToken());
 

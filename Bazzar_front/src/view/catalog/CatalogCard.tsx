@@ -1,11 +1,8 @@
-import {Link} from "react-router-dom";
 import React, {useState} from "react";
+import {Link} from "react-router-dom";
+import {getMessageSvg, getStarSvg} from "../../Svg";
 import {ProductNew} from "../../newInterfaces";
 import {ChangeProductButton} from "./ChangeProductButton";
-import Box from "@mui/material/Box/Box";
-import {CircularProgress} from "@mui/material";
-import {CircularLoading} from "../CircularLoading";
-import {getMessageSvg, getStarSvg} from "../../Svg";
 
 export interface ProductCard {
     product: ProductNew,
@@ -15,14 +12,14 @@ export interface ProductCard {
 }
 
 export function CatalogCard(props: ProductCard) {
-    let [isShown, setIsShown] = useState(false);
-    let [discount, setDiscount] = useState(0);
-    let [mark, setMark] = useState(0);
+    const [isShown, setIsShown] = useState(false);
+    const [discount] = useState(0);
+    const [mark] = useState(0);
 
     return (
-        <div style={{width: "18em", borderStyle: "none", textDecoration: "none", color: "black"}}>
+        <div style={{width: "15em", borderStyle: "none", textDecoration: "none", color: "black"}}>
 
-            <Link style={{width: "18em", borderStyle: "none", textDecoration: "none", color: "black"}}
+            <Link style={{width: "15em", borderStyle: "none", textDecoration: "none", color: "black"}}
                   to={`/product/${props.product.title}/${props.product.id}`}
                   className={`card pt-2 row m-1 ${isShown ? "shadow-sm bg-light" : ""}`}
                   onMouseEnter={() => {

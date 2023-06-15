@@ -4,13 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.bazzar.organization.api.AppError;
 import ru.bazzar.organization.api.OrganizationDto;
@@ -48,6 +42,11 @@ public class OrganizationController {
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Организация с таким названием не существует"), HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(converter.entityToDto(organizationService.findByTitleIgnoreCase(title).get()));
+    }
+
+    @GetMapping("by_owner")
+    public List<OrganizationDto> findAllByOwner(@RequestHeader String username) {
+        return organizationService.findAllByOwner(username);
     }
 
     @GetMapping("/not_confirmed")

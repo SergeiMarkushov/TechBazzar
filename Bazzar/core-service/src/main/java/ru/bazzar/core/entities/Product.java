@@ -1,5 +1,6 @@
 package ru.bazzar.core.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.jfr.BooleanFlag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Builder
@@ -60,6 +62,13 @@ public class Product {
     @JoinColumn(name = "review_id")
     private Review review;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
+    private List<Characteristic> characteristics;
+
+    @Column(name = "picture_id")
+    @Min(value = 0, message = "Поле pictureId должно быть больше 0")
+    private Long pictureId;
+
     /*
     - Ключевых слов;
     - Таблицы характеристик;
@@ -77,7 +86,16 @@ public class Product {
                 ", isConfirmed=" + isConfirmed +
                 ", discount=" + discount +
                 ", review=" + review +
+                ", pictureId=" + pictureId +
                 '}';
+    }
+
+    public Long getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
 
     public Long getId() {
@@ -150,5 +168,13 @@ public class Product {
 
     public void setReview(Review review) {
         this.review = review;
+    }
+
+    public List<Characteristic> getCharacteristics() {
+        return characteristics;
+    }
+
+    public void setCharacteristics(List<Characteristic> characteristics) {
+        this.characteristics = characteristics;
     }
 }

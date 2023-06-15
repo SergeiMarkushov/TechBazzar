@@ -1,10 +1,11 @@
-import {AdminMenuCard} from "./AdminMenuCard";
+import React from 'react';
 import {
     getAdminMenuProductAddSvg,
     getAdminMenuProductChangeSvg,
     getAdminMenuProductConfirmSvg,
     getAdminMenuUserSvg, getOrganizationSvg
 } from "../../../Svg";
+import {AdminMenuCard} from "./AdminMenuCard";
 
 export function AdminMenu() {
     return (

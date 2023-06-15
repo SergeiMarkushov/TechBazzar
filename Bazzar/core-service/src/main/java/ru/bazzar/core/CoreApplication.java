@@ -19,7 +19,7 @@ public class CoreApplication {
 		SpringApplication.run(CoreApplication.class, args);
 	}
 
-	//Настройки кэширования
+//	Настройки кэширования
 	@Bean("CacheManager")
 	public CacheManager cacheManager() {
 		return new ConcurrentMapCacheManager() {

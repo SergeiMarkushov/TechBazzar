@@ -1,6 +1,5 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Rating, TextField, Typography} from "@mui/material";
-import {apiOrderPayment} from "../../../api/OrderApi";
-import {useState} from "react";
+import React, {useState} from "react";
 import {primary} from "../../../Colors";
 
 export function Review() {
@@ -43,7 +42,6 @@ export function Review() {
 					/>
 
 					<TextField
-						autoFocus
 						margin="dense"
 						id="name"
 						label="Отзыв"
