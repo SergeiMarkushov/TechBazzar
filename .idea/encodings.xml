@@ -11,6 +11,7 @@
     <file url="file://$PROJECT_DIR$/Bazzar/front-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bazzar/gateway-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bazzar/gateway-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Bazzar/keycloak-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bazzar/notification-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bazzar/notification-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Bazzar/organization-service/src/main/java" charset="UTF-8" />

@@ -10,6 +10,7 @@
         <module name="auth-service" />
         <module name="cart-service" />
         <module name="front-service" />
+        <module name="keycloak-service" />
         <module name="picture-service" />
         <module name="gateway-service" />
         <module name="organization-service" />
@@ -18,7 +19,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="auth-keycloak" target="11" />
       <module name="picture-ervice" target="17" />
+      <module name="resource-server" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -28,6 +31,7 @@
       <module name="core-service" options="-parameters" />
       <module name="front-service" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
+      <module name="keycloak-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="organization-service" options="-parameters" />
       <module name="picture-service" options="-parameters" />
