@@ -59,8 +59,11 @@ public class PictureService {
 
 
     public void deleteById(Long id){
-        pictureRepository.deleteById(id);
+        if(id != null && id > 1){
+            pictureRepository.deleteById(id);
+        }
     }
+
 
 
 }

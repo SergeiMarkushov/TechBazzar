@@ -30,7 +30,7 @@ public class Picture {
 
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
-    @Size(max = 5 * 1024 * 1024, message = "Размер не должен превышать 5 Mb")
+//    @Size(max = 5 * 1024 * 1024, message = "Размер не должен превышать 5 Mb")
     private byte[] bytes;
 
 }
