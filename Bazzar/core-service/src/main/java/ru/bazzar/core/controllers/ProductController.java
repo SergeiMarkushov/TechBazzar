@@ -1,5 +1,6 @@
 package ru.bazzar.core.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -54,13 +55,14 @@ public class ProductController {
             @RequestParam(name = "min_price", required = false) Integer minPrice,
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
             //@RequestParam(name = "keyword_part", required = false) String keywordPart,
+            @RequestParam(name = "organization_title", required = false) String organizationTitle,
             @RequestParam(name = "title_part", required = false) String titlePart
     ) {
         if (page < 1) {
             page = 1;
         }
 
-        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, page).map(
+        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page).map(
                 productConverter::entityToDto
         );
         PageDto<ProductDto> out = new PageDto<>();
@@ -98,35 +100,41 @@ public class ProductController {
     }
 
     //кладёт в кэш...
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto createProduct(
             @RequestHeader String username,
-            @RequestBody ProductDto productDto,
+            @RequestParam(value = "productDto") String product,
             @RequestParam(value = "product_picture", required = false) MultipartFile multipartFile)
             throws IOException {
         //если подгружена картинка - назначаем productDto.setPicture_id
-        if(multipartFile == null) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
+
+        if (multipartFile == null) {
             productDto.setPictureId(1L);
-        }else{
+        } else {
             productDto = productService.setProductPicture(productDto, multipartFile);
         }
         return productConverter.entityToDto(productService.createProduct(productDto, username));
     }
 
     //обновляет кэш...
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto updateProduct(
             @RequestHeader String username,
-            @RequestBody ProductDto productDto,
+            @RequestParam(value = "productDto") String product,
             @RequestParam(value = "product_picture", required = false) MultipartFile multipartFile)
             throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
         //если есть multipartFile картинка - удаляем старую, подгружаем новую
-        if(multipartFile != null) {
-            if(productDto.getPictureId() == null || productDto.getPictureId() < 0) {
+        if (multipartFile != null) {
+            if (productDto.getPictureId() == null || productDto.getPictureId() < 0) {
                 productDto.setPictureId(1L);
-            }else {
+            } else {
                 pictureServiceIntegration.deletePictureById(productDto.getPictureId());
                 productDto = productService.setProductPicture(productDto, multipartFile);
             }

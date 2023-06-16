@@ -41,7 +41,7 @@ public class PictureServiceIntegration {
     }
 
     public void deletePictureById(Long id) {
-         pictureServiceWebClient.get()
+         pictureServiceWebClient.delete()
                 .uri("api/v1/picture/delete/" + id)
                 .retrieve()
                 .toBodilessEntity()
