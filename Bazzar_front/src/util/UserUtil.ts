@@ -8,10 +8,6 @@ export function getUserNew(): UserNew | null {
     return null;
 }
 
-export function setUser(user: UserNew): void {
-    localStorage.setItem('user', JSON.stringify(user));
-}
-
 export function setUserNew(user: UserNew): void {
     localStorage.setItem('user', JSON.stringify(user));
 }

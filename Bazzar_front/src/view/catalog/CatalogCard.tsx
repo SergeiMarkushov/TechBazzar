@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import {AxiosResponse} from "axios";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {getMessageSvg, getStarSvg} from "../../Svg";
-import {ProductNew} from "../../newInterfaces";
+import {apiGetProductPic} from "../../api/PictureApi";
+import {Picture, ProductNew} from "../../newInterfaces";
 import {ChangeProductButton} from "./ChangeProductButton";
 
 export interface ProductCard {
@@ -15,12 +17,27 @@ export function CatalogCard(props: ProductCard) {
     const [isShown, setIsShown] = useState(false);
     const [discount] = useState(0);
     const [mark] = useState(0);
+    const [pic, setPic] = useState<string>("");
+
+    useEffect(() => {
+        apiGetProductPic(props.product.pictureId).then((response: AxiosResponse<Picture>) => {
+            const base64String = response.data.bytes;
+            const contentType = response.data.contentType;
+            const dataURL = `data:${contentType};base64,${base64String}`;
+            setPic(dataURL);
+        }).catch((error) => {
+            // eslint-disable-next-line no-console
+            console.error('Error:', error);
+        });
+        return () => URL.revokeObjectURL(pic);
+    }, [props.product.title]);
 
     return (
-        <div style={{width: "15em", borderStyle: "none", textDecoration: "none", color: "black"}}>
+        <div style={{width: "15em", height: "20em", borderStyle: "none", textDecoration: "none", color: "black"}}>
 
-            <Link style={{width: "15em", borderStyle: "none", textDecoration: "none", color: "black"}}
+            <Link style={{width: "15em", height: "20em", borderStyle: "none", textDecoration: "none", color: "black"}}
                   to={`/product/${props.product.title}/${props.product.id}`}
+                  state={{pic: pic}}
                   className={`card pt-2 row m-1 ${isShown ? "shadow-sm bg-light" : ""}`}
                   onMouseEnter={() => {
                       setIsShown(true)
@@ -30,9 +47,8 @@ export function CatalogCard(props: ProductCard) {
                   }}>
                 <div className="row flex-grow-1 align-self-center">
                     <div className="align-self-center" style={{maxHeight: "200px"}}>
-                        {/*TODO add image*/}
                         <img
-                            src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                            src={pic}
                             style={{maxHeight: "inherit"}} className="card-img-top"
                             alt={props.product.title}/>
                     </div>

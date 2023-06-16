@@ -10,12 +10,12 @@ export function ProductCompanyCard(props: ProductCard) {
     useEffect(() => {
         if (props.product.organizationTitle !== '' && !load) {
             setLoad(true);
-            console.log(props.product.organizationTitle);
             apiGetLogo(props.product.organizationTitle).then((response) => {
                 const file = new Blob([response.data], {type: response.headers['content-type']});
                 const fileURL = URL.createObjectURL(file);
                 setLogo(fileURL);
             }).catch((error) => {
+                // eslint-disable-next-line no-console
                 console.error('Error:', error);
             });
         }

@@ -12,9 +12,9 @@ export function OrganizationMenu() {
     useEffect(() => {
         apiGetAllMyOrganization().then((response: AxiosResponse<Array<Organization>>) => {
             setOrganizations(response.data);
-            console.log(response.data);
         }).catch((error) => {
-            console.log(error);
+            // eslint-disable-next-line no-console
+            console.error(error);
         });
     }, []);
 

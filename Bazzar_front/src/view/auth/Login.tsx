@@ -25,11 +25,9 @@ export function Login() {
         }}
                 onSubmit={(values: loginInit) => {
                     auth.signin(values.login, values.password, () => {
-                        console.log("success");
                         setSuccess(true);
                         navigate(from, {replace: true});
                     }, () => {
-                        console.log("error");
                         setError(auth.error);
                         setSuccess(false)
                     });

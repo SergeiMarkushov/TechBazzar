@@ -39,7 +39,6 @@ export function LiveChat({open}: LiveChatProps) {
 
     const handleSendMessage = () => {
         //send message
-        console.log("send message");
         setMessages([...messages, {id: 3, author: auth.user?.email ?? "", text: inputMessage}]);
         setInputMessage("");
     }

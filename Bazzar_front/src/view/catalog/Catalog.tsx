@@ -15,6 +15,7 @@ const DEFAULT_PAGES = 1;
 
 export interface CatalogProps {
     isChanging?: boolean,
+    companyTitle?: string,
 }
 
 export function Catalog(props: CatalogProps) {
@@ -41,47 +42,55 @@ export function Catalog(props: CatalogProps) {
         )
     }
 
+
     useEffect(() => {
-            console.log("useEffect")
-            const queryParams: FindRequest = {
-                p: page + 1,
-            };
+        const queryParams: FindRequest = {
+            p: page + 1,
+        };
 
-            if (filterNew.maxPrice !== defaultFilter.maxPrice) {
-                queryParams.max_price = filterNew.maxPrice;
-            }
-            if (filterNew.minPrice !== defaultFilter.minPrice) {
-                queryParams.min_price = filterNew.minPrice;
-            }
-            if (search.search !== "") {
-                queryParams.title_part = search.search;
-            }
-            if (limit !== 20) {
-                /*queryParams.limit = limit;*/
-            }
+        if (filterNew.maxPrice !== defaultFilter.maxPrice) {
+            queryParams.max_price = filterNew.maxPrice;
+        }
+        if (filterNew.minPrice !== defaultFilter.minPrice) {
+            queryParams.min_price = filterNew.minPrice;
+        }
+        if (search.search !== "") {
+            queryParams.title_part = search.search;
+        }
+        if (props.companyTitle !== undefined) {
+            queryParams.organization_title = props.companyTitle;
+        }
+        if (limit !== 20) {
+            /*queryParams.limit = limit;*/
+        }
+        getProducts(queryParams);
 
-            apiGetProductsNew(queryParams)
-                .then((page: AxiosResponse<PageProductNew>) => {
-                    if (page.data !== undefined) {
-                        setLoad(true);
-                        setProducts(page.data.items);
+    }, [filterNew.maxPrice, filterNew.minPrice, limit, page, search.search]);
 
-                        if (page.data.totalPages !== undefined) {
-                            setPages(page.data.totalPages);
-                        }
 
-                        if (page.data.items.length === 0) {
-                            setError("Ничего не найдено");
-                            setSuccess(false);
-                            return;
-                        }
-                        setSuccess(true);
+    function getProducts(queryParams: FindRequest) {
+        apiGetProductsNew(queryParams)
+            .then((page: AxiosResponse<PageProductNew>) => {
+                if (page.data !== undefined) {
+                    setLoad(true);
+                    setProducts(page.data.items);
+
+                    if (page.data.totalPages !== undefined) {
+                        setPages(page.data.totalPages);
                     }
-                }).catch(() => {
-                setError("Упс... Что то пошло не так. Попробуйте позже")
-            })
-        },[filterNew.maxPrice, filterNew.minPrice, limit, page, search.search]);
 
+                    if (page.data.items.length === 0) {
+                        setError("Ничего не найдено");
+                        setSuccess(false);
+                        return;
+                    }
+                    setSuccess(true);
+                }
+            }).catch(() => {
+            setError("Упс... Что то пошло не так. Попробуйте позже")
+            setSuccess(false);
+        })
+    }
 
     function changePage(page: number) {
         setPage(page);

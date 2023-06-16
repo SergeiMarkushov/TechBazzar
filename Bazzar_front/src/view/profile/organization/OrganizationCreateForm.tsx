@@ -1,5 +1,6 @@
 import {Field, Form} from "formik";
 import React from 'react';
+import {MAX_FILE_SIZE} from "../../../CONST";
 import {ErrorComponent} from "../../../ErrorComponent";
 import {useAuth} from "../../../auth/Auth";
 
@@ -36,6 +37,7 @@ export function OrganizationCreateForm({onChoseFile, error, success}: Organizati
                 </div>
                 <div className="col-9">
                     <Field as="label" htmlFor="companyImage" className="form-label">Логотип</Field>
+                    <small className="form-text text-muted"> (Максимальный размер файла: {MAX_FILE_SIZE / 1024} КБ)</small>
                     <Field as="file" type="file" name="companyImage" className="form-control shadow-sm"
                            id="companyImage"
                            required={true}>

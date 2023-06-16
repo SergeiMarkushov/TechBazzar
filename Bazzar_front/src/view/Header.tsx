@@ -23,7 +23,6 @@ import {AdminMenuProductChanger} from "./profile/admin/AdminMenuProductChanger";
 import {AdminMenuProductChangerForm} from "./profile/admin/AdminMenuProductChangerForm";
 import {AdminOrganizations} from "./profile/admin/AdminOrganizations";
 import {ConfirmProducts} from "./profile/admin/ConfirmProducts";
-import {ProductCreator} from "./profile/admin/ProductCreator";
 
 import {Balance} from "./profile/balance/Balance";
 import {OrderInfo} from "./profile/orders/OrderInfo";
@@ -31,6 +30,7 @@ import {Orders} from "./profile/orders/Orders";
 import {CreateOrganization} from "./profile/organization/CreateOrganization";
 import {OrganizationManagement} from "./profile/organization/OrganizationManagement";
 import {OrganizationMenu} from "./profile/organization/OrganizationMenu";
+import {ProductCreator} from "./profile/organization/ProductCreator";
 
 export function Header() {
     const auth = useAuth();
@@ -89,12 +89,6 @@ export function Header() {
                                 </RequireRoleADMIN>
                             </RequireAuth>
                         }/>
-                        <Route path="/function/menu/addProduct" element={
-                            <RequireAuth>
-                                <RequireRoleADMIN>
-                                    <ProductCreator/>
-                                </RequireRoleADMIN>
-                            </RequireAuth>}/>
                         <Route path="/function/menu/productChanger" element={
                             <RequireAuth>
                                 <RequireRoleADMIN>
