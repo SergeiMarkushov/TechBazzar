@@ -1,5 +1,6 @@
 import {Field, FieldArray, Form} from "formik";
 import React, {useEffect, useState} from 'react';
+import {MAX_FILE_SIZE} from "../../../CONST";
 import {ErrorComponent} from "../../../ErrorComponent";
 import {ProductNew} from "../../../newInterfaces";
 
@@ -8,7 +9,8 @@ interface ProductChangeFormProps {
     error: string,
     success: boolean,
     textIfSuccess: string,
-    titleOrg: string | undefined
+    titleOrg: string | undefined,
+    onChoseFile: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export function ProductChangeForm(props: ProductChangeFormProps) {
@@ -19,7 +21,6 @@ export function ProductChangeForm(props: ProductChangeFormProps) {
     }, [props.product.characteristicsDto])
 
     const addCharacteristic = () => {
-        console.log(characteristics)
         setCharacteristics([...characteristics, {id: null, name: "", product: null}])
     }
 
@@ -67,6 +68,16 @@ export function ProductChangeForm(props: ProductChangeFormProps) {
                     <Field as="input" name="quantity" type="number" className="form-control shadow-sm" id="quantity"
                            required={true}/>
                 </div>
+                <div className="col-12">
+                    <Field as="label" htmlFor="companyImage" className="form-label">Логотип</Field>
+                    <small className="form-text text-muted"> (Максимальный размер
+                        файла: {MAX_FILE_SIZE / 1024} КБ)</small>
+                    <Field as="file" type="file" name="companyImage" className="form-control shadow-sm"
+                           id="companyImage"
+                           required={false}>
+                        <input type="file" onChange={props.onChoseFile} id="companyImage" name="companyImage"/>
+                    </Field>
+                </div>
                 <FieldArray name={"characteristicsDto"}
                             validateOnChange={true}
                             render={() => (
@@ -77,7 +88,8 @@ export function ProductChangeForm(props: ProductChangeFormProps) {
                                                 <div className="col-md-3" key={index}>
                                                     <Field as="label" htmlFor={"characteristicsDto" + index}
                                                            className="form-label">Характеристика {index + 1}</Field>
-                                                    <Field as="input" name={`characteristicsDto.${index}.name`} type="text"
+                                                    <Field as="input" name={`characteristicsDto.${index}.name`}
+                                                           type="text"
                                                            className="form-control shadow-sm"
                                                            id={`characteristicsDto.${index}.name`}
                                                            required={index === 0}/>

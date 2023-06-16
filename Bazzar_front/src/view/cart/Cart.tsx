@@ -13,20 +13,19 @@ export function Cart() {
     const [isEmpty, setEmpty] = useState(true)
 
     useEffect(() => {
-            console.log("useEffect")
-            apiGetCart().then((data: AxiosResponse<CartNew>) => {
-                    console.log(data.data)
-                    if (data.data === null || (data.data.items.length === 0)) {
-                        setEmpty(true)
-                    } else {
-                        setCart(data.data);
-                        setEmpty(false)
-                    }
-                    setIsDone(true);
+        apiGetCart().then((data: AxiosResponse<CartNew>) => {
+                if (data.data === null || (data.data.items.length === 0)) {
+                    setEmpty(true)
+                } else {
+                    setCart(data.data);
+                    setEmpty(false)
                 }
-            ).catch((reason: AxiosError) => {
-                console.log(reason)
-            });
+                setIsDone(true);
+            }
+        ).catch((reason: AxiosError) => {
+            // eslint-disable-next-line no-console
+            console.error(reason)
+        });
     }, [isDone]);
 
     function onReloadContext() {
@@ -39,7 +38,8 @@ export function Cart() {
             setEmpty(true);
             onReloadContext();
         }).catch((reason: AxiosError) => {
-            console.log(reason)
+            // eslint-disable-next-line no-console
+            console.error(reason)
         });
     }
 

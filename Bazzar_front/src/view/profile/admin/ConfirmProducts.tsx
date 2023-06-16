@@ -53,7 +53,7 @@ export function ConfirmProducts() {
                 {loadProduct ?
                     < div className="d-flex row justify-content-center p-0 m-0 g-0">
                         < Button style={{backgroundColor: primary}} onClick={reloadHandler}>Reload</Button>
-                        <div className="d-flex justify-content-center p-0">
+                        <div className="d-flex justify-content-center p-0 mb-2">
                             <CatalogCard product={product} deleteHandler={undefined}
                                          isChanging={false} key={product.id}></CatalogCard>
                         </div>

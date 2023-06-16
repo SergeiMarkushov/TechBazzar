@@ -15,7 +15,6 @@ export const AuthPasswordProvider = {
         apiAuthWithPasswordNew(login, password).then((cred: AxiosResponse<AuthResponseNew>) => {
             setToken(cred.data.token);
             apiGetMyUserForAuth(cred.data.token).then((user: AxiosResponse<UserNew>) => {
-                console.log(user.data)
                 setUserNew(user.data);
                 AuthPasswordProvider.isAuthenticated = true;
                 callback();

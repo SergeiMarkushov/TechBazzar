@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    getAdminMenuProductAddSvg,
     getAdminMenuProductChangeSvg,
     getAdminMenuProductConfirmSvg,
     getAdminMenuUserSvg, getOrganizationSvg
@@ -10,9 +9,6 @@ import {AdminMenuCard} from "./AdminMenuCard";
 export function AdminMenu() {
     return (
         <div className="row justify-content-center m-2">
-            <div className="col rounded shadow m-2">
-                <AdminMenuCard link="/function/menu/addProduct" title="add product" svg={getAdminMenuProductAddSvg()}/>
-            </div>
             <div className="col rounded shadow m-2">
                 <AdminMenuCard link="/function/menu/allUsers" title="users" svg={getAdminMenuUserSvg()}/>
             </div>

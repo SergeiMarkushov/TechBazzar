@@ -56,6 +56,7 @@ export const emptyProductNew: ProductNew = {
     discount: emptyDiscountNew,
     review: emptyReviewNew,
     characteristicsDto: Array.of(emptyCharacteristic),
+    pictureId: 1,
 }
 
 export const defaultUserNew: UserNew = {
@@ -99,6 +100,7 @@ export const emptyProductCreateNew2: ProductCreateNew2 = {
     price: 0,
     quantity: 0,
     characteristicsDto: Array.of(),
+    pictureId: 1
 }
 
 export const emptyRole = {

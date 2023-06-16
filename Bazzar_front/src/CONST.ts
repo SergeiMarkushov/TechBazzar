@@ -1,0 +1,1 @@
+export const MAX_FILE_SIZE = 1024 * 200; // 200kb

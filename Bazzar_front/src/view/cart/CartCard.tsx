@@ -1,8 +1,9 @@
-import {AxiosError} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import React, {useEffect, useState} from 'react';
 import {primary} from "../../Colors";
 import {apiRemoveItem, apiUpdateQuantity} from "../../api/CartApi";
-import {CartItemNew} from "../../newInterfaces";
+import {apiGetProductPic} from "../../api/PictureApi";
+import {CartItemNew, Picture} from "../../newInterfaces";
 
 export interface ProductCart {
     product: CartItemNew;
@@ -12,6 +13,20 @@ export interface ProductCart {
 export function CartCard(props: ProductCart) {
     const [quantity, setQuantity] = useState(props.product.quantity);
     const [isQuantityMore, setQuantityMore] = useState(false);
+    const [pic, setPic] = useState<string>("");
+
+    useEffect(() => {
+        apiGetProductPic(1).then((response: AxiosResponse<Picture>) => {
+            const base64String = response.data.bytes;
+            const contentType = response.data.contentType;
+            const dataURL = `data:${contentType};base64,${base64String}`;
+            setPic(dataURL);
+        }).catch((error) => {
+            // eslint-disable-next-line no-console
+            console.error('Error:', error);
+        });
+        return () => URL.revokeObjectURL(pic);
+    }, [props.product.productId]);
 
     useEffect(() => {
         if (quantity > 9) {
@@ -38,7 +53,8 @@ export function CartCard(props: ProductCart) {
             setQuantity(value);
             props.onReloadCart()
         }).catch((reason: AxiosError) => {
-            console.log(reason)
+            // eslint-disable-next-line no-console
+            console.error(reason)
         });
     }
 
@@ -46,9 +62,8 @@ export function CartCard(props: ProductCart) {
         <div className="card border-0 border-bottom mb-3" style={{maxWidth: "none"}}>
             <div className="d-flex">
                 <div className="w-25 align-self-center">
-                    {/*TODO: add image*/}
                     <img alt={props.product.productTitle}
-                         src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                         src={pic}
                          className="rounded"
                          style={{maxWidth: "100px", maxHeight: "100px", minWidth: "100px", minHeight: "100px"}}
                     />

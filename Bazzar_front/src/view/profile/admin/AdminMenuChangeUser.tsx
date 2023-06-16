@@ -27,8 +27,8 @@ export function AdminMenuChangeUser() {
                  style={{maxWidth: "50rem"}}>
                 <Formik initialValues={user}
                         enableReinitialize={true}
-                        onSubmit={(values: UserNew) => {
-                            console.log(values)
+                        onSubmit={() => {
+                            return;
                         }}>
                     {stateFormik => (
                         <Form className="row g-3">

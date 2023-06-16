@@ -7,6 +7,7 @@ export function getToken(): string {
             return token ?? '';
         }
     } catch (error) {
+        // eslint-disable-next-line no-console
         console.error('Не удалось получить токен из localStorage:', error);
     }
     return '';
@@ -36,4 +37,18 @@ export function deleteToken(): void {
 
 export function isTokenExist(): boolean {
     return getToken() !== '';
+}
+
+export function isTokenValid(): boolean {
+    try {
+        const token: string = getToken();
+        if (token !== '') {
+            const decodedToken: { exp: number } = jwtDecode(token);
+            return decodedToken.exp > Date.now() / 1000;
+        }
+    } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Не удалось проверить токен:', error);
+    }
+    return false;
 }

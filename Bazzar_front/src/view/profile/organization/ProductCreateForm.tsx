@@ -1,5 +1,6 @@
 import {Field, FieldArray, Form} from "formik";
 import React, {useState} from 'react';
+import { MAX_FILE_SIZE } from "../../../CONST";
 import {ErrorComponent} from "../../../ErrorComponent";
 import {ProductNew} from "../../../newInterfaces";
 
@@ -8,7 +9,8 @@ interface ProductFormProps {
     error: string,
     success: boolean,
     textIfSuccess: string,
-    titleOrg: string | undefined
+    titleOrg: string | undefined,
+    onChoseFile: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export function ProductCreateForm(props: ProductFormProps) {
@@ -56,6 +58,15 @@ export function ProductCreateForm(props: ProductFormProps) {
                     <Field as="label" htmlFor="quantity" className="form-label">Колличество</Field>
                     <Field as="input" name="quantity" type="number" className="form-control shadow-sm" id="quantity"
                            required={true}/>
+                </div>
+                <div className="col-12">
+                    <Field as="label" htmlFor="companyImage" className="form-label">Логотип</Field>
+                    <small className="form-text text-muted"> (Максимальный размер файла: {MAX_FILE_SIZE / 1024} КБ)</small>
+                    <Field as="file" type="file" name="companyImage" className="form-control shadow-sm"
+                           id="companyImage"
+                           required={true}>
+                        <input type="file" onChange={props.onChoseFile} id="companyImage" name="companyImage"/>
+                    </Field>
                 </div>
                 <FieldArray name={"characteristicsDto"}
                             render={() => (

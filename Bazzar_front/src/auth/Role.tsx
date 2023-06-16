@@ -17,7 +17,6 @@ export function RoleProvider({children}: { children: React.ReactNode }) {
 
     if (auth.user !== null) {
         auth.roles.forEach(role => {
-            console.log("render")
             if (role === ADMIN) {
                 isAdmin = true;
             }

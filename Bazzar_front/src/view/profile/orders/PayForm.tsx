@@ -22,6 +22,7 @@ export function PayForm(props: PayFormProps) {
                 setBalance(data.data.balance);
                 setLoad(true);
             }).catch(error => {
+                // eslint-disable-next-line no-console
                 console.error('There was an error!', error);
             });
         }
