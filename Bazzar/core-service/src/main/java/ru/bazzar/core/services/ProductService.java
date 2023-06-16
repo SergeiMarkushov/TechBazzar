@@ -42,13 +42,13 @@ public class ProductService {
         evictCache();
     }
     @CacheEvict(cacheNames = {"product"},allEntries = true)
-    private void evictCache() {}
+    public void evictCache() {}
     @Cacheable(cacheNames = {"product"}, sync = true, key = "#id")
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
     }
-    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, Integer page) {
+    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, String organizationTitle, Integer page) {
         Specification<Product> spec = Specification.where(null);
         if (minPrice != null) {
             spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(minPrice));
@@ -58,6 +58,9 @@ public class ProductService {
         }
         if (titlePart != null) {
             spec = spec.and(ProductSpecifications.titleLike(titlePart));
+        }
+        if (organizationTitle != null) {
+            spec = spec.and(ProductSpecifications.titleCompanyLike(organizationTitle));
         }
 //        if (keywordPart != null) {
 //            spec = spec.and(ProductSpecifications.keywordLike(keywordPart));
