@@ -5,6 +5,10 @@ server:
     context-path: /tech-bazzar-picture
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:tech_bazzar_picture;MODE=PostgreSQL

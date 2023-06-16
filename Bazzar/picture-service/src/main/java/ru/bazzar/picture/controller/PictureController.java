@@ -3,6 +3,7 @@ package ru.bazzar.picture.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,4 +52,19 @@ public class PictureController {
         pictureService.deleteById(id);
     }
 
+    @PostMapping("/save")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void savePic(@RequestParam(value = "multipart-pic") MultipartFile multipartFile) {
+        Picture picture = null;
+        try {
+            picture = Picture.builder()
+                    .fileName(multipartFile.getOriginalFilename())
+                    .contentType(multipartFile.getContentType())
+                    .bytes(multipartFile.getBytes())
+                    .build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        pictureService.save(picture);
+    }
 }

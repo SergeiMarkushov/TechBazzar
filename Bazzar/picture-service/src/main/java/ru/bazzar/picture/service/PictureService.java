@@ -40,7 +40,6 @@ public class PictureService {
     }
 
     public Picture save(Picture picture){
-        log.warn("Сохранение изображения: " + picture.getFileName());
         return pictureRepository.save(picture);
     }
 
@@ -59,8 +58,11 @@ public class PictureService {
 
 
     public void deleteById(Long id){
-        pictureRepository.deleteById(id);
+        if(id != null && id > 1){
+            pictureRepository.deleteById(id);
+        }
     }
+
 
 
 }
