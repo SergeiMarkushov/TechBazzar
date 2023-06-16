@@ -51,6 +51,7 @@ public class PictureController {
     public void deletePic(@PathVariable Long id){
         pictureService.deleteById(id);
     }
+
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public void savePic(@RequestParam(value = "multipart-pic") MultipartFile multipartFile) {
@@ -62,7 +63,6 @@ public class PictureController {
                     .bytes(multipartFile.getBytes())
                     .build();
         } catch (IOException e) {
-            System.out.println(".bytes(multipartFile.getBytes()) - exception IO................");
             throw new RuntimeException(e);
         }
         pictureService.save(picture);

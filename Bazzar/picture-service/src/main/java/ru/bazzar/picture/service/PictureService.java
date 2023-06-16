@@ -40,7 +40,6 @@ public class PictureService {
     }
 
     public Picture save(Picture picture){
-        log.warn("Сохранение изображения: " + picture.getFileName());
         return pictureRepository.save(picture);
     }
 

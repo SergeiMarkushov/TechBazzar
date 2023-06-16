@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import ru.bazzar.core.api.MultipartBuilderException;
 import ru.bazzar.core.api.PictureDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
 
