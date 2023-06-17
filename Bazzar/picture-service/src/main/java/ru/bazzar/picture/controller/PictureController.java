@@ -35,7 +35,7 @@ public class PictureController {
         Picture p = pictureService.save(pictureConverter.dtoToEntity(pictureDto));
         return p.getId();
     }
-    //можно использовать на фронте для загрузки ResponseEntity<?> картинки
+
     @GetMapping("/{id}")
     public  ResponseEntity<?> findPictureByIdAndResponse(@PathVariable Long id){
         PictureDto pictureDto = pictureConverter.entityToDto(pictureService.findById(id));
