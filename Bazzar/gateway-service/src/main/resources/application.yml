@@ -83,6 +83,9 @@ spring:
             - StripPrefix=1
             - PrefixPath=/tech-bazzar-auth
             - JwtAuthFilter
+  servlet:
+    multipart:
+      max-file-size: 5MB
 
 jwt:
   secret: ${jwt_secret}

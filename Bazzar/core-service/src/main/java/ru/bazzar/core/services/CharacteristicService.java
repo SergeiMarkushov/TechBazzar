@@ -1,6 +1,5 @@
 package ru.bazzar.core.services;
 
-import io.netty.handler.codec.http2.Http2Connection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

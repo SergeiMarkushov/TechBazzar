@@ -1,15 +1,19 @@
 package ru.bazzar.core.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "characteristics")
 public class Characteristic {
     @Id
@@ -24,27 +28,25 @@ public class Characteristic {
     @ManyToOne
     private Product product;
 
-    public Long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "Characteristic{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", product=" + product +
+                '}';
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Characteristic that = (Characteristic) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(product, that.product);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, product);
     }
 }

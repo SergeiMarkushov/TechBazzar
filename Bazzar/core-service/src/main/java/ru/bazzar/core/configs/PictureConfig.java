@@ -11,7 +11,6 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
-import ru.bazzar.core.properties.OrganizationServiceIntegrationProperties;
 import ru.bazzar.core.properties.PictureServiceIntegrationProperties;
 
 import java.util.concurrent.TimeUnit;

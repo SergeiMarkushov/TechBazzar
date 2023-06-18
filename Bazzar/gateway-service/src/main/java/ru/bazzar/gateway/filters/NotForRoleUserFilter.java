@@ -1,7 +1,6 @@
 package ru.bazzar.gateway.filters;
 
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
@@ -17,11 +16,11 @@ import java.util.List;
 @Component
 public class NotForRoleUserFilter extends AbstractGatewayFilterFactory<NotForRoleUserFilter.Config> {
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    public NotForRoleUserFilter() {
+    public NotForRoleUserFilter(JwtUtil jwtUtil) {
         super(Config.class);
+        this.jwtUtil = jwtUtil;
     }
 
     @Override

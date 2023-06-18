@@ -1,52 +1,43 @@
 package ru.bazzar.core.api;
 
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DiscountDto {
     private Long id;
     private int dis;
     private LocalDateTime startDate;
     private LocalDateTime expiryDate;
 
-    public DiscountDto() {
+    @Override
+    public String toString() {
+        return "DiscountDto{" +
+                "id=" + id +
+                ", dis=" + dis +
+                ", startDate=" + startDate +
+                ", expiryDate=" + expiryDate +
+                '}';
     }
 
-    public DiscountDto(Long id, int dis, LocalDateTime startDate, LocalDateTime expiryDate) {
-        this.id = id;
-        this.dis = dis;
-        this.startDate = startDate;
-        this.expiryDate = expiryDate;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DiscountDto that = (DiscountDto) o;
+        return dis == that.dis && Objects.equals(id, that.id) && Objects.equals(startDate, that.startDate) && Objects.equals(expiryDate, that.expiryDate);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getDis() {
-        return dis;
-    }
-
-    public void setDis(int dis) {
-        this.dis = dis;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDateTime expiryDate) {
-        this.expiryDate = expiryDate;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, dis, startDate, expiryDate);
     }
 }

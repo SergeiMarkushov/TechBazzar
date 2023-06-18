@@ -19,7 +19,7 @@ public class NotificationServiceIntegration {
                 .bodyValue(notificationDto)
                 .retrieve()
                 .onStatus(
-                        httpStatus -> httpStatus.value() == HttpStatus.BAD_REQUEST.value(),
+                        httpStatus -> httpStatus.value() == HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         clientResponse -> Mono.error(new ResourceNotFoundException("Возникла непредвиденная ошибка при отправке уведомления из auth-service."))
                         )
                 .bodyToMono(Void.class)

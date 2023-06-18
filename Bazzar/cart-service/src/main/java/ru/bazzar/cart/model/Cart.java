@@ -1,14 +1,19 @@
 package ru.bazzar.cart.model;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import ru.bazzar.cart.api.ProductDto;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class Cart {
     private List<CartItem> items;
     private BigDecimal totalPrice;
@@ -67,4 +72,24 @@ public class Cart {
         recalculate();
     }
 
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "items=" + items +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cart cart = (Cart) o;
+        return Objects.equals(items, cart.items) && Objects.equals(totalPrice, cart.totalPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(items, totalPrice);
+    }
 }

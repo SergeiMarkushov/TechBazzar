@@ -10,9 +10,6 @@ import ru.bazzar.cart.api.ProductDto;
 import ru.bazzar.cart.integrations.ProductServiceIntegration;
 import ru.bazzar.cart.model.Cart;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 
 @Service
@@ -28,7 +25,7 @@ public class CartService {
 
     public Cart getCurrentCart(String username) {
         String uuid = cartPrefix + username;
-        if (!redisTemplate.hasKey(uuid)) {
+        if (Boolean.FALSE.equals(redisTemplate.hasKey(uuid))) {
             redisTemplate.opsForValue().set(uuid, new Cart());
         }
         return (Cart)redisTemplate.opsForValue().get(uuid);
