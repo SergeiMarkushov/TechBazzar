@@ -1,12 +1,10 @@
-import {ProductCard} from "./ProductPage";
-import {apiAddItemToCart} from "../../../api/CartApi";
-import {useAuth} from "../../../auth/Auth";
 import React, {useEffect, useState} from "react";
 import {primary} from "../../../Colors";
+import {apiAddItemToCart} from "../../../api/CartApi";
+import {ProductCard} from "./ProductPage";
 
 export function ProductPageBuy(props: ProductCard) {
-    let auth = useAuth();
-    let [discount, setDiscount] = useState(0);
+    const [discount] = useState(0);
 
     useEffect(() => {
         /*setDiscount(props.product.discount !== null && props.product.discount.dis != null ? props.product.discount.dis : props.product.price);*/
@@ -24,9 +22,9 @@ export function ProductPageBuy(props: ProductCard) {
                     }}>{props.product.price} ₽</small>
                 </div>
                 <small className="mb-2 text-black">Quantity: {props.product.quantity}</small>
-                <a href="#" className="btn btn-primary"
+                <button className="btn btn-primary"
                    style={{backgroundColor: primary}}
-                   onClick={() => apiAddItemToCart(props.product.id, auth.isAuth).then()}>To cart</a>
+                   onClick={() => apiAddItemToCart(props.product.id).then()}>To cart</button>
             </div>
         </div>
     )

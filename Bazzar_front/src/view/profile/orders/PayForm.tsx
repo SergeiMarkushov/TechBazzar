@@ -1,10 +1,9 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import {useEffect, useState} from "react";
-import {apiGetMyUser, apiGetMyUserById} from "../../../api/UserApi";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import {AxiosResponse} from "axios";
-import {OrderNew, UserNew} from "../../../newInterfaces";
-import {useAuth} from "../../../auth/Auth";
+import React, {useEffect, useState} from "react";
 import {apiOrderPayment} from "../../../api/OrderApi";
+import {apiGetMyUser} from "../../../api/UserApi";
+import {OrderNew, UserNew} from "../../../newInterfaces";
 
 interface PayFormProps {
     order: OrderNew
@@ -14,18 +13,20 @@ interface PayFormProps {
 
 export function PayForm(props: PayFormProps) {
     const [balance, setBalance] = useState(0);
-    let [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(false);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         if (!load && open) {
-            console.log("useEffect")
             apiGetMyUser().then((data: AxiosResponse<UserNew>) => {
                 setBalance(data.data.balance);
+                setLoad(true);
+            }).catch(error => {
+                // eslint-disable-next-line no-console
+                console.error('There was an error!', error);
             });
-            setLoad(true);
         }
-    });
+    }, [load, open]);
 
 
     const handleClickOpen = () => {
@@ -37,18 +38,16 @@ export function PayForm(props: PayFormProps) {
     };
 
     const payHandle = () => {
-        apiOrderPayment(props.order.id).then((resp) => {
-            if (resp.statusText === "OK") {
-                handleClose();
-                props.onReloadOrder();
-                props.setStatus(true);
-            }
+        apiOrderPayment(props.order.id).then(() => {
+            handleClose();
+            props.onReloadOrder();
+            props.setStatus(true);
         })
     };
 
     return (
         <div>
-            <button className="btn btn-sm btn-success" style={{zIndex: "99999", position: "absolute"}}
+            <button className="btn btn-sm btn-success"
                     onClick={handleClickOpen}>Оплатить
             </button>
             <Dialog open={open} onClose={handleClose}>

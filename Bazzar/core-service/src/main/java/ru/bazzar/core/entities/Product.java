@@ -1,11 +1,7 @@
 package ru.bazzar.core.entities;
 
 import jdk.jfr.BooleanFlag;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -13,10 +9,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Builder
-@EqualsAndHashCode
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
@@ -60,6 +59,13 @@ public class Product {
     @JoinColumn(name = "review_id")
     private Review review;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
+    private List<Characteristic> characteristics;
+
+    @Column(name = "picture_id")
+    @Min(value = 0, message = "Поле pictureId должно быть больше 0")
+    private Long pictureId;
+
     /*
     - Ключевых слов;
     - Таблицы характеристик;
@@ -77,78 +83,20 @@ public class Product {
                 ", isConfirmed=" + isConfirmed +
                 ", discount=" + discount +
                 ", review=" + review +
+                ", pictureId=" + pictureId +
                 '}';
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return quantity == product.quantity && isConfirmed == product.isConfirmed && Objects.equals(id, product.id) && Objects.equals(title, product.title) && Objects.equals(description, product.description) && Objects.equals(organizationTitle, product.organizationTitle) && Objects.equals(price, product.price) && Objects.equals(discount, product.discount) && Objects.equals(review, product.review) && Objects.equals(characteristics, product.characteristics) && Objects.equals(pictureId, product.pictureId);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getOrganizationTitle() {
-        return organizationTitle;
-    }
-
-    public void setOrganizationTitle(String organizationTitle) {
-        this.organizationTitle = organizationTitle;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public boolean isConfirmed() {
-        return isConfirmed;
-    }
-
-    public void setConfirmed(boolean confirmed) {
-        isConfirmed = confirmed;
-    }
-
-    public Discount getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
-    }
-
-    public Review getReview() {
-        return review;
-    }
-
-    public void setReview(Review review) {
-        this.review = review;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, organizationTitle, price, quantity, isConfirmed, discount, review, characteristics, pictureId);
     }
 }

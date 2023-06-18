@@ -1,14 +1,13 @@
-import {getComments} from "../../../FakeData";
+import React from 'react';
+import {ProductNew} from "../../../newInterfaces";
 import {CommentCard} from "./CommentCard";
-import {ProductNew, ReviewNew} from "../../../newInterfaces";
-import {useState} from "react";
 
 interface ProductPageCommentsCardProps {
     product: ProductNew;
 }
 
 export function ProductPageCommentsCard(props: ProductPageCommentsCardProps) {
-    const [mark] = useState(props.product.review != null && props.product.review.mark != null ? props.product.review.mark : 0);
+    /*const [mark] = useState(props.product.review != null && props.product.review.mark != null ? props.product.review.mark : 0);*/
     return (
         <div className="card border-0">
             <div className="card-body">

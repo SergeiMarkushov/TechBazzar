@@ -16,6 +16,8 @@
         <module>gateway-service</module>
         <module>notification-service</module>
         <module>organization-service</module>
+        <module>keycloak-service</module>
+        <module>picture-service</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

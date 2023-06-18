@@ -1,20 +1,32 @@
 package ru.bazzar.cart.api;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Objects;
+
+@Getter
+@Setter
 public class StringResponse {
     private String value;
 
-    public String getValue() {
-        return value;
+    @Override
+    public String toString() {
+        return "StringResponse{" +
+                "value='" + value + '\'' +
+                '}';
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StringResponse that = (StringResponse) o;
+        return Objects.equals(value, that.value);
     }
 
-    public StringResponse() {
-    }
-
-    public StringResponse(String value) {
-        this.value = value;
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }

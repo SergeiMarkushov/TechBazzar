@@ -1,7 +1,7 @@
-import {Button} from "react-bootstrap";
-import {UserNew} from "../../../newInterfaces";
-import {primary} from "../../../Colors";
+import React from 'react';
 import {Link} from "react-router-dom";
+import {primary} from "../../../Colors";
+import {UserNew} from "../../../newInterfaces";
 import {AdminMenuUserMenu} from "./AdminMenuUserMenu";
 
 interface AllUsersCardProps {

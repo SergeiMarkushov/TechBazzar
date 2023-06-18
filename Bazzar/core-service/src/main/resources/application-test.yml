@@ -4,6 +4,10 @@ server:
   servlet:
     context-path: /tech-bazzar-core
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:tech_bazzar_core;MODE=PostgreSQL
@@ -47,6 +51,12 @@ integrations:
 
   organization-service:
     url: http://localhost:8185/tech-bazzar-organization/
+    read-timeout: 10000
+    write-timeout: 5000
+    connect-timeout: 5000
+
+  picture-service:
+    url: http://localhost:8555/tech-bazzar-picture/
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000

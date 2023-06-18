@@ -1,4 +1,4 @@
 server:
-  port: 3000
+  port: 3001
   servlet:
     context-path: /front

@@ -10,7 +10,7 @@ interface CartBuyFormProps {
 
 export function CartBuyForm(props: CartBuyFormProps) {
     const [isBlock, setBlock] = useState(false);
-    let auth = useAuth();
+    const auth = useAuth();
 
     function buy() {
         if (auth.isAuth) {

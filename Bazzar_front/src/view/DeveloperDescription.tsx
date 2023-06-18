@@ -1,5 +1,5 @@
-import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 import React from "react";
 
 interface DeveloperDescriptionProps {

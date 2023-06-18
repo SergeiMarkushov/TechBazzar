@@ -17,6 +17,13 @@ public class ProductSpecifications {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart));
     }
 
+    public static Specification<Product> titleCompanyLike(String organizationTitle) {
+        return (root, criteriaQuery, criteriaBuilder) -> {
+            String formattedOrganizationTitle = "%" + organizationTitle + "%";
+            return criteriaBuilder.like(criteriaBuilder.upper(root.get("organizationTitle")), formattedOrganizationTitle.toUpperCase());
+        };
+    }
+
 //    public static Specification<Product> keywordLike(String keywordPart) {
 //        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("keyword"), String.format("%%%s%%", keywordPart));
 //    }

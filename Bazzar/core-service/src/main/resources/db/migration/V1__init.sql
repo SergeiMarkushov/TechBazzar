@@ -17,14 +17,15 @@ create table discounts
 create table products
 (
     id                 bigserial primary key,
-    description        varchar(1000),
+    description        TEXT,
     price              numeric(8, 2),
     quantity           integer,
     title              varchar(100),
     organization_title varchar(100),
     is_confirmed       boolean,
     discount_id        bigint references discounts(id),
-    review_id          bigint references reviews(id)
+    review_id          bigint references reviews(id),
+    picture_id         bigint
 );
 
 create table orders
@@ -59,4 +60,10 @@ create table purchase_history
     organization    varchar(255),
     quantity        int not null ,
     date_purchase   timestamp default current_timestamp
+);
+
+CREATE TABLE characteristics (
+    id              BIGSERIAL PRIMARY KEY,
+    name            VARCHAR(255) NOT NULL,
+    product_id      BIGINT REFERENCES products(id)
 );

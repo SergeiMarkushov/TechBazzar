@@ -8,6 +8,8 @@ export interface ProductNew {
     isConfirmed: boolean;
     discount: DiscountNew|null;
     review: ReviewNew|null;
+    characteristicsDto: Array<Characteristic>;
+    pictureId : number;
 }
 
 export interface ProductCreateNew {
@@ -17,6 +19,23 @@ export interface ProductCreateNew {
     organizationTitle: string;
     price: number;
     quantity: number;
+}
+
+export interface ProductCreateNew2 {
+    id?: number;
+    title: string;
+    description: string;
+    organizationTitle: string;
+    price: number;
+    quantity: number;
+    characteristicsDto: Array<string>;
+    pictureId : number;
+}
+
+export interface Characteristic {
+    id: null;
+    name: string;
+    product: null;
 }
 
 export interface DiscountNew {
@@ -111,6 +130,7 @@ export interface FindRequest {
     min_price?: number,
     limit?: number,
     title_part?: string,
+    organization_title?: string,
 }
 
 export interface Role {
@@ -136,4 +156,9 @@ export interface OrganizationCreate {
 export interface ErrorMessage {
     message: string;
     code: number;
+}
+
+export interface Picture {
+    bytes: string;
+    contentType: string;
 }

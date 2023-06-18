@@ -1,10 +1,18 @@
 package ru.bazzar.core.api;
 
-import ru.bazzar.core.api.OrderItemDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDto {
     // TODO: 27.05.2023 если сюда добавить имэйл о организацию, то от PurchaseHistory можно избавиться
     private Long id;
@@ -14,63 +22,28 @@ public class OrderDto {
     private String createdAt;
     private boolean status;
 
-    public OrderDto() {
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", items=" + items +
+                ", totalPrice=" + totalPrice +
+                ", createdAt='" + createdAt + '\'' +
+                ", status=" + status +
+                '}';
     }
 
-    public OrderDto(Long id, String username, List<OrderItemDto> items, BigDecimal totalPrice, String createdAt, boolean status) {
-        this.id = id;
-        this.username = username;
-        this.items = items;
-        this.totalPrice = totalPrice;
-        this.createdAt = createdAt;
-        this.status = status;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDto orderDto = (OrderDto) o;
+        return status == orderDto.status && Objects.equals(id, orderDto.id) && Objects.equals(username, orderDto.username) && Objects.equals(items, orderDto.items) && Objects.equals(totalPrice, orderDto.totalPrice) && Objects.equals(createdAt, orderDto.createdAt);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<OrderItemDto> getItems() {
-        return items;
-    }
-
-    public void setItems(List<OrderItemDto> items) {
-        this.items = items;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, items, totalPrice, createdAt, status);
     }
 }

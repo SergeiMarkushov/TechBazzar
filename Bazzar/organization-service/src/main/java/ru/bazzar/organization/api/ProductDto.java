@@ -1,7 +1,18 @@
 package ru.bazzar.organization.api;
 
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDto {
     private Long id;
     private String title;
@@ -11,72 +22,33 @@ public class ProductDto {
     private int quantity;
     private boolean isConfirmed;
 
-    public ProductDto() {
+    private List<CharacteristicDto> characteristicsDto;
+
+
+    @Override
+    public String toString() {
+        return "ProductDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", organizationTitle='" + organizationTitle + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", isConfirmed=" + isConfirmed +
+                ", characteristicsDto=" + characteristicsDto +
+                '}';
     }
 
-    public ProductDto(Long id, String title, String description, String organizationTitle, BigDecimal price, int quantity, boolean isConfirmed) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.organizationTitle = organizationTitle;
-        this.price = price;
-        this.quantity = quantity;
-        this.isConfirmed = isConfirmed;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDto that = (ProductDto) o;
+        return quantity == that.quantity && isConfirmed == that.isConfirmed && Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(organizationTitle, that.organizationTitle) && Objects.equals(price, that.price) && Objects.equals(characteristicsDto, that.characteristicsDto);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getOrganizationTitle() {
-        return organizationTitle;
-    }
-
-    public void setOrganizationTitle(String organizationTitle) {
-        this.organizationTitle = organizationTitle;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public boolean isConfirmed() {
-        return isConfirmed;
-    }
-
-    public void setConfirmed(boolean confirmed) {
-        isConfirmed = confirmed;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, organizationTitle, price, quantity, isConfirmed, characteristicsDto);
     }
 }

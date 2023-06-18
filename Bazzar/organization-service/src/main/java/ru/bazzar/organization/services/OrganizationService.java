@@ -26,7 +26,7 @@ public class OrganizationService {
     private final OrganizationRepository repository;
     private final LogoService logoService;
     private final OrganizationConverter organizationConverter;
-    private MyQueue<Organization> myQueue = new MyQueue<>();
+    private final MyQueue<Organization> myQueue = new MyQueue<>();
 
     public void save(OrganizationDto organizationDto, String username, MultipartFile file) throws IOException {
         Organization organization = organizationConverter.dtoToEntity(organizationDto);
@@ -52,6 +52,13 @@ public class OrganizationService {
 
     public Optional<Organization> findByTitleIgnoreCase(String title) {
         return repository.findByTitleIgnoreCase(title);
+    }
+
+    public List<OrganizationDto> findAllByOwner(String owner) {
+        return repository.findAllByOwner(owner)
+                .stream()
+                .map(organizationConverter::entityToDto)
+                .collect(Collectors.toList());
     }
 
     public Organization findByTitle(String title) throws ResourceNotFoundException {

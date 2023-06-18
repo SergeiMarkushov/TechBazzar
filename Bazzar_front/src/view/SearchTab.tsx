@@ -1,10 +1,10 @@
-import {useSearch} from "../context/Search";
-import {useState} from "react";
+import React, {useState} from "react";
 import {primary} from "../Colors";
+import {useSearch} from "../context/Search";
 
 export function SearchTab() {
-    let search = useSearch();
-    let [searchValue, setSearchValue] = useState(search.search);
+    const search = useSearch();
+    const [searchValue, setSearchValue] = useState(search.search);
 
     function handleClick() {
         if (searchValue.length > 1) {
@@ -20,12 +20,21 @@ export function SearchTab() {
         }
     }
 
+    const onkeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            handleClick();
+        }
+    }
+
     return (
         <div className="d-flex w-100">
             <div className="input-group">
-                <input style={{borderColor: primary}} className="form-control" onChange={(event) => changeSearch(event)} type="search" placeholder="Search"
+                <input style={{borderColor: primary}} onKeyDown={onkeydown} className="form-control"
+                       onChange={(event) => changeSearch(event)} type="search" placeholder="Search"
                        aria-label="Search"/>
-                <button style={{backgroundColor: primary}} className="btn text-white" onClick={() => handleClick()} type="submit">Search</button>
+                <button style={{backgroundColor: primary}} className="btn text-white" onClick={() => handleClick()}
+                        type="submit">Поиск
+                </button>
             </div>
         </div>
     )

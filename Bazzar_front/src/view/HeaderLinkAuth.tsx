@@ -1,8 +1,9 @@
-import {useAuth} from "../auth/Auth";
+import React from 'react';
 import {getHeaderAuthCloseSvg, getHeaderAuthOpenSvg} from "../Svg";
+import {useAuth} from "../auth/Auth";
 
 export function HeaderLinkAuth() {
-    let auth = useAuth();
+    const auth = useAuth();
     return (
         <div className="d-flex justify-content-center align-items-center flex-column">
             <div hidden={!auth.isAuth}>
@@ -14,8 +15,8 @@ export function HeaderLinkAuth() {
                 {getHeaderAuthCloseSvg()}
             </div>
             <div>
-                <small hidden={!auth.isAuth}><b>logout</b></small>
-                <small hidden={auth.isAuth}><b>login</b></small>
+                <small hidden={!auth.isAuth}><b>Выйти</b></small>
+                <small hidden={auth.isAuth}><b>Войти</b></small>
             </div>
         </div>
     )

@@ -1,19 +1,21 @@
-import React, {useEffect, useState} from "react";
-import {CatalogCard} from "./CatalogCard";
-import {CatalogFilter} from "./CatalogFilter";
-import {CatalogPagination} from "./CatalogPagination";
-import {apiDeleteProductById, apiGetProductsNew} from "../../api/ProductApi";
 import {AxiosResponse} from "axios";
+import React, {useEffect, useState} from "react";
+import {ErrorComponent} from "../../ErrorComponent";
+import {apiDeleteProductById, apiGetProductsNew} from "../../api/ProductApi";
 import {useSearch} from "../../context/Search";
 import {defaultFilter, emptyProductNew} from "../../empty";
 import {FilterNew, FindRequest, PageProductNew} from "../../newInterfaces";
 import {CircularLoading} from "../CircularLoading";
+import {CatalogCard} from "./CatalogCard";
+import {CatalogFilter} from "./CatalogFilter";
+import {CatalogPagination} from "./CatalogPagination";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGES = 1;
 
 export interface CatalogProps {
     isChanging?: boolean,
+    companyTitle?: string,
 }
 
 export function Catalog(props: CatalogProps) {
@@ -23,8 +25,10 @@ export function Catalog(props: CatalogProps) {
     const [pages, setPages] = useState(DEFAULT_PAGES)
     const [limit] = useState(20)
     const [load, setLoad] = useState(false)
-    let changing = props.isChanging === undefined ? false : props.isChanging;
-    let search = useSearch();
+    const changing = props.isChanging === undefined ? false : props.isChanging;
+    const search = useSearch();
+    const [error, setError] = useState<string>("")
+    const [success, setSuccess] = useState<boolean>(false)
 
     function filterChanged(filter: FilterNew) {
         setFilter(filter)
@@ -32,49 +36,61 @@ export function Catalog(props: CatalogProps) {
     }
 
     function deleteHandler(id: number) {
-        apiDeleteProductById(id).then(r => {
-                if (r.status === 200) {
-                    setProducts(products.filter(product => product.id !== id));
-                }
+        apiDeleteProductById(id).then(() => {
+                setProducts(products.filter(product => product.id !== id));
             }
         )
     }
 
+
     useEffect(() => {
-        console.log("useEffect")
-            const queryParams: FindRequest = {
-                p: page,
-            };
+        const queryParams: FindRequest = {
+            p: page + 1,
+        };
 
-            if (filterNew.maxPrice !== defaultFilter.maxPrice) {
-                queryParams.max_price = filterNew.maxPrice;
-            }
-            if (filterNew.minPrice !== defaultFilter.minPrice) {
-                queryParams.min_price = filterNew.minPrice;
-            }
-            if (search.search !== "") {
-                queryParams.title_part = search.search;
-            }
-            if (limit !== 20) {
-                /*queryParams.limit = limit;*/
-            }
+        if (filterNew.maxPrice !== defaultFilter.maxPrice) {
+            queryParams.max_price = filterNew.maxPrice;
+        }
+        if (filterNew.minPrice !== defaultFilter.minPrice) {
+            queryParams.min_price = filterNew.minPrice;
+        }
+        if (search.search !== "") {
+            queryParams.title_part = search.search;
+        }
+        if (props.companyTitle !== undefined) {
+            queryParams.organization_title = props.companyTitle;
+        }
+        if (limit !== 20) {
+            /*queryParams.limit = limit;*/
+        }
+        getProducts(queryParams);
 
-            apiGetProductsNew(queryParams)
-                .then((page: AxiosResponse<PageProductNew>) => {
-                    console.log(page.data)
-                    console.log(queryParams)
-                    if (page.data !== undefined) {
-                        setLoad(true);
-                        setProducts(page.data.items);
+    }, [filterNew.maxPrice, filterNew.minPrice, limit, page, search.search]);
 
-                        if (page.data.totalPages !== undefined) {
-                            setPages(page.data.totalPages);
-                        }
+
+    function getProducts(queryParams: FindRequest) {
+        apiGetProductsNew(queryParams)
+            .then((page: AxiosResponse<PageProductNew>) => {
+                if (page.data !== undefined) {
+                    setLoad(true);
+                    setProducts(page.data.items);
+
+                    if (page.data.totalPages !== undefined) {
+                        setPages(page.data.totalPages);
                     }
-                })
-        }, [filterNew, page, search.search]
-    );
 
+                    if (page.data.items.length === 0) {
+                        setError("Ничего не найдено");
+                        setSuccess(false);
+                        return;
+                    }
+                    setSuccess(true);
+                }
+            }).catch(() => {
+            setError("Упс... Что то пошло не так. Попробуйте позже")
+            setSuccess(false);
+        })
+    }
 
     function changePage(page: number) {
         setPage(page);
@@ -85,24 +101,29 @@ export function Catalog(props: CatalogProps) {
 
     return (
         <div>
-            <div className="d-flex row">
-                <div className="flex-grow-0" style={{maxWidth: "80px"}}>
-                    <CatalogFilter filterHandler={filterChanged} filter={filterNew}/>
-                </div>
-                <div className="container-fluid flex-grow-1">
-                    <div className="row justify-content-center">
-                        {load ?
-                            products.map((product) => (
-                                <CatalogCard product={product} deleteHandler={changing ? deleteHandler : undefined}
-                                             isChanging={changing} key={product.id}></CatalogCard>
-                            ))
-                            : <CircularLoading/>
-                        }
+            {success ?
+                <div>
+                    <div className="d-flex row">
+                        <div className="flex-grow-0" style={{maxWidth: "80px"}}>
+                            <CatalogFilter filterHandler={filterChanged} filter={filterNew}/>
+                        </div>
+                        <div className="container-fluid flex-grow-1">
+                            <div className="row justify-content-center">
+                                {load ?
+                                    products.map((product) => (
+                                        <CatalogCard product={product}
+                                                     deleteHandler={changing ? deleteHandler : undefined}
+                                                     isChanging={changing} key={product.id}></CatalogCard>
+                                    ))
+                                    : <CircularLoading/>
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            { pages > 1 &&
-                <CatalogPagination changePage={changePage} pages={pages}/>
+                    {pages > 1 &&
+                        <CatalogPagination changePage={changePage} pages={pages}/>
+                    }
+                </div> : <ErrorComponent error={error} success={success} showSuccess={false} textIfSuccess={""}/>
             }
         </div>
     );

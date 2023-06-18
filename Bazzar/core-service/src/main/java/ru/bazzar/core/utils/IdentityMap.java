@@ -1,5 +1,5 @@
 package ru.bazzar.core.utils;
-// TODO: 27.05.2023 выпиливаем, так как используем встроенное кэширование через аннотации
+
 import lombok.Getter;
 
 import lombok.extern.log4j.Log4j2;
@@ -12,29 +12,29 @@ import java.util.Map;
 @Getter
 public class IdentityMap {
 
-//    private Map<Long, Product> productMap = new HashMap<>();
-//
-//    public void addProductMap(Product product) {
-//        if (!productMap.containsKey(product.getId())) {
-//            productMap.put(product.getId(), product);
-//        } else {
-//            log.info("Key already in Map");
-//        }
-//    }
-//
-//    public Product getProductMap(long id) {
-//        Product product = productMap.get(id);
-//        if (product == null) {
-//            log.info("ID not in Map.");
-//        }
-//        return product;
-//    }
-//
-//    public int size() {
-//        if (productMap == null) {
-//            return 0;
-//        }
-//        return productMap.size();
-//    }
+    private Map<Long, Product> productMap = new HashMap<>();
+
+    public void addProductMap(Product product) {
+        if (!productMap.containsKey(product.getId())) {
+            productMap.put(product.getId(), product);
+        } else {
+            log.info("Key already in Map");
+        }
+    }
+
+    public Product getProductMap(long id) {
+        Product product = productMap.get(id);
+        if (product == null) {
+            log.info("ID not in Map.");
+        }
+        return product;
+    }
+
+    public int size() {
+        if (productMap == null) {
+            return 0;
+        }
+        return productMap.size();
+    }
 
 }
