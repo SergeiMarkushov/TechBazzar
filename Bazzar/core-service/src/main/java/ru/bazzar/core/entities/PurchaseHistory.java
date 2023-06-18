@@ -1,18 +1,20 @@
 package ru.bazzar.core.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "purchase_history")
@@ -40,4 +42,29 @@ public class PurchaseHistory {
     @CreationTimestamp
     @Column(name = "date_purchase", nullable = false, updatable = false)
     private LocalDateTime datePurchase;
+
+    @Override
+    public String toString() {
+        return "PurchaseHistory{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", productTitle='" + productTitle + '\'' +
+                ", organization='" + organization + '\'' +
+                ", quantity=" + quantity +
+                ", datePurchase=" + datePurchase +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PurchaseHistory that = (PurchaseHistory) o;
+        return quantity == that.quantity && Objects.equals(id, that.id) && Objects.equals(email, that.email) && Objects.equals(productTitle, that.productTitle) && Objects.equals(organization, that.organization) && Objects.equals(datePurchase, that.datePurchase);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, productTitle, organization, quantity, datePurchase);
+    }
 }

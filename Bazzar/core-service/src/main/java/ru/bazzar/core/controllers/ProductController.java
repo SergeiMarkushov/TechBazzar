@@ -5,17 +5,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.bazzar.core.api.*;
+import ru.bazzar.core.api.PageDto;
+import ru.bazzar.core.api.PictureDto;
+import ru.bazzar.core.api.ProductDto;
+import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.PictureServiceIntegration;
 import ru.bazzar.core.services.ProductService;
 import ru.bazzar.core.utils.MyQueue;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
@@ -32,7 +35,7 @@ public class ProductController {
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
     private final PictureServiceIntegration pictureServiceIntegration;
-    private MyQueue<Product> productQueue = new MyQueue<>();//?
+    private final MyQueue<Product> productQueue = new MyQueue<>();//?
 
     @GetMapping("/not_confirmed")
     public ProductDto notConfirmed() throws ResourceNotFoundException {
@@ -101,7 +104,7 @@ public class ProductController {
 
     //кладёт в кэш...
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public ProductDto createProduct(
             @RequestHeader String username,
             @RequestParam(value = "productDto") String product,

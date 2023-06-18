@@ -33,7 +33,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
-    private MyQueue<Product> productQueue = new MyQueue<>();
+    private final MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
     private final PictureServiceIntegration pictureServiceIntegration;
 
@@ -147,9 +147,9 @@ public class ProductService {
         product.setPrice(productDto.getPrice());
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
-        //возможны 2 запроса к БД но я ещё хз(это надо для кэша)
+        //возможны 2 запроса к БД, но я ещё хз(это надо для кэша)
         Long idToReturn = productRepository.save(product).getId();
-        System.out.println("SAVE: " + findById(idToReturn).toString());
+        log.info("SAVE: " + findById(idToReturn).toString());
         return findById(idToReturn);
     }
 

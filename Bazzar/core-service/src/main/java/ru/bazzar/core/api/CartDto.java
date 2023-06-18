@@ -1,37 +1,21 @@
 package ru.bazzar.core.api;
 
-import ru.bazzar.core.api.CartItemDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CartDto {
     private List<CartItemDto> items;
     private BigDecimal totalPrice;
-
-    public CartDto() {
-    }
-
-    public CartDto(List<CartItemDto> items, BigDecimal totalPrice) {
-        this.items = items;
-        this.totalPrice = totalPrice;
-    }
-
-    public List<CartItemDto> getItems() {
-        return items;
-    }
-
-    public void setItems(List<CartItemDto> items) {
-        this.items = items;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
 
     @Override
     public String toString() {
@@ -39,5 +23,18 @@ public class CartDto {
                 "items=" + items +
                 ", totalPrice=" + totalPrice +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartDto cartDto = (CartDto) o;
+        return Objects.equals(items, cartDto.items) && Objects.equals(totalPrice, cartDto.totalPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(items, totalPrice);
     }
 }

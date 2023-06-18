@@ -23,7 +23,7 @@ public class OrderController {
     @PostMapping//AOP
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestHeader String username) {
-        System.out.println(username + " оформил заказ!");
+        log.info(username + " оформил заказ!");
         orderService.create(username);
     }
 

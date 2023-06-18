@@ -1,5 +1,16 @@
 package ru.bazzar.notification.api;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Objects;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class NotificationDto {
     private Long id;
     private String title;
@@ -7,54 +18,27 @@ public class NotificationDto {
     private String content;
     private String sendTo;
 
-    public NotificationDto() {
+    @Override
+    public String toString() {
+        return "NotificationDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", content='" + content + '\'' +
+                ", sendTo='" + sendTo + '\'' +
+                '}';
     }
 
-    public NotificationDto(Long id, String title, String createdAt, String content, String sendTo) {
-        this.id = id;
-        this.title = title;
-        this.createdAt = createdAt;
-        this.content = content;
-        this.sendTo = sendTo;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NotificationDto that = (NotificationDto) o;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(createdAt, that.createdAt) && Objects.equals(content, that.content) && Objects.equals(sendTo, that.sendTo);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getSendTo() {
-        return sendTo;
-    }
-
-    public void setSendTo(String sendTo) {
-        this.sendTo = sendTo;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, createdAt, content, sendTo);
     }
 }

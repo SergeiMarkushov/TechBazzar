@@ -1,42 +1,41 @@
 package ru.bazzar.core.api;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.List;
+import java.util.Objects;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PageDto<E> {
     private List<E> items;
     private int page;
     private int totalPages;
 
-    public PageDto() {
+    @Override
+    public String toString() {
+        return "PageDto{" +
+                "items=" + items +
+                ", page=" + page +
+                ", totalPages=" + totalPages +
+                '}';
     }
 
-    public PageDto(List<E> items, int page, int totalPages) {
-        this.items = items;
-        this.page = page;
-        this.totalPages = totalPages;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PageDto<?> pageDto = (PageDto<?>) o;
+        return page == pageDto.page && totalPages == pageDto.totalPages && Objects.equals(items, pageDto.items);
     }
 
-    public List<E> getItems() {
-        return items;
-    }
-
-    public void setItems(List<E> items) {
-        this.items = items;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
+    @Override
+    public int hashCode() {
+        return Objects.hash(items, page, totalPages);
     }
 }

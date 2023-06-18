@@ -40,34 +40,10 @@ public class ProductConverter {
 
         for (Characteristic characteristicFromProduct : product.getCharacteristics()) {
             Characteristic characteristic = modelMapper.map(characteristicFromProduct, Characteristic.class);
+            characteristics.add(characteristic);
         }
         product.setCharacteristics(characteristics);
         product.setPictureId(productDto.getPictureId());
         return product;
     }
-
-//    public ProductDto entityToDto(Product product) {
-//        ProductDto dto = new ProductDto();
-//        dto.setId(product.getId());
-//        dto.setTitle(product.getTitle());
-//        dto.setDescription(product.getDescription());
-//        dto.setOrganizationTitle(product.getOrganizationTitle());
-//        dto.setPrice(product.getPrice());
-//        dto.setQuantity(product.getQuantity());
-//        dto.setConfirmed(product.isConfirmed());
-////        dto.setCharacteristicsDto();
-//        return dto;
-//    }
-//
-//    public Product dtoToEntity(ProductDto productDto) {
-//        return Product.builder()
-//                .id(productDto.getId())
-//                .title(productDto.getTitle())
-//                .description(productDto.getDescription())
-//                .price(productDto.getPrice())
-//                .quantity(productDto.getQuantity())
-//                .isConfirmed(productDto.isConfirmed())
-////                .characteristics();
-//                .build();
-//    }
 }
