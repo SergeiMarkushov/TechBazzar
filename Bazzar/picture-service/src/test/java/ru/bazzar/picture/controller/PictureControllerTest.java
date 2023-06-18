@@ -7,6 +7,7 @@ import ru.bazzar.picture.converters.PictureConverter;
 import ru.bazzar.picture.entities.Picture;
 import lombok.extern.slf4j.Slf4j;
 import ru.bazzar.picture.service.PictureService;
+import ru.bazzar.picture.util.FileResourcesUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,6 +22,7 @@ class PictureControllerTest {
 
     private PictureController pictureController;
     private Picture testPicture;
+    FileResourcesUtils fileResourcesUtils;
 
     @BeforeEach
     void setUp() {
@@ -31,6 +33,8 @@ class PictureControllerTest {
         pictureController = new PictureController(mockService, mockConverter);
         // задаем нужное поведение объекта-заглушки
         when(mockService.findById(testPicture.getId())).thenReturn(testPicture);
+
+        fileResourcesUtils = new FileResourcesUtils();
     }
 
     @Test
