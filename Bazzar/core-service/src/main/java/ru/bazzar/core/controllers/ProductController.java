@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +31,7 @@ public class ProductController {
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
     private final PictureServiceIntegration pictureServiceIntegration;
-    private MyQueue<Product> productQueue = new MyQueue<>();//?
+    private MyQueue<Product> productQueue = new MyQueue<>();//думаю что временно не используется
 
     @GetMapping("/not_confirmed")
     public ProductDto notConfirmed() throws ResourceNotFoundException {
@@ -56,13 +55,14 @@ public class ProductController {
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
             //@RequestParam(name = "keyword_part", required = false) String keywordPart,
             @RequestParam(name = "organization_title", required = false) String organizationTitle,
-            @RequestParam(name = "title_part", required = false) String titlePart
+            @RequestParam(name = "title_part", required = false) String titlePart,
+            @RequestParam(name = "limit", defaultValue = "20") int limit
     ) {
         if (page < 1) {
             page = 1;
         }
 
-        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page).map(
+        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page, limit).map(
                 productConverter::entityToDto
         );
         PageDto<ProductDto> out = new PageDto<>();
