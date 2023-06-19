@@ -32,12 +32,16 @@ public class AuthController {
     public ResponseEntity<?> createAuthToken(@RequestBody AuthRequest request) {
         log.info("Auth request: [{}, {}]", request.getUsername(), request.getPassword());
         try {
+            System.out.println(request.getUsername() + " " + request.getPassword());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         } catch (BadCredentialsException e) {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        System.out.println(request.getUsername());
         UserDetails userDetails = userServiceImpl.loadUserByUsername(request.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
+        System.out.println(token);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 

@@ -35,7 +35,9 @@ public class ProductController {
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
     private final PictureServiceIntegration pictureServiceIntegration;
-    private final MyQueue<Product> productQueue = new MyQueue<>();//?
+
+    private MyQueue<Product> productQueue = new MyQueue<>();//думаю что временно не используется
+
 
     @GetMapping("/not_confirmed")
     public ProductDto notConfirmed() throws ResourceNotFoundException {
@@ -59,13 +61,15 @@ public class ProductController {
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
             @RequestParam(name = "characteristic_part", required = false) String characteristicPart,
             @RequestParam(name = "organization_title", required = false) String organizationTitle,
-            @RequestParam(name = "title_part", required = false) String titlePart
+            @RequestParam(name = "title_part", required = false) String titlePart,
+            @RequestParam(name = "limit", defaultValue = "20") int limit
     ) {
         if (page < 1) {
             page = 1;
         }
 
-        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page, characteristicPart).map(
+
+        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page, characteristicPart, limit).map(
                 productConverter::entityToDto
         );
         PageDto<ProductDto> out = new PageDto<>();
