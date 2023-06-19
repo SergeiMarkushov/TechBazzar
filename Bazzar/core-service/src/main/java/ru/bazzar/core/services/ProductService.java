@@ -48,7 +48,7 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
     }
-    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, String organizationTitle, Integer page) {
+    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, String organizationTitle, Integer page, int limit) {
         Specification<Product> spec = Specification.where(null);
         if (minPrice != null) {
             spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(minPrice));
@@ -65,7 +65,7 @@ public class ProductService {
 //        if (keywordPart != null) {
 //            spec = spec.and(ProductSpecifications.keywordLike(keywordPart));
 //        }
-        return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
+        return productRepository.findAll(spec, PageRequest.of(page - 1, limit));
     }
     public Product notConfirmed(){
         if (productQueue.isEmpty()) {
