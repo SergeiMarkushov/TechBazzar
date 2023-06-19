@@ -57,7 +57,7 @@ public class ProductController {
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "min_price", required = false) Integer minPrice,
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
-            //@RequestParam(name = "keyword_part", required = false) String keywordPart,
+            @RequestParam(name = "characteristic_part", required = false) String characteristicPart,
             @RequestParam(name = "organization_title", required = false) String organizationTitle,
             @RequestParam(name = "title_part", required = false) String titlePart
     ) {
@@ -65,7 +65,7 @@ public class ProductController {
             page = 1;
         }
 
-        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page).map(
+        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page, characteristicPart).map(
                 productConverter::entityToDto
         );
         PageDto<ProductDto> out = new PageDto<>();
