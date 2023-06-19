@@ -4,13 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.bazzar.auth.api.ResourceNotFoundException;
 import ru.bazzar.auth.api.RoleRequest;
 import ru.bazzar.auth.api.UserDto;
@@ -68,8 +62,14 @@ public class UserController {
 
     @PostMapping("/set_role")
     public UserDto setRole(@RequestBody RoleRequest roleRequest) {
-        System.out.println("setRole " + roleRequest);
+        log.info("setRole " + roleRequest);
         return userConverter.entityToDto(userServiceImpl.setRole(roleRequest.getEmail(), roleRequest.getRole()));
+    }
+
+    @DeleteMapping("/delete_role")
+    public UserDto deleteRole(@RequestBody RoleRequest roleRequest) {
+        log.info("Role deleted " + roleRequest);
+        return userConverter.entityToDto(userServiceImpl.deleteRole(roleRequest.getEmail(), roleRequest.getRole()));
     }
 
     @PostMapping("/up_balance")
