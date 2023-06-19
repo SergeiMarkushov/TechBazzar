@@ -1,37 +1,25 @@
-package ru.bazzar.core.entities;
+package ru.bazzar.core.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reviews")
-public class Review {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class ReviewDto {
     private Long id;
-
-    @Column(name = "username")
     private String username;
-
-    @Column(name = "review_text")
     private String reviewText;
-
-    @Column(name = "mark")
     private int mark;
 
     @Override
     public String toString() {
-        return "Review{" +
+        return "ReviewDto{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", reviewText='" + reviewText + '\'' +
@@ -43,8 +31,8 @@ public class Review {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Review review = (Review) o;
-        return mark == review.mark && Objects.equals(id, review.id) && Objects.equals(username, review.username) && Objects.equals(reviewText, review.reviewText);
+        ReviewDto reviewDto = (ReviewDto) o;
+        return mark == reviewDto.mark && Objects.equals(id, reviewDto.id) && Objects.equals(username, reviewDto.username) && Objects.equals(reviewText, reviewDto.reviewText);
     }
 
     @Override
