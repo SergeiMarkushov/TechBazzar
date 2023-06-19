@@ -18,7 +18,7 @@ import java.io.InputStream;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Slf4j
 class PictureServiceTest {
     private Picture testPicture;
