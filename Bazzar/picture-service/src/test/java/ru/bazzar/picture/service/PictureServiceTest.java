@@ -54,24 +54,23 @@ class PictureServiceTest {
 
     }
 
-//    @Test
-//    //Big > 5mb (exception!) подтверждает, что в БД не сохранит больше 5mb
-//    //<работает только если по одиночке запускаешь почему-то>
-//    void test_saveMultipartFileBig() throws IOException {
-//        FileResourcesUtils fileResourcesUtilsBig = new FileResourcesUtils();
-//        String fileNameBig = "pic_example/big.jpg";
-//        InputStream isBig = fileResourcesUtilsBig.getFileFromResourceAsStream(fileNameBig);
-//
-//        MultipartFile imageBig = mock(MultipartFile.class);
-//        when(imageBig.getBytes()).thenReturn(isBig.readAllBytes());
-//        when(imageBig.getOriginalFilename()).thenReturn("big.jpg");
-//        when(imageBig.getContentType()).thenReturn("image/jpeg");
-//
-//        pictureService.saveMultipartFile(imageBig);
-//
-//        Assertions.assertThrows(ResourceNotFoundException.class,
-//                ()->{ pictureService.findByFileName(imageBig.getOriginalFilename()); });
-//    }
+    @Test
+    //Big > 5mb (exception! - вернет 1L pic) подтверждает, что в БД не сохранит MultipartFile больше 5mb
+    void test_saveMultipartFileBig() throws IOException {
+
+        FileResourcesUtils fileResourcesUtilsBig = new FileResourcesUtils();
+        String fileNameBig = "pic_example/big.jpg";
+        InputStream isBig = fileResourcesUtilsBig.getFileFromResourceAsStream(fileNameBig);
+
+        MultipartFile imageBig = mock(MultipartFile.class);
+        when(imageBig.getBytes()).thenReturn(isBig.readAllBytes());
+        when(imageBig.getOriginalFilename()).thenReturn("big.jpg");
+        when(imageBig.getContentType()).thenReturn("image/jpeg");
+
+        Picture returnIfBad = pictureRepository.findById(1L).get();
+        Assertions.assertEquals(returnIfBad, pictureService.saveMultipartFile(imageBig));
+
+    }
 
     @Test
     //сохраняем маленькую картинку
@@ -121,10 +120,23 @@ class PictureServiceTest {
         Assertions.assertEquals(foundPic.getFileName(), "defaultnophotopic.jpg");
     }
 
+    @Test
+    void test_deleteById() {
+        pictureRepository.deleteAll();
+
+        pictureService.save(testPicture);
+        Long id = pictureService.findByFileName(testPicture.getFileName()).getId();
+        pictureService.deleteById(id);
+
+        Assertions.assertThrows(ResourceNotFoundException.class,
+                ()->{ pictureService.findById(id); });
+    }
+
     private void initPictures() {
         FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
         InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/test.jpeg");
         InputStream isBig = fileResourcesUtils.getFileFromResourceAsStream("pic_example/big.jpg");
+        InputStream isDef = fileResourcesUtils.getFileFromResourceAsStream("pic_example/defaultnophotopic.jpg");
         //до 1Mb
         testPicture = Picture.builder()
                 .contentType("image/jpeg")
@@ -138,16 +150,4 @@ class PictureServiceTest {
                 .bytes(fileResourcesUtils.convertStreamToByteArr(isBig))
                 .build();
     }
-
-//    @Test
-//    //(exception!)
-//    //<работает только если по одиночке запускаешь почему-то>
-//    void test_deleteById() {
-//        pictureService.save(testPicture);
-//        Long id = pictureService.findByFileName(testPicture.getFileName()).getId();
-//        pictureService.deleteById(id);
-//
-//        Assertions.assertThrows(ResourceNotFoundException.class,
-//                ()->{ pictureService.findById(id); });
-//    }
 }
