@@ -18,12 +18,12 @@ public class PictureConfig {
     //создание картинки по умолчанию с id 1L
     @PostConstruct
     public void saveDefaultNoPhotoPic(){
-        String fileName = "pic_example/defaultnophototopic.jpg";
+        String fileName = "pic_example/defaultnophotopic.jpg";
         FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
         InputStream is = fileResourcesUtils.getFileFromResourceAsStream(fileName);
         Picture defPic = Picture.builder()
                 .id(1L)
-                .fileName("defaultnofotopic.jpg")
+                .fileName("defaultnophotopic.jpg")
                 .contentType("image/jpeg")
                 .bytes(fileResourcesUtils.convertStreamToByteArr(is))
                 .build();

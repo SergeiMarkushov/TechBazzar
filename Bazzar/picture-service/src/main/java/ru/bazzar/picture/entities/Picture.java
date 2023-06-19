@@ -6,6 +6,8 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 @Builder
@@ -30,7 +32,31 @@ public class Picture {
 
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
-    @Size(max = 5 * 1024 * 1024, message = "Размер не должен превышать 5 Mb")
+//    @Size(max = 5 * 1024 * 1024, message = "Размер не должен превышать 5 Mb")
     private byte[] bytes;
 
+    @Override
+    public String toString() {
+        return "Picture{" +
+                "id=" + id +
+                ", fileName='" + fileName + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", bytes=" + Arrays.toString(bytes) +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Picture picture = (Picture) o;
+        return Objects.equals(id, picture.id) && Objects.equals(fileName, picture.fileName) && Objects.equals(contentType, picture.contentType) && Arrays.equals(bytes, picture.bytes);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, fileName, contentType);
+        result = 31 * result + Arrays.hashCode(bytes);
+        return result;
+    }
 }

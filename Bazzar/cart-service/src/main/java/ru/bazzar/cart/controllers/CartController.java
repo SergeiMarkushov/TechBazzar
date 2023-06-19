@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import ru.bazzar.cart.api.CartDto;
-import ru.bazzar.cart.api.StringResponse;
 import ru.bazzar.cart.converters.CartConverter;
 import ru.bazzar.cart.services.CartService;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -40,7 +37,7 @@ public class CartController {
 
     @GetMapping("/change_quantity")
     public void changeQuantity(@RequestHeader(name = "username") String username, @RequestParam Long productId, @RequestParam Integer delta) {
-        System.out.println("в картконтроллере" + delta);
+        log.info("в CartController " + delta);
         cartService.changeQuantity(username, productId, delta);
     }
 

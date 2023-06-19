@@ -2,17 +2,11 @@ package ru.bazzar.core.integrations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import ru.bazzar.core.api.PictureDto;
-import ru.bazzar.core.api.ResourceNotFoundException;
-
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -25,7 +19,7 @@ public class PictureServiceIntegration {
                 .retrieve()
                 .onStatus(
                         httpStatus -> httpStatus.value() == HttpStatus.BAD_REQUEST.value(),
-                        clientResponse -> Mono.error(new ResourceNotFoundException("Ресурс не найден."))
+                        clientResponse -> Mono.error(new NumberFormatException("Требуется ввести число"))
                 )
                 .bodyToMono(PictureDto.class)
                 .block();

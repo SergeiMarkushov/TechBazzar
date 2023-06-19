@@ -1,7 +1,17 @@
 package ru.bazzar.core.api;
 
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItemDto {
     private Long id;
     private String productTitle;
@@ -10,64 +20,17 @@ public class OrderItemDto {
     private BigDecimal pricePerProduct;
     private BigDecimal price;
 
-    public OrderItemDto() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderItemDto that = (OrderItemDto) o;
+        return quantity == that.quantity && Objects.equals(id, that.id) && Objects.equals(productTitle, that.productTitle) && Objects.equals(orderId, that.orderId) && Objects.equals(pricePerProduct, that.pricePerProduct) && Objects.equals(price, that.price);
     }
 
-    public OrderItemDto(Long id, String productTitle, Long orderId, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
-        this.id = id;
-        this.productTitle = productTitle;
-        this.orderId = orderId;
-        this.quantity = quantity;
-        this.pricePerProduct = pricePerProduct;
-        this.price = price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getProductTitle() {
-        return productTitle;
-    }
-
-    public void setProductTitle(String productTitle) {
-        this.productTitle = productTitle;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPricePerProduct() {
-        return pricePerProduct;
-    }
-
-    public void setPricePerProduct(BigDecimal pricePerProduct) {
-        this.pricePerProduct = pricePerProduct;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, productTitle, orderId, quantity, pricePerProduct, price);
     }
 
     @Override

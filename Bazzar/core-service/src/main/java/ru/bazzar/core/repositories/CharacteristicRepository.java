@@ -13,5 +13,5 @@ public interface CharacteristicRepository extends JpaRepository<Characteristic, 
     List<Characteristic> findByProductId(Long productId);
     @Query("SELECT p FROM Product p JOIN Characteristic c ON p.id = c.product.id WHERE c.name = :characteristicName")
     List<Product> findProductsByCharacteristicName(@Param("characteristicName") String characteristicName);
-    void deleteByProductId(Long productId);
+
 }

@@ -1,5 +1,16 @@
 package ru.bazzar.core.api;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Objects;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseHistoryDto {
     private Long id;
     private String email;
@@ -8,63 +19,28 @@ public class PurchaseHistoryDto {
     private int quantity;
     private String datePurchase;
 
-    public PurchaseHistoryDto() {
+    @Override
+    public String toString() {
+        return "PurchaseHistoryDto{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", productTitle='" + productTitle + '\'' +
+                ", organizationTitle='" + organizationTitle + '\'' +
+                ", quantity=" + quantity +
+                ", datePurchase='" + datePurchase + '\'' +
+                '}';
     }
 
-    public PurchaseHistoryDto(Long id, String email, String productTitle, String organizationTitle, int quantity, String datePurchase) {
-        this.id = id;
-        this.email = email;
-        this.productTitle = productTitle;
-        this.organizationTitle = organizationTitle;
-        this.quantity = quantity;
-        this.datePurchase = datePurchase;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PurchaseHistoryDto that = (PurchaseHistoryDto) o;
+        return quantity == that.quantity && Objects.equals(id, that.id) && Objects.equals(email, that.email) && Objects.equals(productTitle, that.productTitle) && Objects.equals(organizationTitle, that.organizationTitle) && Objects.equals(datePurchase, that.datePurchase);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getProductTitle() {
-        return productTitle;
-    }
-
-    public void setProductTitle(String productTitle) {
-        this.productTitle = productTitle;
-    }
-
-    public String getOrganizationTitle() {
-        return organizationTitle;
-    }
-
-    public void setOrganizationTitle(String organizationTitle) {
-        this.organizationTitle = organizationTitle;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getDatePurchase() {
-        return datePurchase;
-    }
-
-    public void setDatePurchase(String datePurchase) {
-        this.datePurchase = datePurchase;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, productTitle, organizationTitle, quantity, datePurchase);
     }
 }

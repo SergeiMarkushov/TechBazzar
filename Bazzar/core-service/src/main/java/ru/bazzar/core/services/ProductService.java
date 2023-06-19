@@ -33,7 +33,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final OrganizationServiceIntegration organizationService;
     private final UserServiceIntegration userService;
-    private MyQueue<Product> productQueue = new MyQueue<>();
+    private final MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
     private final PictureServiceIntegration pictureServiceIntegration;
 
@@ -48,7 +48,9 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
     }
-    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, String organizationTitle, Integer page, int limit) {
+
+    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, String organizationTitle, Integer page, String characteristicPart, int limit) {
+
         Specification<Product> spec = Specification.where(null);
         if (minPrice != null) {
             spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(minPrice));
@@ -62,10 +64,12 @@ public class ProductService {
         if (organizationTitle != null) {
             spec = spec.and(ProductSpecifications.titleCompanyLike(organizationTitle));
         }
-//        if (keywordPart != null) {
-//            spec = spec.and(ProductSpecifications.keywordLike(keywordPart));
-//        }
+
+        if (characteristicPart != null) {
+            spec = spec.and(ProductSpecifications.characteristicLike(characteristicPart));
+        }
         return productRepository.findAll(spec, PageRequest.of(page - 1, limit));
+
     }
     public Product notConfirmed(){
         if (productQueue.isEmpty()) {
@@ -147,9 +151,9 @@ public class ProductService {
         product.setPrice(productDto.getPrice());
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
-        //возможны 2 запроса к БД но я ещё хз(это надо для кэша)
+        //возможны 2 запроса к БД, но я ещё хз(это надо для кэша)
         Long idToReturn = productRepository.save(product).getId();
-        System.out.println("SAVE: " + findById(idToReturn).toString());
+        log.info("SAVE: " + findById(idToReturn).toString());
         return findById(idToReturn);
     }
 

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import ru.bazzar.picture.api.AppError;
 import ru.bazzar.picture.api.ResourceNotFoundException;
 
@@ -31,6 +32,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new AppError(
                 HttpStatus.BAD_REQUEST.value(),
                 errorMessages.toString()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        String errorMessages = e.getMessage() + " - Ограничение - 5MB";
+        return new ResponseEntity<>(new AppError(
+                HttpStatus.BAD_REQUEST.value(),
+                errorMessages),
                 HttpStatus.BAD_REQUEST);
     }
 

@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class Message {
     private boolean status;
 
@@ -22,8 +21,9 @@ public class Message {
         this.status = status;
         this.error = error;
     }
+
     public Message(boolean status, String message) {
         this.status = status;
-        this.msg=message;
+        this.msg = message;
     }
 }

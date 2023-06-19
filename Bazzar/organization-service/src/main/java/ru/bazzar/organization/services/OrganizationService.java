@@ -26,7 +26,7 @@ public class OrganizationService {
     private final OrganizationRepository repository;
     private final LogoService logoService;
     private final OrganizationConverter organizationConverter;
-    private MyQueue<Organization> myQueue = new MyQueue<>();
+    private final MyQueue<Organization> myQueue = new MyQueue<>();
 
     public void save(OrganizationDto organizationDto, String username, MultipartFile file) throws IOException {
         Organization organization = organizationConverter.dtoToEntity(organizationDto);

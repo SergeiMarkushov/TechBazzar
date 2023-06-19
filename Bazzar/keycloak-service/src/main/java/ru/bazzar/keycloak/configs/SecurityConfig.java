@@ -13,7 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -31,31 +31,29 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .oauth2ResourceServer(jwtConfigurer -> {
-                    jwtConfigurer.jwt(jwtCustomizer -> {
-                        JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
-                        authenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
-                            Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
-                            List<String> roles = (List<String>) realmAccess.get("roles");
+                .oauth2ResourceServer(jwtConfigurer -> jwtConfigurer.jwt(jwtCustomizer -> {
+                    JwtAuthenticationConverter authenticationConverter = new JwtAuthenticationConverter();
+                    authenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
+                        Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
+                        List<String> roles = (List<String>) realmAccess.get("roles");
 
-                            return roles.stream()
-                                    .map(SimpleGrantedAuthority::new)
-                                    .map(it -> (GrantedAuthority) it)
-                                    .toList();
-                        });
-
-                        jwtCustomizer.jwtAuthenticationConverter(authenticationConverter);
+                        return roles.stream()
+                                .map(SimpleGrantedAuthority::new)
+                                .map(it -> (GrantedAuthority) it)
+                                .toList();
                     });
-                })
+
+                    jwtCustomizer.jwtAuthenticationConverter(authenticationConverter);
+                }))
                 .build();
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(clientUrl));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Collections.singletonList(clientUrl));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

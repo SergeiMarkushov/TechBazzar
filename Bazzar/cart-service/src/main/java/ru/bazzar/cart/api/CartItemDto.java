@@ -1,7 +1,14 @@
 package ru.bazzar.cart.api;
 
-import java.math.BigDecimal;
+import lombok.*;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CartItemDto {
     private Long productId;
     private String productTitle;
@@ -9,56 +16,6 @@ public class CartItemDto {
     private BigDecimal pricePerProduct;
     private BigDecimal price;
 
-    public CartItemDto() {
-    }
-
-    public CartItemDto(Long productId, String productTitle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
-        this.productId = productId;
-        this.productTitle = productTitle;
-        this.quantity = quantity;
-        this.pricePerProduct = pricePerProduct;
-        this.price = price;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public String getProductTitle() {
-        return productTitle;
-    }
-
-    public void setProductTitle(String productTitle) {
-        this.productTitle = productTitle;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPricePerProduct() {
-        return pricePerProduct;
-    }
-
-    public void setPricePerProduct(BigDecimal pricePerProduct) {
-        this.pricePerProduct = pricePerProduct;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
 
     @Override
     public String toString() {
@@ -69,5 +26,18 @@ public class CartItemDto {
                 ", pricePerProduct=" + pricePerProduct +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartItemDto that = (CartItemDto) o;
+        return quantity == that.quantity && Objects.equals(productId, that.productId) && Objects.equals(productTitle, that.productTitle) && Objects.equals(pricePerProduct, that.pricePerProduct) && Objects.equals(price, that.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productId, productTitle, quantity, pricePerProduct, price);
     }
 }
