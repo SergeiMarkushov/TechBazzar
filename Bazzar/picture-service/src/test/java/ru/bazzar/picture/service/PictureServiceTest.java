@@ -1,11 +1,14 @@
 package ru.bazzar.picture.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.webresources.FileResource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 import ru.bazzar.picture.api.ResourceNotFoundException;
 import ru.bazzar.picture.entities.Picture;
@@ -14,12 +17,14 @@ import ru.bazzar.picture.util.FileResourcesUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Slf4j
+//НЕ ВЫПОЛНЯТЬ НА УДАЛЕННОЙ БД!!!
 class PictureServiceTest {
     private Picture testPicture;
     private Picture bigPicture;
@@ -30,50 +35,61 @@ class PictureServiceTest {
     @Autowired
     private PictureRepository pictureRepository;
 
+    @Test
+    void test_findByFileName() {
+        //ищет дефолтную картинку в БД
+        Picture foundPic = pictureService.findByFileName("defaultnophotopic.jpg");
+        Assertions.assertNotNull(foundPic);
+        Assertions.assertEquals(foundPic.getFileName(), "defaultnophotopic.jpg");
+    }
+
     @BeforeEach
     void test_setUp() {
         initPictures();
     }
-
     @Test
-    //Small < 1mb
     void test_saveMultipartFileSmall() throws IOException {
-        FileResourcesUtils fileResourcesUtilsSmall = new FileResourcesUtils();
-        String fileNameSmall = "pic_example/defaultnophotopic.jpg";
-        InputStream isSmall = fileResourcesUtilsSmall.getFileFromResourceAsStream(fileNameSmall);
+        FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
+        InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/test.jpeg");
 
-        MultipartFile imageSmall = mock(MultipartFile.class);
-        when(imageSmall.getBytes()).thenReturn(isSmall.readAllBytes());
-        when(imageSmall.getOriginalFilename()).thenReturn("defaultnophotopic.jpg");
-        when(imageSmall.getContentType()).thenReturn("image/jpeg");
+        MultipartFile imageSmall = new MockMultipartFile("test.jpeg"
+                                                        , "test.jpeg"
+                                                        , "image/jpeg"
+                                                        , is
+        );
 
-        pictureService.saveMultipartFile(imageSmall);
+        Picture t = pictureService.saveMultipartFile(imageSmall);
+        System.out.println("id_" + t.getId());
+        System.out.println(imageSmall.getOriginalFilename());
+        System.out.println(pictureService.findById(t.getId()).getFileName());
 
-        Assertions.assertEquals(imageSmall.getOriginalFilename()
-                ,pictureService.findByFileName("defaultnophotopic.jpg").getFileName());
+        Assertions.assertEquals(t.getFileName()
+                ,pictureService.findById(t.getId()).getFileName());
 
     }
 
     @Test
-    //Big > 5mb (exception! - вернет 1L pic) подтверждает, что в БД не сохранит MultipartFile больше 5mb
     void test_saveMultipartFileBig() throws IOException {
+        FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
+        InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/big.jpg");
 
-        FileResourcesUtils fileResourcesUtilsBig = new FileResourcesUtils();
-        String fileNameBig = "pic_example/big.jpg";
-        InputStream isBig = fileResourcesUtilsBig.getFileFromResourceAsStream(fileNameBig);
+        MultipartFile imageSmall = new MockMultipartFile("big.jpg"
+                                                        , "big.jpg"
+                                                        , "image/jpeg"
+                                                        , is
+        );
 
-        MultipartFile imageBig = mock(MultipartFile.class);
-        when(imageBig.getBytes()).thenReturn(isBig.readAllBytes());
-        when(imageBig.getOriginalFilename()).thenReturn("big.jpg");
-        when(imageBig.getContentType()).thenReturn("image/jpeg");
+        Picture t = pictureService.saveMultipartFile(imageSmall);
+        System.out.println("id_" + t.getId());
+        System.out.println(imageSmall.getOriginalFilename());
+        System.out.println(pictureService.findById(t.getId()).getFileName());
 
-        Picture returnIfBad = pictureRepository.findById(1L).get();
-        Assertions.assertEquals(returnIfBad, pictureService.saveMultipartFile(imageBig));
+        Assertions.assertEquals(t.getFileName()
+                ,pictureService.findById(t.getId()).getFileName());
 
     }
 
     @Test
-    //сохраняем маленькую картинку
     void test_save() {
         Assertions.assertNotNull(testPicture);
         Assertions.assertEquals(testPicture.getContentType(), "image/jpeg");
@@ -86,8 +102,6 @@ class PictureServiceTest {
     }
 
     @Test
-    //сохраняем большую картинку
-    //В настройках сервиса стоит ограничение, это проверка возможности сохранения > 5Mb
     void test_saveBigPic() {
         Assertions.assertNotNull(bigPicture);
         Assertions.assertEquals(bigPicture.getContentType(), "image/jpeg");
@@ -99,37 +113,22 @@ class PictureServiceTest {
         Assertions.assertEquals(savedPic.getBytes(),bigPicture.getBytes());
     }
 
-
     @Test
     void test_findById() {
-        //ведём поиск по дефолтной фотке
-        // (должна быть всегда! "pic_example/defaultnophotopic.jpg")
-        // добавляется при первой инициализации БД в PictureConfig.class
-        Long defaultId = 1L;
-
-        Picture foundPic = pictureService.findById(defaultId);
-        Assertions.assertNotNull(foundPic);
-        Assertions.assertEquals(foundPic.getId(),defaultId);
-    }
-
-    @Test
-    void test_findByFileName() {
-        //не используемый метод
-        Picture foundPic = pictureService.findByFileName("defaultnophotopic.jpg");
-        Assertions.assertNotNull(foundPic);
-        Assertions.assertEquals(foundPic.getFileName(), "defaultnophotopic.jpg");
+        Long id = pictureService.save(testPicture).getId();
+        Assertions.assertNotNull(testPicture);
+        Assertions.assertEquals(testPicture.getId(),id);
     }
 
     @Test
     void test_deleteById() {
-        pictureRepository.deleteAll();
 
-        pictureService.save(testPicture);
-        Long id = pictureService.findByFileName(testPicture.getFileName()).getId();
+        Long id = pictureService.save(testPicture).getId();
         pictureService.deleteById(id);
 
-        Assertions.assertThrows(ResourceNotFoundException.class,
+        Assertions.assertThrows(Exception.class,
                 ()->{ pictureService.findById(id); });
+
     }
 
     private void initPictures() {

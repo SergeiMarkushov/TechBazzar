@@ -20,7 +20,7 @@ import ru.bazzar.picture.repositories.PictureRepository;
 import ru.bazzar.picture.util.FileResourcesUtils;
 
 import java.io.InputStream;
-
+//НЕ ВЫПОЛНЯТЬ НА УДАЛЕННОЙ БД!!!
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureWebTestClient
@@ -40,14 +40,6 @@ class PictureControllerTest {
     @BeforeEach
     void setUp() {
         initPicture();
-    }
-    @Test
-    void notFound(){
-        pictureRepository.deleteAll();
-        webTestClient.get()
-              .uri("/api/v1/picture/1")
-              .exchange()
-              .expectStatus().isNotFound();
     }
 
     @Test
