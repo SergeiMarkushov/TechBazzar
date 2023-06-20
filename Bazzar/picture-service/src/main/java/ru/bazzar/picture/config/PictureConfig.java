@@ -1,6 +1,8 @@
 package ru.bazzar.picture.config;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.bazzar.picture.entities.Picture;
 import ru.bazzar.picture.service.PictureService;
@@ -14,6 +16,11 @@ import java.io.*;
 @RequiredArgsConstructor
 public class PictureConfig {
     private final PictureService pictureService;
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
     //создание картинки по умолчанию с id 1L
     @PostConstruct
@@ -29,6 +36,4 @@ public class PictureConfig {
                 .build();
         pictureService.save(defPic);
     }
-
-
 }
