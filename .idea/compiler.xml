@@ -14,6 +14,7 @@
         <module name="picture-service" />
         <module name="gateway-service" />
         <module name="organization-service" />
+        <module name="telegram-bot-service" />
         <module name="notification-service" />
         <module name="core-service" />
       </profile>
@@ -35,6 +36,7 @@
       <module name="notification-service" options="-parameters" />
       <module name="organization-service" options="-parameters" />
       <module name="picture-service" options="-parameters" />
+      <module name="telegram-bot-service" options="-parameters" />
     </option>
   </component>
 </project>
