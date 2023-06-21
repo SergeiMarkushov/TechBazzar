@@ -67,4 +67,8 @@ public class PictureController {
         }
         pictureService.save(picture);
     }
+    @GetMapping("/evict")
+    public void evict(){
+        pictureService.cacheEvict();
+    }
 }

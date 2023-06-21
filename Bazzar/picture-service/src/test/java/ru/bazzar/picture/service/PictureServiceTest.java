@@ -59,9 +59,6 @@ class PictureServiceTest {
         );
 
         Picture t = pictureService.saveMultipartFile(imageSmall);
-        System.out.println("id_" + t.getId());
-        System.out.println(imageSmall.getOriginalFilename());
-        System.out.println(pictureService.findById(t.getId()).getFileName());
 
         Assertions.assertEquals(t.getFileName()
                 ,pictureService.findById(t.getId()).getFileName());
@@ -80,9 +77,6 @@ class PictureServiceTest {
         );
 
         Picture t = pictureService.saveMultipartFile(imageSmall);
-        System.out.println("id_" + t.getId());
-        System.out.println(imageSmall.getOriginalFilename());
-        System.out.println(pictureService.findById(t.getId()).getFileName());
 
         Assertions.assertEquals(t.getFileName()
                 ,pictureService.findById(t.getId()).getFileName());
@@ -129,6 +123,19 @@ class PictureServiceTest {
         Assertions.assertThrows(Exception.class,
                 ()->{ pictureService.findById(id); });
 
+    }
+
+    @Test
+    void test_deleteAll() {
+        Assertions.assertThrows(UnsupportedOperationException.class,
+                ()->{ pictureRepository.deleteAll(); });
+    }
+
+    @Test
+    void test_deleteByDefaultId() {
+
+        Assertions.assertThrows(UnsupportedOperationException.class,
+                ()->{ pictureRepository.deleteById(1L); });
     }
 
     private void initPictures() {

@@ -2,6 +2,7 @@ package ru.bazzar.picture;
 
 
 import com.google.common.cache.CacheBuilder;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.Cache;
@@ -31,13 +32,18 @@ public class PictureApplication {
 						//тут регулируется нагрузка
 						CacheBuilder.newBuilder()
 								//max размер кэша
-								.maximumSize(10000)
+								.maximumSize(1000)
 								//время жизни кэш-сущности
 								.expireAfterWrite(1, TimeUnit.DAYS)
 								.build().asMap(),
 						false);
 			}
 		};
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 
 }

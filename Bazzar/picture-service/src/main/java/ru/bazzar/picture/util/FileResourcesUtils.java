@@ -1,11 +1,10 @@
 package ru.bazzar.picture.util;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 
 public class FileResourcesUtils {
 
@@ -20,7 +19,6 @@ public class FileResourcesUtils {
         } else {
             return inputStream;
         }
-
     }
 
     private File getFileFromResource(String fileName) throws URISyntaxException {
@@ -30,10 +28,8 @@ public class FileResourcesUtils {
         if (resource == null) {
             throw new IllegalArgumentException("file not found! " + fileName);
         } else {
-
             return new File(resource.toURI());
         }
-
     }
 
     public byte[] convertStreamToByteArr(InputStream is) {
@@ -42,19 +38,6 @@ public class FileResourcesUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    // print a file
-    private static void printFile(File file) {
-
-        List<String> lines;
-        try {
-            lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-            lines.forEach(System.out::println);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
 }
