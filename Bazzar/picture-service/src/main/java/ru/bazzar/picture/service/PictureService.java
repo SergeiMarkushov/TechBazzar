@@ -2,6 +2,8 @@ package ru.bazzar.picture.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +43,7 @@ public class PictureService {
         return pictureRepository.save(picture);
     }
 
-
+    @Cacheable(cacheNames = {"pic"}, sync = true, key = "#id")
     public Picture findById(Long id){
         return pictureRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Картинка с id: " + id + " - не найдена!")
@@ -54,13 +56,13 @@ public class PictureService {
         );
     }
 
-
+    @CacheEvict(cacheNames = {"pic"})
     public void deleteById(Long id){
-        if(id != null && id > 1){
             pictureRepository.deleteById(id);
             log.warn("deleteById "+ id + ".");
-        }
     }
+    @CacheEvict(cacheNames = {"pic"}, allEntries = true)
+    public void cacheEvict(){};
 
 
 

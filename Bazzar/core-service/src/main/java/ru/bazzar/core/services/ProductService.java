@@ -37,12 +37,14 @@ public class ProductService {
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
     private final PictureServiceIntegration pictureServiceIntegration;
 
+    @CacheEvict(cacheNames = {"product"})
     public void deleteById(Long id){
         productRepository.deleteById(id);
-        evictCache();
     }
+
     @CacheEvict(cacheNames = {"product"},allEntries = true)
     public void evictCache() {}
+
     @Cacheable(cacheNames = {"product"}, sync = true, key = "#id")
     public Product findById(Long id) {
         return productRepository.findById(id)
@@ -88,7 +90,7 @@ public class ProductService {
                 .orElseThrow(()-> new ResourceNotFoundException("Продукт: " + title + " не найден!"));
         product.setConfirmed(true);
         productRepository.save(product);
-        evictCache();
+        evictCache();//затирает кэш
     }
     public void changeQuantity(Product product){
         Product productFromDB = productRepository.findById(product.getId())
@@ -101,7 +103,6 @@ public class ProductService {
         }
     }
     public ProductDto setProductPicture(ProductDto productDto, MultipartFile multipartFile) {
-        //если подгружена картинка - назначаем productDto.setPicture_id
         Long picId = 1L;
         PictureDto pictureDto = null;
         try {
@@ -111,7 +112,7 @@ public class ProductService {
                     .bytes(multipartFile.getBytes())
                     .build();
 
-            picId = pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);//проверить на pic serv
+            picId = pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
         } catch (IOException e) {
             throw new MultipartBuilderException
                     ("....bytes(multipartFile.getBytes()) - невозможно прочитать байты и сформировать pictureDto.");
@@ -151,7 +152,7 @@ public class ProductService {
         product.setPrice(productDto.getPrice());
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
-        //возможны 2 запроса к БД, но я ещё хз(это надо для кэша)
+        // TODO: 21.06.2023  проверить - возможны 2 запроса к БД, но я ещё хз(это надо для кэша)
         Long idToReturn = productRepository.save(product).getId();
         log.info("SAVE: " + findById(idToReturn).toString());
         return findById(idToReturn);
@@ -177,8 +178,6 @@ public class ProductService {
         if (productDto.getQuantity() != 0) {
             productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
         }
-
-        System.out.println(productDto.getPictureId()+"!!!!!!!");
         if (productDto.getPictureId() == null || productDto.getPictureId() < 0){
             productDto.setPictureId(1L);
         }

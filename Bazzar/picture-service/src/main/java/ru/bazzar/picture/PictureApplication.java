@@ -32,7 +32,7 @@ public class PictureApplication {
 						//тут регулируется нагрузка
 						CacheBuilder.newBuilder()
 								//max размер кэша
-								.maximumSize(10000)
+								.maximumSize(1000)
 								//время жизни кэш-сущности
 								.expireAfterWrite(1, TimeUnit.DAYS)
 								.build().asMap(),

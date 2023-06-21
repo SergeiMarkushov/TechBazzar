@@ -24,21 +24,9 @@ public class PictureConverter {
 
     public PictureDto entityToDto(Picture picture) {
         return modelMapper.map(picture, PictureDto.class);
-//        return PictureDto.builder()
-//                .id(picture.getId())
-//                .fileName(picture.getFileName())
-//                .contentType(picture.getContentType())
-//                .bytes(picture.getBytes())
-//                .build();
     }
 
     public Picture dtoToEntity(PictureDto pictureDto) {
         return modelMapper.map(pictureDto, Picture.class);
-//        return Picture.builder()
-//                .id(pictureDto.getId())
-//                .fileName(pictureDto.getFileName())
-//                .contentType(pictureDto.getContentType())
-//                .bytes(pictureDto.getBytes())
-//                .build();
     }
 }
