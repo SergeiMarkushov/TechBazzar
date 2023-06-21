@@ -1,0 +1,7 @@
+server:
+  port: 9191
+  servlet:
+    context-path: /tech-bazzar-bot
+bot:
+  name: ${bot.name}
+  token: ${bot.token}
