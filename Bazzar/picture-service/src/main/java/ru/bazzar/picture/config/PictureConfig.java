@@ -17,11 +17,6 @@ import java.io.*;
 public class PictureConfig {
     private final PictureService pictureService;
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
     //создание картинки по умолчанию с id 1L
     @PostConstruct
     public void saveDefaultNoPhotoPic(){
