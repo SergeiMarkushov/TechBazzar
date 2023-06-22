@@ -35,8 +35,8 @@ public class ProductController {
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
     private final PictureServiceIntegration pictureServiceIntegration;
-
     private MyQueue<Product> productQueue = new MyQueue<>();//думаю что временно не используется
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @GetMapping("/not_confirmed")
@@ -97,6 +97,7 @@ public class ProductController {
         return pictureServiceIntegration.getPictureDtoById(id);
     }
 
+    // TODO: 22.06.2023  Метод просто для примера, если Вадиму не нужен - можно удалить
     @PostMapping(value = "/save-pic-return-id", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Long savePicAndReturnId(@RequestParam(value = "multipart-pic") MultipartFile pic) throws IOException{
         PictureDto pictureDto = new PictureDto();
@@ -106,7 +107,6 @@ public class ProductController {
         return pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
     }
 
-    //кладёт в кэш...
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ProductDto createProduct(
@@ -114,8 +114,7 @@ public class ProductController {
             @RequestParam(value = "productDto") String product,
             @RequestParam(value = "product_picture", required = false) MultipartFile multipartFile)
             throws IOException {
-        //если подгружена картинка - назначаем productDto.setPicture_id
-        ObjectMapper objectMapper = new ObjectMapper();
+//        ObjectMapper objectMapper = new ObjectMapper();
         ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
 
         if (multipartFile == null) {
@@ -126,7 +125,6 @@ public class ProductController {
         return productConverter.entityToDto(productService.createProduct(productDto, username));
     }
 
-    //обновляет кэш...
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto updateProduct(
@@ -134,19 +132,16 @@ public class ProductController {
             @RequestParam(value = "productDto") String product,
             @RequestParam(value = "product_picture", required = false) MultipartFile multipartFile)
             throws IOException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
+//        ObjectMapper objectMapper = new ObjectMapper();
         ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
-        //если есть multipartFile картинка - удаляем старую, подгружаем новую
-        if (multipartFile != null) {
-            if (productDto.getPictureId() == null || productDto.getPictureId() < 0) {
-                productDto.setPictureId(1L);
-            } else {
+
+            if (productDto.getPictureId() == null || productDto.getPictureId() < 1) productDto.setPictureId(1L);
+            if(productDto.getPictureId() > 1 && multipartFile != null){
+                //удаляем старую картинку
                 pictureServiceIntegration.deletePictureById(productDto.getPictureId());
+                //ставим новую картинку
                 productDto = productService.setProductPicture(productDto, multipartFile);
             }
-
-        }
         return productConverter.entityToDto(productService.updateProduct(productDto, productDto.getId()));
     }
 }

@@ -20,7 +20,7 @@ public interface PictureRepository extends JpaRepository<Picture, Long> {
     @Override
     default void deleteById(Long id) {
         if (id.equals(FORBIDDEN_ID)) {
-            throw new UnsupportedOperationException("Удаление id = 1 - заблокировано!");
+            throw new UnsupportedOperationException("Удаление id = " + FORBIDDEN_ID + " - заблокировано!");
         }
         findById(id).ifPresent(this::delete);
     }
