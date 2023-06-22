@@ -29,7 +29,6 @@ public class OrganizationController {
                               @RequestParam("name") String companyName,
                               @RequestParam("description") String companyDescription,
                               @RequestParam(value = "companyImage", required = false) MultipartFile companyImage) throws IOException {
-        System.out.println("доходит");
         OrganizationDto organizationDto = new OrganizationDto();
         organizationDto.setTitle(companyName);
         organizationDto.setDescription(companyDescription);

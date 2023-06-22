@@ -17,7 +17,7 @@ public class ProductSpecifications {
     }
 
     public static Specification<Product> titleLike(String titlePart) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart));
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), String.format("%%%s%%", titlePart.toUpperCase()));
     }
 
     public static Specification<Product> titleCompanyLike(String organizationTitle) {
