@@ -63,6 +63,7 @@ class PictureServiceTest {
         Assertions.assertEquals(t.getFileName()
                 ,pictureService.findById(t.getId()).getFileName());
 
+        pictureRepository.deleteById(t.getId());
     }
 
     @Test
@@ -70,17 +71,17 @@ class PictureServiceTest {
         FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
         InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/big.jpg");
 
-        MultipartFile imageSmall = new MockMultipartFile("big.jpg"
+        MultipartFile imageBig = new MockMultipartFile("big.jpg"
                                                         , "big.jpg"
                                                         , "image/jpeg"
                                                         , is
         );
 
-        Picture t = pictureService.saveMultipartFile(imageSmall);
+        Picture t = pictureService.saveMultipartFile(imageBig);
 
         Assertions.assertEquals(t.getFileName()
                 ,pictureService.findById(t.getId()).getFileName());
-
+        pictureRepository.deleteById(t.getId());
     }
 
     @Test
@@ -93,6 +94,7 @@ class PictureServiceTest {
         Picture savedPic = pictureRepository.save(testPicture);
         Assertions.assertEquals(savedPic.getFileName(),testPicture.getFileName());
         Assertions.assertEquals(savedPic.getBytes(),testPicture.getBytes());
+        pictureRepository.deleteById(savedPic.getId());
     }
 
     @Test
@@ -105,6 +107,7 @@ class PictureServiceTest {
         Picture savedPic = pictureRepository.save(bigPicture);
         Assertions.assertEquals(savedPic.getFileName(),bigPicture.getFileName());
         Assertions.assertEquals(savedPic.getBytes(),bigPicture.getBytes());
+        pictureRepository.deleteById(savedPic.getId());
     }
 
     @Test

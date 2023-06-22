@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.bazzar.picture.entities.Picture;
+import ru.bazzar.picture.repositories.PictureRepository;
 import ru.bazzar.picture.service.PictureService;
 import ru.bazzar.picture.util.FileResourcesUtils;
 
@@ -16,6 +17,7 @@ import java.io.*;
 @RequiredArgsConstructor
 public class PictureConfig {
     private final PictureService pictureService;
+    private final PictureRepository pictureRepository;
 
     //создание картинки по умолчанию с id 1L
     @PostConstruct
@@ -24,11 +26,10 @@ public class PictureConfig {
         FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
         InputStream is = fileResourcesUtils.getFileFromResourceAsStream(fileName);
         Picture defPic = Picture.builder()
-                .id(1L)
                 .fileName("defaultnophotopic.jpg")
                 .contentType("image/jpeg")
                 .bytes(fileResourcesUtils.convertStreamToByteArr(is))
                 .build();
-        pictureService.save(defPic);
+        if(pictureRepository.findById(1L).orElse(null) == null) pictureService.save(defPic);
     }
 }

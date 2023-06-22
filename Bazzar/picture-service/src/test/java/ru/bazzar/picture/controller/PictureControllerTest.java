@@ -54,9 +54,8 @@ class PictureControllerTest {
                 .getResponseBody();
 
         assert pictureDtoByHttp != null;
-        Assertions.assertEquals(pictureDtoByHttp.getId(),1L);
         Assertions.assertEquals(pictureDtoByHttp.getFileName(),"defaultnophotopic.jpg");
-
+        Assertions.assertEquals(pictureDtoByHttp.getId(),1L);
     }
 
     @Test

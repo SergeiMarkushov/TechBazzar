@@ -122,6 +122,7 @@ public class ProductService {
 
         return productDto;
     }
+
     public OrganizationDto findAndAccessingOrganization(ProductDto productDto, String username){
         OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
         if (!organizationDto.isActive()) {
