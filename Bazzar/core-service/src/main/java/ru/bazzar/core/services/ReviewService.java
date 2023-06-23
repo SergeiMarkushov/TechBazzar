@@ -7,8 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bazzar.core.api.ResourceNotFoundException;
 import ru.bazzar.core.api.ReviewDto;
+import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.entities.Review;
+import ru.bazzar.core.repositories.ProductRepository;
 import ru.bazzar.core.repositories.ReviewRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -16,6 +21,7 @@ import ru.bazzar.core.repositories.ReviewRepository;
 @Slf4j
 public class ReviewService {
     private final ReviewRepository repository;
+    private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
 
     public ReviewDto createOrUpdateReview(ReviewDto reviewDto) {
@@ -45,6 +51,9 @@ public class ReviewService {
         log.info("Отзыв c id " + id + " удален");
         repository.deleteById(id);
     }
-
-
+    public List<ReviewDto> findByProductId(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден!"));
+        return product.getReviews().stream().map((element) -> modelMapper.map(element, ReviewDto.class)).collect(Collectors.toList());
+    }
 }

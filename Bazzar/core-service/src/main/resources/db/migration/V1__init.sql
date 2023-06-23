@@ -2,8 +2,9 @@ create table reviews
 (
     id          bigserial primary key,
     mark        integer,
-    review_text varchar(255),
-    username    varchar(255)
+    review_text text,
+    username    varchar(255),
+    product_id      BIGINT REFERENCES products(id)
 );
 
 create table discounts
