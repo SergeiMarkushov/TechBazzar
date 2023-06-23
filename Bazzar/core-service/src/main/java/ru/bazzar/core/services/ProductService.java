@@ -116,15 +116,11 @@ public class ProductService {
                     .contentType(multipartFile.getContentType())
                     .bytes(multipartFile.getBytes())
                     .build();
-
-            picId = pictureService.savePictureDtoAndReturnId(pictureDto);
+            productDto.setPictureId(pictureService.savePictureDtoAndReturnId(pictureDto));
         } catch (IOException e) {
             throw new MultipartBuilderException
-                    ("....bytes(multipartFile.getBytes()) - невозможно прочитать байты и сформировать pictureDto.");
+                    ("Невозможно прочитать байты и сформировать pictureDto.");
         }
-
-        productDto.setPictureId(picId);
-
         return productDto;
     }
 
@@ -190,7 +186,6 @@ public class ProductService {
             //ставим новую картинку
             productFromBd.setPictureId(productDto.getPictureId());
         }
-
         return productRepository.save(productFromBd);
     }
 }

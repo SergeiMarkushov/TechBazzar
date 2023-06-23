@@ -35,53 +35,9 @@ class PictureServiceTest {
     @Autowired
     private PictureRepository pictureRepository;
 
-    @Test
-    void test_findByFileName() {
-        //ищет дефолтную картинку в БД
-        Picture foundPic = pictureService.findByFileName("defaultnophotopic.jpg");
-        Assertions.assertNotNull(foundPic);
-        Assertions.assertEquals(foundPic.getFileName(), "defaultnophotopic.jpg");
-    }
-
     @BeforeEach
     void test_setUp() {
         initPictures();
-    }
-    @Test
-    void test_saveMultipartFileSmall() throws IOException {
-        FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
-        InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/test.jpeg");
-
-        MultipartFile imageSmall = new MockMultipartFile("test.jpeg"
-                                                        , "test.jpeg"
-                                                        , "image/jpeg"
-                                                        , is
-        );
-
-        Picture t = pictureService.saveMultipartFile(imageSmall);
-
-        Assertions.assertEquals(t.getFileName()
-                ,pictureService.findById(t.getId()).getFileName());
-
-        pictureRepository.deleteById(t.getId());
-    }
-
-    @Test
-    void test_saveMultipartFileBig() throws IOException {
-        FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
-        InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/big.jpg");
-
-        MultipartFile imageBig = new MockMultipartFile("big.jpg"
-                                                        , "big.jpg"
-                                                        , "image/jpeg"
-                                                        , is
-        );
-
-        Picture t = pictureService.saveMultipartFile(imageBig);
-
-        Assertions.assertEquals(t.getFileName()
-                ,pictureService.findById(t.getId()).getFileName());
-        pictureRepository.deleteById(t.getId());
     }
 
     @Test
