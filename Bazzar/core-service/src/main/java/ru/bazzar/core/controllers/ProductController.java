@@ -34,7 +34,7 @@ public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
     private final OrganizationServiceIntegration organizationService;
-    private final PictureServiceIntegration pictureServiceIntegration;
+    private final PictureServiceIntegration pictureService;
     private MyQueue<Product> productQueue = new MyQueue<>();//думаю что временно не используется
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -68,7 +68,6 @@ public class ProductController {
             page = 1;
         }
 
-
         Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page, characteristicPart, limit).map(
                 productConverter::entityToDto
         );
@@ -94,17 +93,17 @@ public class ProductController {
 
     @GetMapping("/find-pic-dto/{id}")
     public PictureDto getPictureDtoById(@PathVariable Long id) {
-        return pictureServiceIntegration.getPictureDtoById(id);
+        return pictureService.getPictureDtoById(id);
     }
 
     // TODO: 22.06.2023  Метод просто для примера, если Вадиму не нужен - можно удалить
     @PostMapping(value = "/save-pic-return-id", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Long savePicAndReturnId(@RequestParam(value = "multipart-pic") MultipartFile pic) throws IOException{
+    public Long savePicAndReturnId(@RequestParam(value = "multipart-pic") MultipartFile pic) throws IOException {
         PictureDto pictureDto = new PictureDto();
         pictureDto.setFileName(pic.getOriginalFilename());
         pictureDto.setContentType(pic.getContentType());
         pictureDto.setBytes(pic.getBytes());
-        return pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
+        return pictureService.savePictureDtoAndReturnId(pictureDto);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -112,36 +111,26 @@ public class ProductController {
     public ProductDto createProduct(
             @RequestHeader String username,
             @RequestParam(value = "productDto") String product,
-            @RequestParam(value = "product_picture", required = false) MultipartFile multipartFile)
+            @RequestParam(value = "product_picture") MultipartFile multipartFile)
             throws IOException {
-//        ObjectMapper objectMapper = new ObjectMapper();
-        ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
 
-        if (multipartFile == null) {
-            productDto.setPictureId(1L);
-        } else {
-            productDto = productService.setProductPicture(productDto, multipartFile);
-        }
+        ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
+        productDto = productService.setProductPicture(productDto, multipartFile);
         return productConverter.entityToDto(productService.createProduct(productDto, username));
     }
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto updateProduct(
-            @RequestHeader String username,
             @RequestParam(value = "productDto") String product,
             @RequestParam(value = "product_picture", required = false) MultipartFile multipartFile)
             throws IOException {
-//        ObjectMapper objectMapper = new ObjectMapper();
+
         ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
 
-            if (productDto.getPictureId() == null || productDto.getPictureId() < 1) productDto.setPictureId(1L);
-            if(productDto.getPictureId() > 1 && multipartFile != null){
-                //удаляем старую картинку
-                pictureServiceIntegration.deletePictureById(productDto.getPictureId());
-                //ставим новую картинку
-                productDto = productService.setProductPicture(productDto, multipartFile);
-            }
+        if (multipartFile != null) {
+            productDto = productService.setProductPicture(productDto, multipartFile);
+        }
         return productConverter.entityToDto(productService.updateProduct(productDto, productDto.getId()));
     }
 }

@@ -35,15 +35,16 @@ public class ProductService {
     private final UserServiceIntegration userService;
     private final MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
-    private final PictureServiceIntegration pictureServiceIntegration;
+    private final PictureServiceIntegration pictureService;
 
     @CacheEvict(cacheNames = {"product"})
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         productRepository.deleteById(id);
     }
 
-    @CacheEvict(cacheNames = {"product"},allEntries = true)
-    public void evictCache() {}
+    @CacheEvict(cacheNames = {"product"}, allEntries = true)
+    public void evictCache() {
+    }
 
     @Cacheable(cacheNames = {"product"}, sync = true, key = "#id")
     public Product findById(Long id) {
@@ -73,7 +74,8 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page - 1, limit));
 
     }
-    public Product notConfirmed(){
+
+    public Product notConfirmed() {
         if (productQueue.isEmpty()) {
             List<Product> notConfirmList = productRepository.findAllByIsConfirmed(false);
             if (notConfirmList.isEmpty()) {
@@ -85,14 +87,16 @@ public class ProductService {
         }
         return productQueue.dequeue();
     }
-    public void confirm(String title){
+
+    public void confirm(String title) {
         Product product = productRepository.findByTitleIgnoreCase(title)
-                .orElseThrow(()-> new ResourceNotFoundException("Продукт: " + title + " не найден!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт: " + title + " не найден!"));
         product.setConfirmed(true);
         productRepository.save(product);
         evictCache();//затирает кэш
     }
-    public void changeQuantity(Product product){
+
+    public void changeQuantity(Product product) {
         Product productFromDB = productRepository.findById(product.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + product.getId()));
         if (productFromDB.getQuantity() >= product.getQuantity()) {
@@ -102,6 +106,7 @@ public class ProductService {
             throw new AccessException("Недостаточное количество продукта, id: " + product.getId());
         }
     }
+
     public ProductDto setProductPicture(ProductDto productDto, MultipartFile multipartFile) {
         Long picId = 1L;
         PictureDto pictureDto = null;
@@ -112,7 +117,7 @@ public class ProductService {
                     .bytes(multipartFile.getBytes())
                     .build();
 
-            picId = pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);
+            picId = pictureService.savePictureDtoAndReturnId(pictureDto);
         } catch (IOException e) {
             throw new MultipartBuilderException
                     ("....bytes(multipartFile.getBytes()) - невозможно прочитать байты и сформировать pictureDto.");
@@ -123,7 +128,7 @@ public class ProductService {
         return productDto;
     }
 
-    public OrganizationDto findAndAccessingOrganization(ProductDto productDto, String username){
+    public OrganizationDto findAndAccessingOrganization(ProductDto productDto, String username) {
         OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
         if (!organizationDto.isActive()) {
             throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
@@ -142,7 +147,7 @@ public class ProductService {
         OrganizationDto organizationDto = findAndAccessingOrganization(productDto, username);
         Product product = new Product();
 
-        if(productDto.getPictureId() == null || productDto.getPictureId() < 0){
+        if (productDto.getPictureId() == null || productDto.getPictureId() < 0) {
             product.setPictureId(1L);
         } else {
             product.setPictureId(productDto.getPictureId());
@@ -179,10 +184,12 @@ public class ProductService {
         if (productDto.getQuantity() != 0) {
             productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
         }
-        if (productDto.getPictureId() == null || productDto.getPictureId() < 0){
-            productDto.setPictureId(1L);
+        if (productDto.getPictureId() != null) {
+            //удаляем старую картинку
+            pictureService.deletePictureById(productFromBd.getPictureId());
+            //ставим новую картинку
+            productFromBd.setPictureId(productDto.getPictureId());
         }
-        productFromBd.setPictureId(productDto.getPictureId());
 
         return productRepository.save(productFromBd);
     }
