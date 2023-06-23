@@ -1,8 +1,8 @@
-import {getToken} from "../util/TokenUtil";
+import {getTokenKeyCloak} from "../util/KeyCloakToken";
 import {axiosCustom} from "./AxiosConfig";
 
-const organization = axiosCustom('http://localhost:5555/organization/api/v1/organizations', getToken());
-const logo = axiosCustom('http://localhost:5555/organization/api/v1/logo', getToken());
+const organization = axiosCustom('http://localhost:5555/organization/api/v1/organizations', getTokenKeyCloak());
+const logo = axiosCustom('http://localhost:5555/organization/api/v1/logo', getTokenKeyCloak());
 
 export const apiGetLogo = (orgTitle: string) => logo.get(`/${orgTitle}`,
     {

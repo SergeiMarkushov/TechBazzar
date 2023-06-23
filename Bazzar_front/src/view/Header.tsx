@@ -1,15 +1,13 @@
 import React from 'react';
 import {Link, Route, Routes} from "react-router-dom";
 import {primary} from "../Colors";
-import {RequireAuth, useAuth} from "../auth/Auth";
+import {RequireAuthKeycloak} from "../auth/KeycloakProvider";
 import {RequireRoleADMIN} from "../auth/Role";
 import {HeaderLinkAuth} from "./HeaderLinkAuth";
 import {HeaderLinkCart} from "./HeaderLinkCart";
 import {HeaderLinkProfile} from "./HeaderLinkProfile";
 import {Home} from "./Home";
 import {SearchTab} from "./SearchTab";
-import {Login} from "./auth/Login";
-import {Logout} from "./auth/Logout";
 import {Registration} from "./auth/Registration";
 import {Cart} from "./cart/Cart";
 import {Catalog} from "./catalog/Catalog";
@@ -33,8 +31,6 @@ import {OrganizationMenu} from "./profile/organization/OrganizationMenu";
 import {ProductCreator} from "./profile/organization/ProductCreator";
 
 export function Header() {
-    const auth = useAuth();
-
     return (
         <div className="bg-white">
             <div style={{width: "auto"}} className="bg-light shadow-sm rounded-bottom">
@@ -59,9 +55,9 @@ export function Header() {
                             <Link className="nav-link" to="/profile">
                                 <HeaderLinkProfile/>
                             </Link>
-                            <Link className="nav-link" to={!auth.isAuth ? "/login" : "/logout"}>
+                            <span className="nav-link">
                                 <HeaderLinkAuth/>
-                            </Link>
+                            </span>
                         </div>
                     </div>
                 </nav>
@@ -73,73 +69,74 @@ export function Header() {
                     {/*public rotes*/}
                     <Route>
                         <Route path="/home" element={<Home/>}/>
-                        <Route path="/login" element={<Login/>}/>
                         <Route path="/signUp" element={<Registration/>}/>
                         <Route path="/catalog" element={<Catalog/>}/>
+                        <Route path="/product/:name/:id" element={<ProductPage/>}/>
                         <Route path="/" element={<Catalog/>}/>
-                        <Route path="/cart" element={<Cart/>}/>
                     </Route>
 
                     {/*auth and has any private roles rotes*/}
                     <Route>
                         <Route path="/function/menu" element={
-                            <RequireAuth>
+                            <RequireAuthKeycloak>
                                 <RequireRoleADMIN>
                                     <AdminMenu/>
                                 </RequireRoleADMIN>
-                            </RequireAuth>
+                            </RequireAuthKeycloak>
                         }/>
                         <Route path="/function/menu/productChanger" element={
-                            <RequireAuth>
+                            <RequireAuthKeycloak>
                                 <RequireRoleADMIN>
                                     <AdminMenuProductChanger/>
                                 </RequireRoleADMIN>
-                            </RequireAuth>}/>
+                            </RequireAuthKeycloak>}/>
                         <Route path="/function/menu/productChanger/:id" element={
-                            <RequireAuth>
+                            <RequireAuthKeycloak>
                                 <RequireRoleADMIN>
                                     <AdminMenuProductChangerForm/>
                                 </RequireRoleADMIN>
-                            </RequireAuth>}/>
+                            </RequireAuthKeycloak>}/>
                         <Route path="/function/menu/allUsers" element={
-                            <RequireAuth>
+                            <RequireAuthKeycloak>
                                 <RequireRoleADMIN>
                                     <AdminMenuAllUsers/>
                                 </RequireRoleADMIN>
-                            </RequireAuth>}/>
+                            </RequireAuthKeycloak>}/>
                         <Route path="/function/menu/allUsers/:id" element={
-                            <RequireAuth>
+                            <RequireAuthKeycloak>
                                 <RequireRoleADMIN>
                                     <AdminMenuChangeUser/>
                                 </RequireRoleADMIN>
-                            </RequireAuth>}/>
+                            </RequireAuthKeycloak>}/>
                         <Route path="/function/menu/confirmProduct" element={
-                            <RequireAuth>
+                            <RequireAuthKeycloak>
                                 <RequireRoleADMIN>
                                     <ConfirmProducts/>
                                 </RequireRoleADMIN>
-                            </RequireAuth>}/>
+                            </RequireAuthKeycloak>}/>
                         <Route path="/function/menu/organizations" element={
-                            <RequireAuth>
+                            <RequireAuthKeycloak>
                                 <RequireRoleADMIN>
                                     <AdminOrganizations/>
                                 </RequireRoleADMIN>
-                            </RequireAuth>}/>
+                            </RequireAuthKeycloak>}/>
                     </Route>
 
                     {/*auth rotes*/}
                     <Route>
-                        <Route path="/logout" element={<RequireAuth><Logout/></RequireAuth>}/>
-                        <Route path="/profile" element={<RequireAuth><Profile/></RequireAuth>}/>
-                        <Route path="/product/:name/:id" element={<ProductPage/>}/>
-                        <Route path="/profile/orders" element={<RequireAuth><Orders/></RequireAuth>}/>
-                        <Route path="/profile/orders/order/:id" element={<RequireAuth><OrderInfo/></RequireAuth>}/>
-                        <Route path="/profile/userProfile" element={<RequireAuth><UserProfile/></RequireAuth>}/>
-                        <Route path="/profile/balance" element={<RequireAuth><Balance/></RequireAuth>}/>
-                        <Route path="/profile/organization" element={<RequireAuth><OrganizationMenu/></RequireAuth>}/>
-                        <Route path="/profile/organization/:title" element={<RequireAuth><OrganizationManagement/></RequireAuth>}/>
-                        <Route path="/profile/organization/create" element={<RequireAuth><CreateOrganization/></RequireAuth>}/>
-                        <Route path="/profile/organization/:title/addProduct" element={<RequireAuth><ProductCreator/></RequireAuth>}/>
+                        <Route path="/cart" element={<RequireAuthKeycloak><Cart/></RequireAuthKeycloak>}/>
+                        <Route path="/profile" element={<RequireAuthKeycloak><Profile/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/orders" element={<RequireAuthKeycloak><Orders/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/orders/order/:id" element={<RequireAuthKeycloak><OrderInfo/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/userProfile" element={<RequireAuthKeycloak><UserProfile/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/balance" element={<RequireAuthKeycloak><Balance/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/organization" element={<RequireAuthKeycloak><OrganizationMenu/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/organization/:title"
+                               element={<RequireAuthKeycloak><OrganizationManagement/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/organization/create"
+                               element={<RequireAuthKeycloak><CreateOrganization/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/organization/:title/addProduct"
+                               element={<RequireAuthKeycloak><ProductCreator/></RequireAuthKeycloak>}/>
                     </Route>
                 </Routes>
             </div>

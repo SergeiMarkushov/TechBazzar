@@ -49,7 +49,7 @@ export function CartCard(props: ProductCart) {
     }
 
     const updateQuantity = (value: number) => {
-        apiUpdateQuantity(props.product, value).then(() => {
+        apiUpdateQuantity(props.product, value - quantity).then(() => {
             setQuantity(value);
             props.onReloadCart()
         }).catch((reason: AxiosError) => {

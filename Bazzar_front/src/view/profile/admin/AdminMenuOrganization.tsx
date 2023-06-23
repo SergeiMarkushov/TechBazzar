@@ -1,6 +1,5 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
-import React from 'react';
-import {useState} from "react";
+import React, {useState} from 'react';
 import {primary} from "../../../Colors";
 import {apiOrganizationBun, apiOrganizationConfirm} from "../../../api/OrganizationApi";
 import {Organization} from "../../../newInterfaces";

@@ -18,6 +18,7 @@ export const AuthPasswordProvider = {
                 setUserNew(user.data);
                 AuthPasswordProvider.isAuthenticated = true;
                 callback();
+                window.location.reload();
             }).catch(() => {
                 this.AuthError = "Ошибка при получении данных пользователя";
                 errorCallback();
@@ -34,5 +35,6 @@ export const AuthPasswordProvider = {
         deleteUser();
         AuthPasswordProvider.isAuthenticated = false;
         callback();
+        window.location.reload();
     },
 };

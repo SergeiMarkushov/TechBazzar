@@ -1,8 +1,10 @@
 import {CartItemNew} from "../newInterfaces";
-import {getToken} from "../util/TokenUtil";
+import {getTokenKeyCloak} from "../util/KeyCloakToken";
 import {axiosCustom} from "./AxiosConfig";
 
-const cart = axiosCustom('http://localhost:5555/cart/api/v1/cart', getToken());
+
+
+const cart = axiosCustom('http://localhost:5555/cart/api/v1/cart', getTokenKeyCloak());
 
 export const apiAddItemToCart = (id: number | undefined) => addItemToCart(id);
 

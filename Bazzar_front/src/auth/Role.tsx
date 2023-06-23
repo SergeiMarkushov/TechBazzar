@@ -1,31 +1,33 @@
+import {useKeycloak} from "@react-keycloak/web";
 import React from "react";
 import {Navigate} from "react-router-dom";
-import {useAuth} from "./Auth";
+import {setTokenKeyCloak} from "../util/KeyCloakToken";
 import {ADMIN} from "./Roles";
 
 export interface RoleContextType {
     isAdmin: boolean,
-    isSuperAdmin: boolean,
 }
 
 const RoleContext = React.createContext<RoleContextType>("" as unknown as RoleContextType);
 
 export function RoleProvider({children}: { children: React.ReactNode }) {
     let isAdmin = false;
-    let isSuperAdmin = false;
-    const auth = useAuth();
-
-    if (auth.user !== null) {
-        auth.roles.forEach(role => {
+    const {keycloak, initialized} = useKeycloak();
+    if (keycloak.authenticated) {
+        keycloak?.realmAccess?.roles.forEach(role => {
             if (role === ADMIN) {
                 isAdmin = true;
             }
         })
     } else {
         isAdmin = false;
-        isSuperAdmin = false;
     }
-    const value = {isAdmin, isSuperAdmin};
+
+    if (keycloak.authenticated && initialized && keycloak.token) {
+        setTokenKeyCloak(keycloak?.token);
+    }
+
+    const value = {isAdmin};
 
     return <RoleContext.Provider value={value}>{children}</RoleContext.Provider>;
 }

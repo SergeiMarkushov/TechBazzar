@@ -1,6 +1,6 @@
+import {useKeycloak} from "@react-keycloak/web";
 import React, {useEffect} from 'react';
 import {primary} from "../../../Colors";
-import {useAuth} from "../../../auth/Auth";
 import {Message} from "./LiveChat";
 
 interface MessageProps {
@@ -9,8 +9,9 @@ interface MessageProps {
 }
 
 export function MessageComponent({message, scrollToBottom}: MessageProps) {
-    const auth = useAuth();
-    const isAuthor = message && auth && auth.user && message.author === auth.user.email;
+    const {keycloak, initialized} = useKeycloak();
+    const [email, setEmail] = React.useState<string>(keycloak?.tokenParsed?.email ?? "");
+    const [isAuthor, setIsAuthor] = React.useState<boolean>(message && message.author === email);
 
     useEffect(() => {
         scrollToBottom();
