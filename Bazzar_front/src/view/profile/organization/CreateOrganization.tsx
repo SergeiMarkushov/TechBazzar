@@ -1,9 +1,9 @@
+import {useKeycloak} from "@react-keycloak/web";
 import {AxiosError, AxiosResponse} from "axios";
 import {Formik} from "formik";
 import React, {useState} from "react";
 import {MAX_FILE_SIZE} from "../../../CONST";
 import {apiCreateOrganization} from "../../../api/OrganizationApi";
-import {useAuth} from "../../../auth/Auth";
 import {emptyOrganizationCreate} from "../../../empty";
 import {ErrorMessage, OrganizationCreate} from "../../../newInterfaces";
 import {OrganizationCreateForm} from "./OrganizationCreateForm";
@@ -12,7 +12,8 @@ export function CreateOrganization() {
     const [file, setFile] = useState<File | null>(null)
     const [error, setError] = useState<string>("")
     const [success, setSuccess] = useState<boolean>(false)
-    const auth = useAuth()
+    const {keycloak, initialized} = useKeycloak();
+    const [email, setEmail] = React.useState<string>(keycloak?.tokenParsed?.email ?? "");
 
     const onChoseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -35,7 +36,8 @@ export function CreateOrganization() {
                         onSubmit={(values: OrganizationCreate) => {
                             setSuccess(false)
                             const formData = new FormData()
-                            formData.append("owner", auth.user?.email ?? "")
+                            // TODO: check if user is logged in
+                            formData.append("owner", email)
                             formData.append("name", values.name)
                             formData.append("description", values.description)
                             if (file !== null)

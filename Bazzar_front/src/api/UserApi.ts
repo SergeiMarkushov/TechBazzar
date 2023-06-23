@@ -1,8 +1,7 @@
-import {getToken} from "../util/TokenUtil";
+import {getTokenKeyCloak} from "../util/KeyCloakToken";
 import {axiosCustom} from "./AxiosConfig";
 
-const users = axiosCustom('http://localhost:5555/auth/api/v1/users', getToken());
-
+const users = axiosCustom('http://localhost:5555/auth/api/v1/users', getTokenKeyCloak());
 export const apiGetUsers = () => users.get('/all');
 
 export const apiGetMyUser = () => users.get('');

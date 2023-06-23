@@ -162,3 +162,9 @@ export interface Picture {
     bytes: string;
     contentType: string;
 }
+
+export interface ReviewDto {
+    username: string;
+    reviewText: string;
+    mark: number;
+}

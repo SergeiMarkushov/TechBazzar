@@ -12,17 +12,15 @@ import {ProfileUserProfile} from "./ProfileUserProfile";
 
 export function Profile() {
     const role = useRole();
-    const [isLoad, setLoad] = useState(false);
     const [user, setUser] = useState<UserNew>(defaultUserNew);
 
     useEffect(() => {
-        if (!isLoad) {
-            setLoad(true);
-            apiGetMyUser().then((r: AxiosResponse<UserNew>) => {
-                setUser(r.data);
-            });
-        }
-    }, [isLoad]);
+        apiGetMyUser().then((r: AxiosResponse<UserNew>) => {
+            setUser(r.data);
+        }).then((e) => {
+            console.error(e);
+        });
+    }, []);
 
     return (
         <div className="row justify-content-center m-2">
