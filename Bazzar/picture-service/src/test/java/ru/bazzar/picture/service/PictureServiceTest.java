@@ -91,7 +91,6 @@ class PictureServiceTest {
         FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
         InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/test.jpeg");
         InputStream isBig = fileResourcesUtils.getFileFromResourceAsStream("pic_example/big.jpg");
-        InputStream isDef = fileResourcesUtils.getFileFromResourceAsStream("pic_example/defaultnophotopic.jpg");
         //до 1Mb
         testPicture = Picture.builder()
                 .contentType("image/jpeg")
