@@ -188,4 +188,8 @@ public class ProductService {
         }
         return productRepository.save(productFromBd);
     }
+
+    public double calculateAverageRating(Long productId) {
+        return productRepository.calculateAverageRating(productId);
+    }
 }
