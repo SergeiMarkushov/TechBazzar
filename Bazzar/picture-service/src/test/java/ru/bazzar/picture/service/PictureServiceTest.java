@@ -1,26 +1,16 @@
 package ru.bazzar.picture.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.webresources.FileResource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.web.multipart.MultipartFile;
-import ru.bazzar.picture.api.ResourceNotFoundException;
 import ru.bazzar.picture.entities.Picture;
 import ru.bazzar.picture.repositories.PictureRepository;
 import ru.bazzar.picture.util.FileResourcesUtils;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Slf4j
@@ -35,53 +25,9 @@ class PictureServiceTest {
     @Autowired
     private PictureRepository pictureRepository;
 
-    @Test
-    void test_findByFileName() {
-        //ищет дефолтную картинку в БД
-        Picture foundPic = pictureService.findByFileName("defaultnophotopic.jpg");
-        Assertions.assertNotNull(foundPic);
-        Assertions.assertEquals(foundPic.getFileName(), "defaultnophotopic.jpg");
-    }
-
     @BeforeEach
     void test_setUp() {
         initPictures();
-    }
-    @Test
-    void test_saveMultipartFileSmall() throws IOException {
-        FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
-        InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/test.jpeg");
-
-        MultipartFile imageSmall = new MockMultipartFile("test.jpeg"
-                                                        , "test.jpeg"
-                                                        , "image/jpeg"
-                                                        , is
-        );
-
-        Picture t = pictureService.saveMultipartFile(imageSmall);
-
-        Assertions.assertEquals(t.getFileName()
-                ,pictureService.findById(t.getId()).getFileName());
-
-        pictureRepository.deleteById(t.getId());
-    }
-
-    @Test
-    void test_saveMultipartFileBig() throws IOException {
-        FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
-        InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/big.jpg");
-
-        MultipartFile imageBig = new MockMultipartFile("big.jpg"
-                                                        , "big.jpg"
-                                                        , "image/jpeg"
-                                                        , is
-        );
-
-        Picture t = pictureService.saveMultipartFile(imageBig);
-
-        Assertions.assertEquals(t.getFileName()
-                ,pictureService.findById(t.getId()).getFileName());
-        pictureRepository.deleteById(t.getId());
     }
 
     @Test
@@ -145,7 +91,6 @@ class PictureServiceTest {
         FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
         InputStream is = fileResourcesUtils.getFileFromResourceAsStream("pic_example/test.jpeg");
         InputStream isBig = fileResourcesUtils.getFileFromResourceAsStream("pic_example/big.jpg");
-        InputStream isDef = fileResourcesUtils.getFileFromResourceAsStream("pic_example/defaultnophotopic.jpg");
         //до 1Mb
         testPicture = Picture.builder()
                 .contentType("image/jpeg")

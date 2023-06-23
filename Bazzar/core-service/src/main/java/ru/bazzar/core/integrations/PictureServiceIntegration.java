@@ -15,7 +15,7 @@ public class PictureServiceIntegration {
 
     public PictureDto getPictureDtoById(Long id) {
         return pictureServiceWebClient.get()
-                .uri("api/v1/picture/find-pic-dto/" + id)
+                .uri("api/v1/picture/" + id)
                 .retrieve()
                 .onStatus(
                         httpStatus -> httpStatus.value() == HttpStatus.BAD_REQUEST.value(),
@@ -27,7 +27,7 @@ public class PictureServiceIntegration {
 
     public Long savePictureDtoAndReturnId(PictureDto pictureDto){
         return pictureServiceWebClient.post()
-                .uri("api/v1/picture/save-dto-return-id")
+                .uri("api/v1/picture")
                 .body(BodyInserters.fromValue(pictureDto))
                 .retrieve()
                 .bodyToMono(Long.class)
@@ -36,7 +36,7 @@ public class PictureServiceIntegration {
 
     public void deletePictureById(Long id) {
          pictureServiceWebClient.delete()
-                .uri("api/v1/picture/delete/" + id)
+                .uri("api/v1/picture/" + id)
                 .retrieve()
                 .toBodilessEntity()
                 .block();

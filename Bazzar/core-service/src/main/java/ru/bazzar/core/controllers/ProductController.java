@@ -86,24 +86,14 @@ public class ProductController {
         return out;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}")//
     public ProductDto getProductDto(@PathVariable @Min(0) Long id) {
         return productConverter.entityToDto(productService.findById(id));
     }
 
-    @GetMapping("/find-pic-dto/{id}")
+    @GetMapping("/picture/{id}") //"/find-pic-dto/{id}"
     public PictureDto getPictureDtoById(@PathVariable Long id) {
         return pictureService.getPictureDtoById(id);
-    }
-
-    // TODO: 22.06.2023  Метод просто для примера, если Вадиму не нужен - можно удалить
-    @PostMapping(value = "/save-pic-return-id", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Long savePicAndReturnId(@RequestParam(value = "multipart-pic") MultipartFile pic) throws IOException {
-        PictureDto pictureDto = new PictureDto();
-        pictureDto.setFileName(pic.getOriginalFilename());
-        pictureDto.setContentType(pic.getContentType());
-        pictureDto.setBytes(pic.getBytes());
-        return pictureService.savePictureDtoAndReturnId(pictureDto);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -130,6 +120,7 @@ public class ProductController {
 
         if (multipartFile != null) {
             productDto = productService.setProductPicture(productDto, multipartFile);
+
         }
         return productConverter.entityToDto(productService.updateProduct(productDto, productDto.getId()));
     }
