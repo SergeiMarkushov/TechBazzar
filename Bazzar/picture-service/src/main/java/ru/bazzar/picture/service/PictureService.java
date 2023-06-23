@@ -6,14 +6,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-import ru.bazzar.picture.api.PictureCreationException;
 import ru.bazzar.picture.api.ResourceNotFoundException;
 import ru.bazzar.picture.converters.PictureConverter;
 import ru.bazzar.picture.entities.Picture;
 import ru.bazzar.picture.repositories.PictureRepository;
-
-import java.io.IOException;
 
 @Service
 @Transactional

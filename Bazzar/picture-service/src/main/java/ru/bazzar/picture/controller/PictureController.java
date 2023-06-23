@@ -2,19 +2,11 @@ package ru.bazzar.picture.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.bazzar.picture.api.PictureDto;
 import ru.bazzar.picture.converters.PictureConverter;
 import ru.bazzar.picture.entities.Picture;
 import ru.bazzar.picture.service.PictureService;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor

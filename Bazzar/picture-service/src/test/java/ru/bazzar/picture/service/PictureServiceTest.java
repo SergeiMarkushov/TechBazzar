@@ -1,26 +1,16 @@
 package ru.bazzar.picture.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.webresources.FileResource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.web.multipart.MultipartFile;
-import ru.bazzar.picture.api.ResourceNotFoundException;
 import ru.bazzar.picture.entities.Picture;
 import ru.bazzar.picture.repositories.PictureRepository;
 import ru.bazzar.picture.util.FileResourcesUtils;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Slf4j
