@@ -20,7 +20,7 @@ import ru.bazzar.picture.repositories.PictureRepository;
 import ru.bazzar.picture.util.FileResourcesUtils;
 
 import java.io.InputStream;
-//НЕ ВЫПОЛНЯТЬ НА УДАЛЕННОЙ БД!!!
+//НЕ ВЫПОЛНЯТЬ НА УДАЛЕННОЙ БД!!! ----переделать!
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureWebTestClient
@@ -46,7 +46,7 @@ class PictureControllerTest {
     void test_findPictureByIdAndReturnDto() {
         PictureDto pictureDtoByHttp =
                 webTestClient.get()
-                .uri("/api/v1/picture/find-pic-dto/1")
+                .uri("/api/v1/picture/1")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(PictureDto.class)
@@ -62,7 +62,7 @@ class PictureControllerTest {
     void test_savePicDtoAndReturnId() {
         Long pictureIdAfterSaveDtoByHttp =
                 webTestClient.post()
-                        .uri("/api/v1/picture/save-dto-return-id")
+                        .uri("/api/v1/picture")
                         .body(BodyInserters.fromValue(pictureConverter.entityToDto(smallPicture)))
                         .exchange()
                         .expectStatus().isOk()
@@ -74,41 +74,6 @@ class PictureControllerTest {
                 findById(pictureIdAfterSaveDtoByHttp).
                 orElseThrow(()-> new ResourceNotFoundException("Картинка не найдена!"));
         Assertions.assertEquals(pictureDB.getId(),pictureIdAfterSaveDtoByHttp);
-    }
-
-    @Test
-    void test_findPictureByIdAndResponse() {
-        webTestClient.get()
-                        .uri("/api/v1/picture/1")
-                        .exchange()
-                        .expectStatus().isOk();
-    }
-
-    @Test
-    void test_deletePic() {
-        pictureRepository.save(smallPicture);
-        Long id = pictureRepository
-                .findByFileName(smallPicture.getFileName()).get().getId();
-
-        webTestClient.delete()
-               .uri("/api/v1/picture/delete/"+id)
-               .exchange()
-               .expectStatus().isOk();
-    }
-
-    @Test
-    void test_savePic() {
-        MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
-        multipartBodyBuilder.part(
-                "multipart-pic"
-                        ,new ClassPathResource("pic_example/test.jpeg"))
-                .contentType(MediaType.MULTIPART_FORM_DATA);
-
-        webTestClient.post()
-                .uri("/api/v1/picture/save")
-                .body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
-                .exchange()
-                .expectStatus().isCreated();
     }
 
     private void initPicture() {

@@ -14,14 +14,6 @@ import java.io.IOException;
 public class PictureConverter {
     private final ModelMapper modelMapper;
 
-    public Picture multipartToEntity(MultipartFile file) throws IOException {
-        return Picture.builder()
-                .fileName(file.getOriginalFilename())
-                .contentType("image/jpeg")
-                .bytes(file.getBytes())
-                .build();
-    }
-
     public PictureDto entityToDto(Picture picture) {
         return modelMapper.map(picture, PictureDto.class);
     }

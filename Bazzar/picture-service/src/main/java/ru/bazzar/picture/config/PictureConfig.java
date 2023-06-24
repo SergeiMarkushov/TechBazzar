@@ -16,20 +16,5 @@ import java.io.*;
 @Configuration
 @RequiredArgsConstructor
 public class PictureConfig {
-    private final PictureService pictureService;
-    private final PictureRepository pictureRepository;
 
-    //создание картинки по умолчанию с id 1L
-    @PostConstruct
-    public void saveDefaultNoPhotoPic(){
-        String fileName = "pic_example/defaultnophotopic.jpg";
-        FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();
-        InputStream is = fileResourcesUtils.getFileFromResourceAsStream(fileName);
-        Picture defPic = Picture.builder()
-                .fileName("defaultnophotopic.jpg")
-                .contentType("image/jpeg")
-                .bytes(fileResourcesUtils.convertStreamToByteArr(is))
-                .build();
-        if(pictureRepository.findById(1L).orElse(null) == null) pictureService.save(defPic);
-    }
 }
