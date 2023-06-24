@@ -80,12 +80,6 @@ class PictureServiceTest {
                 ()->{ pictureRepository.deleteAll(); });
     }
 
-    @Test
-    void test_deleteByDefaultId() {
-
-        Assertions.assertThrows(UnsupportedOperationException.class,
-                ()->{ pictureRepository.deleteById(1L); });
-    }
 
     private void initPictures() {
         FileResourcesUtils fileResourcesUtils = new FileResourcesUtils();

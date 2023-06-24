@@ -15,13 +15,13 @@ import org.springframework.context.annotation.Bean;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-@EnableCaching//главный рубильник кэша
+@EnableCaching
 public class PictureApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PictureApplication.class, args);
 	}
-	//Настройки кэширования
+
 	@Bean("CacheManager")
 	public CacheManager cacheManager() {
 		return new ConcurrentMapCacheManager() {
