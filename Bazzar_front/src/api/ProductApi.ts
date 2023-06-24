@@ -1,8 +1,8 @@
 import {FindRequest, ProductCreateNew} from "../newInterfaces";
-import {getToken} from "../util/TokenUtil";
+import {getTokenKeyCloak} from "../util/KeyCloakToken";
 import {axiosCustom} from "./AxiosConfig";
 
-const products = axiosCustom('http://localhost:5555/core/api/v1/products', getToken());
+const products = axiosCustom('http://localhost:5555/core/api/v1/products', getTokenKeyCloak());
 
 export const apiGetProductsNew = (findRequest: FindRequest) => products('', {
     method: 'get',

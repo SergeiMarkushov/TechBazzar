@@ -7,7 +7,7 @@ import {apiCreateCharacteristics} from "../../../api/CharacteristicApi";
 import {apiGetProductByIdNew, apiUpdateProduct} from "../../../api/ProductApi";
 import {emptyProductNew} from "../../../empty";
 import {Characteristic, ErrorMessage, ProductCreateNew2, ProductNew} from "../../../newInterfaces";
-import {ProductChangeForm} from "./ProductChangeForm";
+import {ProductChangeForm} from "../organization/ProductChangeForm";
 
 export function AdminMenuProductChangerForm() {
     const [error, setError] = useState<string>("")

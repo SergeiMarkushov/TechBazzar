@@ -1,6 +1,6 @@
+import {useKeycloak} from "@react-keycloak/web";
 import React, {useEffect, useState} from "react";
 import {primary} from "../../../Colors";
-import {useAuth} from "../../../auth/Auth";
 import {MessageComponent} from "./MessageComponent";
 
 interface LiveChatProps {
@@ -22,24 +22,29 @@ const emptyMessage: Message = {
 export function LiveChat({open}: LiveChatProps) {
     const [messages, setMessages] = useState<Array<Message>>(Array.of(emptyMessage));
     const [inputMessage, setInputMessage] = useState("");
-    const auth = useAuth();
+    const {keycloak, initialized} = useKeycloak();
+    const [email, setEmail] = React.useState<string>(keycloak?.tokenParsed?.email ?? "");
 
     useEffect(() => {
-        if (!auth.isAuth) {
+        if (!keycloak.authenticated) {
             return;
         }
-    }, [auth.isAuth]);
+    }, [keycloak.authenticated]);
 
     useEffect(() => {
         //fetch messages
-        if (open && auth.isAuth) {
-            setMessages([{id: 1, author: auth.user?.email ?? "", text: "Hello"}, {id: 2, author: "support", text: "Hi"}]);
+        if (open && keycloak.authenticated) {
+            setMessages([{id: 1, author: email, text: "Hello"}, {
+                id: 2,
+                author: "support",
+                text: "Hi"
+            }]);
         }
-    }, [auth, open]);
+    }, [keycloak.authenticated, open]);
 
     const handleSendMessage = () => {
         //send message
-        setMessages([...messages, {id: 3, author: auth.user?.email ?? "", text: inputMessage}]);
+        setMessages([...messages, {id: 3, author: email, text: inputMessage}]);
         setInputMessage("");
     }
 

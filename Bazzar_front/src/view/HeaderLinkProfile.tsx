@@ -1,9 +1,9 @@
 import Badge, {BadgeProps} from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton/IconButton";
 import {styled} from "@mui/material/styles";
+import {useKeycloak} from "@react-keycloak/web";
 import React from 'react';
 import {getHeaderProfileSvg} from "../Svg";
-import {useAuth} from "../auth/Auth";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({theme}) => ({
     '& .MuiBadge-badge': {
@@ -15,7 +15,8 @@ const StyledBadge = styled(Badge)<BadgeProps>(({theme}) => ({
 }));
 
 export function HeaderLinkProfile() {
-    const auth = useAuth();
+    const {keycloak} = useKeycloak();
+    console.log(keycloak);
     return (
         <div className="d-flex justify-content-center align-items-center flex-column">
             <div>
@@ -27,8 +28,8 @@ export function HeaderLinkProfile() {
                 </IconButton>
             </div>
             <div>
-                <small hidden={!auth.isAuth}><b>{auth.user === null ? '' : auth.user.username}</b></small>
-                <small hidden={auth.isAuth}><b>Гость</b></small>
+                <small hidden={!keycloak.authenticated}><b>{keycloak.tokenParsed?.given_name ?? "Unknown"}</b></small>
+                <small hidden={keycloak.authenticated}><b>Гость</b></small>
             </div>
         </div>
     )

@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.bazzar.core.api.ReviewDto;
 import ru.bazzar.core.services.ReviewService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/reviews")
@@ -24,5 +26,9 @@ public class ReviewController {
     @PostMapping
     public ReviewDto createOrUpdateReview(@RequestBody ReviewDto reviewDto) {
         return reviewService.createOrUpdateReview(reviewDto);
+    }
+    @GetMapping("/find-by-productId/{productId}")
+    public List<ReviewDto> findByProductId(@PathVariable Long productId) {
+        return reviewService.findByProductId(productId);
     }
 }
