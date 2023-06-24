@@ -3,11 +3,8 @@ package ru.bazzar.picture.converters;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 import ru.bazzar.picture.api.PictureDto;
 import ru.bazzar.picture.entities.Picture;
-
-import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor

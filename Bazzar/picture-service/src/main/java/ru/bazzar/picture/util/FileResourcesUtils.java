@@ -13,9 +13,8 @@ public class FileResourcesUtils {
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);
 
-        // the stream holding the file content
         if (inputStream == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
+            throw new IllegalArgumentException("Файл не найден! " + fileName);
         } else {
             return inputStream;
         }
@@ -26,7 +25,7 @@ public class FileResourcesUtils {
         ClassLoader classLoader = getClass().getClassLoader();
         URL resource = classLoader.getResource(fileName);
         if (resource == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
+            throw new IllegalArgumentException("Файл не найден! " + fileName);
         } else {
             return new File(resource.toURI());
         }
