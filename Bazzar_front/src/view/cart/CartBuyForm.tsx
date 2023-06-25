@@ -1,6 +1,6 @@
+import {useKeycloak} from "@react-keycloak/web";
 import React, {useState} from "react";
 import {apiCreateOrder} from "../../api/OrderApi";
-import {useAuth} from "../../auth/Auth";
 import {CartNew} from "../../newInterfaces";
 
 interface CartBuyFormProps {
@@ -10,15 +10,15 @@ interface CartBuyFormProps {
 
 export function CartBuyForm(props: CartBuyFormProps) {
     const [isBlock, setBlock] = useState(false);
-    const auth = useAuth();
+    const {keycloak} = useKeycloak();
 
     function buy() {
-        if (auth.isAuth) {
+        if (keycloak?.authenticated) {
             setBlock(true);
-            apiCreateOrder().then((resp) => {
-                if (resp.status === 201) {
-                    props.onReloadCart();
-                }
+            apiCreateOrder().then(() => {
+                props.onReloadCart();
+            }).catch((err) => {
+                console.log(err);
             })
         }
     }
@@ -28,7 +28,8 @@ export function CartBuyForm(props: CartBuyFormProps) {
             <div className="card-body">
                 <h5 className="card-title">Total price</h5>
                 <p className="card-text">{props.cart.totalPrice}</p>
-                <button disabled={isBlock || !auth.isAuth} onClick={() => buy()} className="btn btn-success">Buy</button>
+                <button disabled={isBlock || !keycloak.authenticated} onClick={() => buy()} className="btn btn-success">Buy
+                </button>
             </div>
         </div>
     );

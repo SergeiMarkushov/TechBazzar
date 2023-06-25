@@ -35,20 +35,25 @@ public class ProductService {
     private final UserServiceIntegration userService;
     private final MyQueue<Product> productQueue = new MyQueue<>();
     private final String adminEmail = GlobalEnum.ADMIN_EMAIL.getValue();
-    private final PictureServiceIntegration pictureServiceIntegration;
+    private final PictureServiceIntegration pictureService;
 
-    public void deleteById(Long id){
+    @CacheEvict(cacheNames = {"product"})
+    public void deleteById(Long id) {
         productRepository.deleteById(id);
-        evictCache();
     }
-    @CacheEvict(cacheNames = {"product"},allEntries = true)
-    public void evictCache() {}
+
+    @CacheEvict(cacheNames = {"product"}, allEntries = true)
+    public void evictCache() {
+    }
+
     @Cacheable(cacheNames = {"product"}, sync = true, key = "#id")
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
     }
-    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, String organizationTitle, Integer page) {
+
+    public Page<Product> find(Integer minPrice, Integer maxPrice, String titlePart, String organizationTitle, Integer page, String characteristicPart, int limit) {
+
         Specification<Product> spec = Specification.where(null);
         if (minPrice != null) {
             spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(minPrice));
@@ -62,12 +67,15 @@ public class ProductService {
         if (organizationTitle != null) {
             spec = spec.and(ProductSpecifications.titleCompanyLike(organizationTitle));
         }
-//        if (keywordPart != null) {
-//            spec = spec.and(ProductSpecifications.keywordLike(keywordPart));
-//        }
-        return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
+
+        if (characteristicPart != null) {
+            spec = spec.and(ProductSpecifications.characteristicLike(characteristicPart));
+        }
+        return productRepository.findAll(spec, PageRequest.of(page - 1, limit));
+
     }
-    public Product notConfirmed(){
+
+    public Product notConfirmed() {
         if (productQueue.isEmpty()) {
             List<Product> notConfirmList = productRepository.findAllByIsConfirmed(false);
             if (notConfirmList.isEmpty()) {
@@ -79,14 +87,16 @@ public class ProductService {
         }
         return productQueue.dequeue();
     }
-    public void confirm(String title){
+
+    public void confirm(String title) {
         Product product = productRepository.findByTitleIgnoreCase(title)
-                .orElseThrow(()-> new ResourceNotFoundException("Продукт: " + title + " не найден!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт: " + title + " не найден!"));
         product.setConfirmed(true);
         productRepository.save(product);
-        evictCache();
+        evictCache();//затирает кэш
     }
-    public void changeQuantity(Product product){
+
+    public void changeQuantity(Product product) {
         Product productFromDB = productRepository.findById(product.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + product.getId()));
         if (productFromDB.getQuantity() >= product.getQuantity()) {
@@ -96,8 +106,8 @@ public class ProductService {
             throw new AccessException("Недостаточное количество продукта, id: " + product.getId());
         }
     }
+
     public ProductDto setProductPicture(ProductDto productDto, MultipartFile multipartFile) {
-        //если подгружена картинка - назначаем productDto.setPicture_id
         Long picId = 1L;
         PictureDto pictureDto = null;
         try {
@@ -106,18 +116,15 @@ public class ProductService {
                     .contentType(multipartFile.getContentType())
                     .bytes(multipartFile.getBytes())
                     .build();
-
-            picId = pictureServiceIntegration.savePictureDtoAndReturnId(pictureDto);//проверить на pic serv
+            productDto.setPictureId(pictureService.savePictureDtoAndReturnId(pictureDto));
         } catch (IOException e) {
             throw new MultipartBuilderException
-                    ("....bytes(multipartFile.getBytes()) - невозможно прочитать байты и сформировать pictureDto.");
+                    ("Невозможно прочитать байты и сформировать pictureDto.");
         }
-
-        productDto.setPictureId(picId);
-
         return productDto;
     }
-    public OrganizationDto findAndAccessingOrganization(ProductDto productDto, String username){
+
+    public OrganizationDto findAndAccessingOrganization(ProductDto productDto, String username) {
         OrganizationDto organizationDto = organizationService.getOrganizationByTitle(productDto.getOrganizationTitle());
         if (!organizationDto.isActive()) {
             throw new AccessException("Организация не прошла модерацию, попробуйте добавить продукт позже.");
@@ -136,7 +143,7 @@ public class ProductService {
         OrganizationDto organizationDto = findAndAccessingOrganization(productDto, username);
         Product product = new Product();
 
-        if(productDto.getPictureId() == null || productDto.getPictureId() < 0){
+        if (productDto.getPictureId() == null || productDto.getPictureId() < 0) {
             product.setPictureId(1L);
         } else {
             product.setPictureId(productDto.getPictureId());
@@ -147,7 +154,7 @@ public class ProductService {
         product.setPrice(productDto.getPrice());
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
-        //возможны 2 запроса к БД, но я ещё хз(это надо для кэша)
+        // TODO: 21.06.2023  проверить - возможны 2 запроса к БД, но я ещё хз(это надо для кэша)
         Long idToReturn = productRepository.save(product).getId();
         log.info("SAVE: " + findById(idToReturn).toString());
         return findById(idToReturn);
@@ -173,13 +180,16 @@ public class ProductService {
         if (productDto.getQuantity() != 0) {
             productFromBd.setQuantity(productFromBd.getQuantity() + productDto.getQuantity());
         }
-
-        System.out.println(productDto.getPictureId()+"!!!!!!!");
-        if (productDto.getPictureId() == null || productDto.getPictureId() < 0){
-            productDto.setPictureId(1L);
+        if (productDto.getPictureId() != null) {
+            //удаляем старую картинку
+            pictureService.deletePictureById(productFromBd.getPictureId());
+            //ставим новую картинку
+            productFromBd.setPictureId(productDto.getPictureId());
         }
-        productFromBd.setPictureId(productDto.getPictureId());
-
         return productRepository.save(productFromBd);
+    }
+
+    public double calculateAverageRating(Long productId) {
+        return productRepository.calculateAverageRating(productId);
     }
 }

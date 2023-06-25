@@ -55,20 +55,20 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", items=" + items +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", totalPrice=" + totalPrice +
-                ", status=" + status +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Order{" +
+//                "id=" + id +
+//                ", username='" + username + '\'' +
+//                ", items=" + items +
+//                ", address='" + address + '\'' +
+//                ", phone='" + phone + '\'' +
+//                ", totalPrice=" + totalPrice +
+//                ", status=" + status +
+//                ", createdAt=" + createdAt +
+//                ", updatedAt=" + updatedAt +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {

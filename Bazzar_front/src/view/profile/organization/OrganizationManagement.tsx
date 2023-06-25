@@ -53,7 +53,9 @@ export function OrganizationManagement() {
                 </div>
             </div>
             <div className="mb-2">
-                <Catalog isChanging={true} companyTitle={organization.title}></Catalog>
+                {organization.title &&
+                    <Catalog isChanging={true} companyTitle={organization.title}></Catalog>
+                }
             </div>
         </div>
     )

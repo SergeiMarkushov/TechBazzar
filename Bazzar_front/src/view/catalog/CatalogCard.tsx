@@ -37,7 +37,6 @@ export function CatalogCard(props: ProductCard) {
 
             <Link style={{width: "15em", height: "20em", borderStyle: "none", textDecoration: "none", color: "black"}}
                   to={`/product/${props.product.title}/${props.product.id}`}
-                  state={{pic: pic}}
                   className={`card pt-2 row m-1 ${isShown ? "shadow-sm bg-light" : ""}`}
                   onMouseEnter={() => {
                       setIsShown(true)

@@ -2,6 +2,7 @@ package ru.bazzar.picture;
 
 
 import com.google.common.cache.CacheBuilder;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.Cache;
@@ -14,13 +15,13 @@ import org.springframework.context.annotation.Bean;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-@EnableCaching//главный рубильник кэша
+@EnableCaching
 public class PictureApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PictureApplication.class, args);
 	}
-	//Настройки кэширования
+
 	@Bean("CacheManager")
 	public CacheManager cacheManager() {
 		return new ConcurrentMapCacheManager() {
@@ -31,13 +32,18 @@ public class PictureApplication {
 						//тут регулируется нагрузка
 						CacheBuilder.newBuilder()
 								//max размер кэша
-								.maximumSize(10000)
+								.maximumSize(1000)
 								//время жизни кэш-сущности
 								.expireAfterWrite(1, TimeUnit.DAYS)
 								.build().asMap(),
 						false);
 			}
 		};
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 
 }

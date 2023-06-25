@@ -76,6 +76,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(user);
     }
 
+    public User deleteRole(String username, String role) {
+        User user = userRepository.findByEmailIgnoreCase(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Пользователь с nickname: " + username + " не найден!"));
+
+        Role roleToDelete = roleServiceImpl.findRoleByName(role);
+
+        if (!user.getRoles().contains(roleToDelete)) {
+            throw new IllegalArgumentException("У пользователя нет роли: " + role);
+        }
+
+        user.getRoles().remove(roleToDelete);
+        return userRepository.save(user);
+    }
+
     public User payment(User user, BigDecimal totalPrice) {
         user.setBalance(user.getBalance().subtract(totalPrice));
         return userRepository.save(user);
@@ -84,7 +98,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void receivingProfit(UserDto userDto) {
         User owner = userRepository.findByEmailIgnoreCase(userDto.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("Пользователь с email: " + userDto.getEmail() + " не найден!"));
-        User admin = userRepository.findByEmailIgnoreCase("n.v.bekhter@mail.ru").get();
+        User admin = userRepository.findByEmailIgnoreCase("n.v.bekhter@mail.ru").orElseThrow(() -> new UsernameNotFoundException("Нет такого юзера"));
         owner.setBalance(owner.getBalance().add(userDto.getBalance().subtract(userDto.getBalance().multiply(new BigDecimal("0.05")))));
         admin.setBalance(admin.getBalance().add(userDto.getBalance().multiply(new BigDecimal("0.05"))));
         userRepository.save(admin);
@@ -94,7 +108,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void refundProfit(UserDto userDto) {
         User owner = userRepository.findByEmailIgnoreCase(userDto.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("Пользователь с email: " + userDto.getEmail() + " не найден!"));
-        User admin = userRepository.findByEmailIgnoreCase("n.v.bekhter@mail.ru").get();
+        User admin = userRepository.findByEmailIgnoreCase("n.v.bekhter@mail.ru").orElseThrow(() -> new UsernameNotFoundException("Нет такого юзера"));
         if (owner.getBalance().compareTo(userDto.getBalance().subtract(userDto.getBalance().multiply(new BigDecimal("0.05")))) < 0) {
             BigDecimal flaw = (userDto.getBalance().subtract(userDto.getBalance().multiply(new BigDecimal("0.05")))).subtract(owner.getBalance());
             if (owner.isActive()) {
@@ -136,7 +150,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(user);
     }
 
-    public Long getUserId(String username) {
+    public Long getUserId(String username) { //TODO: НУЖНОЛИ ОНО НАМ?
         User user = userRepository.findByEmailIgnoreCase(username).orElseThrow(() -> new ResourceNotFoundException("User с email: " + username + " не существует."));
         return user.getId();
     }

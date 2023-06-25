@@ -15,16 +15,16 @@ public class PictureDto {
 
     private Long id;
     private String fileName;
-    private byte[] bytes;
     private String contentType;
+    private byte[] bytes;
 
     @Override
     public String toString() {
         return "PictureDto{" +
                 "id=" + id +
                 ", fileName='" + fileName + '\'' +
-                ", bytes=" + Arrays.toString(bytes) +
                 ", contentType='" + contentType + '\'' +
+                ", bytes=" + Arrays.toString(bytes) +
                 '}';
     }
 

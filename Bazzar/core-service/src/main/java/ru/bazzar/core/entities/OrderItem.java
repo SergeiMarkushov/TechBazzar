@@ -54,19 +54,19 @@ public class OrderItem {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "id=" + id +
-                ", product=" + product +
-                ", order=" + order +
-                ", quantity=" + quantity +
-                ", pricePerProduct=" + pricePerProduct +
-                ", price=" + price +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "OrderItem{" +
+//                "id=" + id +
+//                ", product=" + product +
+//                ", order=" + order +
+//                ", quantity=" + quantity +
+//                ", pricePerProduct=" + pricePerProduct +
+//                ", price=" + price +
+//                ", createdAt=" + createdAt +
+//                ", updatedAt=" + updatedAt +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {
