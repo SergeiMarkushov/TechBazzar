@@ -9,14 +9,12 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>auth-service</module>
+        <module>user-service</module>
         <module>cart-service</module>
         <module>core-service</module>
-        <module>front-service</module>
         <module>gateway-service</module>
         <module>notification-service</module>
         <module>organization-service</module>
-        <module>keycloak-service</module>
         <module>picture-service</module>
     </modules>
     <properties>

@@ -19,15 +19,6 @@ spring:
 
 
       routes:
-        - id: front-service
-          uri: http://localhost:3000
-          predicates:
-            - Path=/front/**
-          filters:
-            - StripPrefix=1
-            - PrefixPath=/front
-            - JwtAuthFilter
-
         - id: core-service
           uri: http://localhost:8183
           predicates:
@@ -35,8 +26,7 @@ spring:
           filters:
             - StripPrefix=1
             - PrefixPath=/tech-bazzar-core
-            - JwtAuthFilter
-        #            - NotForGuestsFilter
+            - TokenAuthenticationFilter
 
         - id: cart-service
           uri: http://localhost:8182
@@ -45,8 +35,7 @@ spring:
           filters:
             - StripPrefix=1
             - PrefixPath=/tech-bazzar-cart
-            - JwtAuthFilter
-            - NotForGuestsFilter
+            - TokenAuthenticationFilter
 
         - id: notification-service
           uri: http://localhost:8184
@@ -55,7 +44,7 @@ spring:
           filters:
             - StripPrefix=1
             - PrefixPath=/tech-bazzar-notification
-            - JwtAuthFilter
+            - TokenAuthenticationFilter
 
         - id: organization-service
           uri: http://localhost:8185
@@ -64,28 +53,24 @@ spring:
           filters:
             - StripPrefix=1
             - PrefixPath=/tech-bazzar-organization
-            - JwtAuthFilter
+            - TokenAuthenticationFilter
 
-        - id: auth-service
-          uri: http://localhost:8181
-          predicates:
-            - Path=/auth/api/v1/users/set_role
-          filters:
-            - StripPrefix=1
-            - PrefixPath=/tech-bazzar-auth
-            - JwtAuthFilter
-            - NotForRoleUserFilter
-        - id: auth-service
+        - id: user-service
           uri: http://localhost:8181
           predicates:
             - Path=/auth/**
           filters:
             - StripPrefix=1
             - PrefixPath=/tech-bazzar-auth
-            - JwtAuthFilter
+            - TokenAuthenticationFilter
+
   servlet:
     multipart:
       max-file-size: 5MB
 
-jwt:
-  secret: ${jwt_secret}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${issuer_uri}
+          jwk-set-uri: ${jwk_set_uri}

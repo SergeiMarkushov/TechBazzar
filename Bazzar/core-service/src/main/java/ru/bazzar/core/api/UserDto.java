@@ -14,8 +14,6 @@ import java.util.Objects;
 @AllArgsConstructor
 public class UserDto {
     private Long id;
-    private String email;
-    private String password;
     private String username;
     private BigDecimal balance;
     private boolean active;
@@ -24,8 +22,6 @@ public class UserDto {
     public String toString() {
         return "UserDto{" +
                 "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
                 ", balance=" + balance +
                 ", active=" + active +
@@ -37,11 +33,11 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return active == userDto.active && Objects.equals(id, userDto.id) && Objects.equals(email, userDto.email) && Objects.equals(password, userDto.password) && Objects.equals(username, userDto.username) && Objects.equals(balance, userDto.balance);
+        return active == userDto.active && Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username) && Objects.equals(balance, userDto.balance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, username, balance, active);
+        return Objects.hash(id, username, balance, active);
     }
 }
