@@ -28,14 +28,6 @@ public class Characteristic {
     @ManyToOne
     private Product product;
 
-    @Override
-    public String toString() {
-        return "Characteristic{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", product=" + product +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {

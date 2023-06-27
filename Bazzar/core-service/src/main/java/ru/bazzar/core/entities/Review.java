@@ -29,6 +29,10 @@ public class Review {
     @Column(name = "mark")
     private int mark;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     @Override
     public String toString() {
         return "Review{" +
@@ -36,6 +40,7 @@ public class Review {
                 ", username='" + username + '\'' +
                 ", reviewText='" + reviewText + '\'' +
                 ", mark=" + mark +
+                ", product=" + product +
                 '}';
     }
 
@@ -44,11 +49,11 @@ public class Review {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
-        return mark == review.mark && Objects.equals(id, review.id) && Objects.equals(username, review.username) && Objects.equals(reviewText, review.reviewText);
+        return mark == review.mark && Objects.equals(id, review.id) && Objects.equals(username, review.username) && Objects.equals(reviewText, review.reviewText) && Objects.equals(product, review.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, reviewText, mark);
+        return Objects.hash(id, username, reviewText, mark, product);
     }
 }

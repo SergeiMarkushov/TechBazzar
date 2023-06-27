@@ -54,10 +54,9 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "discount_id")
     private Discount discount;
-    //отзывы и оценки вынесены в класс Review
-    @OneToOne
-    @JoinColumn(name = "review_id")
-    private Review review;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Review> reviews;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
     private List<Characteristic> characteristics;
@@ -71,32 +70,17 @@ public class Product {
     - Таблицы характеристик;
     */
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", organizationTitle='" + organizationTitle + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", isConfirmed=" + isConfirmed +
-                ", discount=" + discount +
-                ", review=" + review +
-                ", pictureId=" + pictureId +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return quantity == product.quantity && isConfirmed == product.isConfirmed && Objects.equals(id, product.id) && Objects.equals(title, product.title) && Objects.equals(description, product.description) && Objects.equals(organizationTitle, product.organizationTitle) && Objects.equals(price, product.price) && Objects.equals(discount, product.discount) && Objects.equals(review, product.review) && Objects.equals(characteristics, product.characteristics) && Objects.equals(pictureId, product.pictureId);
+        return quantity == product.quantity && isConfirmed == product.isConfirmed && Objects.equals(id, product.id) && Objects.equals(title, product.title) && Objects.equals(description, product.description) && Objects.equals(organizationTitle, product.organizationTitle) && Objects.equals(price, product.price) && Objects.equals(discount, product.discount) && Objects.equals(reviews, product.reviews) && Objects.equals(characteristics, product.characteristics) && Objects.equals(pictureId, product.pictureId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, organizationTitle, price, quantity, isConfirmed, discount, review, characteristics, pictureId);
+        return Objects.hash(id, title, description, organizationTitle, price, quantity, isConfirmed, discount, reviews, characteristics, pictureId);
     }
 }

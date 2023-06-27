@@ -34,7 +34,6 @@
       <module name="notification-service" options="-parameters" />
       <module name="organization-service" options="-parameters" />
       <module name="picture-service" options="-parameters" />
-      <module name="telegram-bot-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>

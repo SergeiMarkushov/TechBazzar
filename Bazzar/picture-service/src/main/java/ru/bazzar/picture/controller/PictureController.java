@@ -17,18 +17,18 @@ public class PictureController {
     private final PictureService pictureService;
     private final PictureConverter pictureConverter;
 
-    @GetMapping("/{id}") //  "/find-pic-dto"
+    @GetMapping("/{id}")
     public PictureDto findPictureByIdAndReturnDto(@PathVariable Long id){
         return pictureConverter.entityToDto(pictureService.findById(id));
     }
 
-    @PostMapping()//  "/save-dto-return-id"
+    @PostMapping()
     public Long savePicDtoAndReturnId(@RequestBody PictureDto pictureDto){
         Picture p = pictureService.save(pictureConverter.dtoToEntity(pictureDto));
         return p.getId();
     }
 
-    @DeleteMapping("/{id}")//  "/delete/{id}"
+    @DeleteMapping("/{id}")
     public void deletePic(@PathVariable Long id){
         pictureService.deleteById(id);
     }
@@ -39,32 +39,3 @@ public class PictureController {
         pictureService.cacheEvict();
     }
 }
-
-//Не используемые методы
-
-//    @PostMapping("/save")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void savePic(@RequestParam(value = "multipart-pic") MultipartFile multipartFile) {
-//        Picture picture = null;
-//        try {
-//            picture = Picture.builder()
-//                    .fileName(multipartFile.getOriginalFilename())
-//                    .contentType(multipartFile.getContentType())
-//                    .bytes(multipartFile.getBytes())
-//                    .build();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        pictureService.save(picture);
-//    }
-
-//    @GetMapping("/entity/{id}")
-//    public  ResponseEntity<?> findPictureByIdAndResponse(@PathVariable Long id){
-//        PictureDto pictureDto = pictureConverter.entityToDto(pictureService.findById(id));
-//
-//        return ResponseEntity.ok()
-//                .header("pic_id", pictureDto.getId().toString())
-//                .header("filename", pictureDto.getFileName())
-//                .contentType(MediaType.valueOf(pictureDto.getContentType()))
-//                .body(new InputStreamResource(new ByteArrayInputStream(pictureDto.getBytes())));
-//    }

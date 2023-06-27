@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -128,5 +129,11 @@ public class ProductController {
 
         }
         return converter.entityToDto(service.updateProduct(productDto, productDto.getId()));
+    }
+
+    @GetMapping("/{productId}/average-rating")
+    public ResponseEntity<Double> getProductAverageRating(@PathVariable Long productId) {
+        double averageRating = productService.calculateAverageRating(productId);
+        return ResponseEntity.ok(averageRating);
     }
 }
