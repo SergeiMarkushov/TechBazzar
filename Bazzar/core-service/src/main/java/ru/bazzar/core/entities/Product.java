@@ -70,22 +70,6 @@ public class Product {
     - Таблицы характеристик;
     */
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", organizationTitle='" + organizationTitle + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", isConfirmed=" + isConfirmed +
-                ", discount=" + discount +
-                ", reviews=" + reviews +
-                ", characteristics=" + characteristics +
-                ", pictureId=" + pictureId +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
