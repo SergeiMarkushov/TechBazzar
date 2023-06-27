@@ -16,27 +16,18 @@ public class ReviewDto {
     private String username;
     private String reviewText;
     private int mark;
-
-    @Override
-    public String toString() {
-        return "ReviewDto{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", reviewText='" + reviewText + '\'' +
-                ", mark=" + mark +
-                '}';
-    }
+    private Long productId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReviewDto reviewDto = (ReviewDto) o;
-        return mark == reviewDto.mark && Objects.equals(id, reviewDto.id) && Objects.equals(username, reviewDto.username) && Objects.equals(reviewText, reviewDto.reviewText);
+        return mark == reviewDto.mark && Objects.equals(id, reviewDto.id) && Objects.equals(username, reviewDto.username) && Objects.equals(reviewText, reviewDto.reviewText) && Objects.equals(productId, reviewDto.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, reviewText, mark);
+        return Objects.hash(id, username, reviewText, mark, productId);
     }
 }

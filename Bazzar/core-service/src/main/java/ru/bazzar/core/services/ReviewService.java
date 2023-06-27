@@ -37,6 +37,8 @@ public class ReviewService {
         review.setUsername(reviewDto.getUsername());
         review.setReviewText(reviewDto.getReviewText());
         review.setMark(reviewDto.getMark());
+        review.setProduct(productRepository.findById(reviewDto.getProductId())
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден")));
         log.info("Отзыв обновлен с идентификатором " + id);
         Review savedReview = repository.save(review);
         return modelMapper.map(savedReview, ReviewDto.class);
