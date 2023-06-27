@@ -16,6 +16,7 @@ import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
 import ru.bazzar.core.integrations.PictureServiceIntegration;
+import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.services.ProductService;
 import ru.bazzar.core.utils.MyQueue;
 
@@ -31,31 +32,33 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 
 public class ProductController {
-    private final ProductService productService;
-    private final ProductConverter productConverter;
+    private final ProductService service;
+    private final ProductConverter converter;
     private final OrganizationServiceIntegration organizationService;
     private final PictureServiceIntegration pictureService;
+    private final UserServiceIntegration userService;
     private MyQueue<Product> productQueue = new MyQueue<>();//думаю что временно не используется
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @GetMapping("/not_confirmed")
     public ProductDto notConfirmed() throws ResourceNotFoundException {
-        return productConverter.entityToDto(productService.notConfirmed());
+        return converter.entityToDto(service.notConfirmed());
     }
 
     @GetMapping("/confirm/{title}")
     public void confirm(@PathVariable @NotBlank String title) {
-        productService.confirm(title);
+        service.confirm(title);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
-        productService.deleteById(id);
+        service.deleteById(id);
     }
 
     @GetMapping
     public PageDto<ProductDto> getProductDtosPage(
+            @RequestHeader String username,
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "min_price", required = false) Integer minPrice,
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
@@ -64,12 +67,14 @@ public class ProductController {
             @RequestParam(name = "title_part", required = false) String titlePart,
             @RequestParam(name = "limit", defaultValue = "20") int limit
     ) {
+        userService.checkAndCreate(username);
+
         if (page < 1) {
             page = 1;
         }
 
-        Page<ProductDto> jpaPage = productService.find(minPrice, maxPrice, titlePart, organizationTitle, page, characteristicPart, limit).map(
-                productConverter::entityToDto
+        Page<ProductDto> jpaPage = service.find(minPrice, maxPrice, titlePart, organizationTitle, page, characteristicPart, limit).map(
+                converter::entityToDto
         );
         PageDto<ProductDto> out = new PageDto<>();
         out.setPage(jpaPage.getNumber());
@@ -88,7 +93,7 @@ public class ProductController {
 
     @GetMapping("/{id}")//
     public ProductDto getProductDto(@PathVariable @Min(0) Long id) {
-        return productConverter.entityToDto(productService.findById(id));
+        return converter.entityToDto(service.findById(id));
     }
 
     @GetMapping("/picture/{id}") //"/find-pic-dto/{id}"
@@ -103,10 +108,10 @@ public class ProductController {
             @RequestParam(value = "productDto") String product,
             @RequestParam(value = "product_picture") MultipartFile multipartFile)
             throws IOException {
-
+        System.out.println(username);
         ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
-        productDto = productService.setProductPicture(productDto, multipartFile);
-        return productConverter.entityToDto(productService.createProduct(productDto, username));
+        productDto = service.setProductPicture(productDto, multipartFile);
+        return converter.entityToDto(service.createProduct(productDto, username));
     }
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -119,9 +124,9 @@ public class ProductController {
         ProductDto productDto = objectMapper.readValue(product, ProductDto.class);
 
         if (multipartFile != null) {
-            productDto = productService.setProductPicture(productDto, multipartFile);
+            productDto = service.setProductPicture(productDto, multipartFile);
 
         }
-        return productConverter.entityToDto(productService.updateProduct(productDto, productDto.getId()));
+        return converter.entityToDto(service.updateProduct(productDto, productDto.getId()));
     }
 }

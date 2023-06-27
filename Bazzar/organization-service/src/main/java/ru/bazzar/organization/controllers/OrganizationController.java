@@ -45,6 +45,7 @@ public class OrganizationController {
 
     @GetMapping("by_owner")
     public List<OrganizationDto> findAllByOwner(@RequestHeader String username) {
+        System.out.println(username);
         return organizationService.findAllByOwner(username);
     }
 

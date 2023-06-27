@@ -7,27 +7,25 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="auth-service" />
         <module name="cart-service" />
-        <module name="front-service" />
-        <module name="keycloak-service" />
         <module name="picture-service" />
         <module name="gateway-service" />
         <module name="organization-service" />
-        <module name="telegram-bot-service" />
+        <module name="user-service" />
         <module name="notification-service" />
         <module name="core-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="auth-keycloak" target="11" />
+      <module name="front-service" target="17" />
+      <module name="keycloak-service" target="17" />
       <module name="picture-ervice" target="17" />
       <module name="resource-server" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="auth-service" options="-parameters" />
       <module name="cart-service" options="-parameters" />
       <module name="core-service" options="-parameters" />
       <module name="front-service" options="-parameters" />
@@ -37,6 +35,7 @@
       <module name="organization-service" options="-parameters" />
       <module name="picture-service" options="-parameters" />
       <module name="telegram-bot-service" options="-parameters" />
+      <module name="user-service" options="-parameters" />
     </option>
   </component>
 </project>

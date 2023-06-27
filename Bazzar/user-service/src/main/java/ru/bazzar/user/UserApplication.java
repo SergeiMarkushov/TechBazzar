@@ -1,14 +1,13 @@
-package ru.bazzar.gateway;
+package ru.bazzar.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.reactive.config.EnableWebFlux;
 
 @SpringBootApplication
-public class GatewayApplication {
+public class UserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GatewayApplication.class, args);
+		SpringApplication.run(UserApplication.class, args);
 	}
 
 }

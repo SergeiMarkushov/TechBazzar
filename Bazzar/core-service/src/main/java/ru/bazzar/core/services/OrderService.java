@@ -71,7 +71,7 @@ public class OrderService {
                 Product product = new Product();
                 product.setId(orderItem.getProduct().getId());
                 product.setQuantity(orderItem.getQuantity());
-                userDto.setEmail(organizationDto.getOwner());
+                userDto.setUsername(organizationDto.getOwner());
                 userDto.setBalance(orderItem.getPrice());
                 historyDto.setEmail(username);
                 historyDto.setProductTitle(orderItem.getProduct().getTitle());
@@ -116,7 +116,7 @@ public class OrderService {
                 Product product = new Product();
                 product.setId(orderItem.getProduct().getId());
                 product.setQuantity(-orderItem.getQuantity());
-                userDto.setEmail(organizationDto.getOwner());
+                userDto.setUsername(organizationDto.getOwner());
                 userDto.setBalance(orderItem.getPrice());
                 listUserDto.add(userDto);
                 listProduct.add(product);
