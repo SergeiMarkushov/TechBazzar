@@ -133,7 +133,7 @@ public class ProductController {
 
     @GetMapping("/{productId}/average-rating")
     public ResponseEntity<Double> getProductAverageRating(@PathVariable Long productId) {
-        double averageRating = productService.calculateAverageRating(productId);
+        double averageRating = service.calculateAverageRating(productId);
         return ResponseEntity.ok(averageRating);
     }
 }

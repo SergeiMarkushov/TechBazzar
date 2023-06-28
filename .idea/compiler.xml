@@ -18,6 +18,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="auth-keycloak" target="11" />
+      <module name="auth-service" target="17" />
       <module name="front-service" target="17" />
       <module name="keycloak-service" target="17" />
       <module name="picture-ervice" target="17" />
