@@ -3,10 +3,10 @@ import {Formik} from "formik";
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {MAX_FILE_SIZE} from "../../../CONST";
-import {apiCreateCharacteristics} from "../../../api/CharacteristicApi";
+import {apiCreateCharacteristics, apiDeleteCharacteristics} from "../../../api/CharacteristicApi";
 import {apiGetProductByIdNew, apiUpdateProduct} from "../../../api/ProductApi";
 import {emptyProductNew} from "../../../empty";
-import {Characteristic, ErrorMessage, ProductCreateNew2, ProductNew} from "../../../newInterfaces";
+import {Characteristic, ErrorMessage, ProductForCreate, Product, ProductForCreate2} from "../../../newInterfaces";
 import {ProductChangeForm} from "../organization/ProductChangeForm";
 
 export function AdminMenuProductChangerForm() {
@@ -20,7 +20,7 @@ export function AdminMenuProductChangerForm() {
     useEffect(() => {
             if (id !== undefined && !isLoad) {
                 apiGetProductByIdNew(Number(id))
-                    .then((pr: AxiosResponse<ProductNew>) => {
+                    .then((pr: AxiosResponse<Product>) => {
                         if (pr.data !== undefined) {
                             setProduct(pr.data)
                             setLoad(true);
@@ -55,45 +55,39 @@ export function AdminMenuProductChangerForm() {
                  style={{maxWidth: "50rem"}}>
                 <Formik initialValues={product}
                         enableReinitialize={true}
-                        onSubmit={(values: ProductNew) => {
-                            const data: ProductCreateNew2 = {
-                                id: values.id,
-                                title: values.title,
-                                description: values.description,
-                                price: values.price,
-                                quantity: values.quantity,
-                                organizationTitle: values.organizationTitle,
-                                characteristicsDto: Array.of(),
-                                pictureId: 1,
-                            }
-                            const characteristicsDto: Array<Characteristic> =
-                                values.characteristicsDto.filter((value) => value.name !== "").map((value) => {
-                                    return {id: null, name: value.name, product: null}
-                                });
+                        onSubmit={(values: Product) => {
+                            const characteristicsDto: Array<Characteristic> | undefined = checkIfChangeCharacteristics(product, values);
+                            const data: ProductForCreate2 | undefined = checkIfUpdateAndCreateProduct(product, values, characteristicsDto);
+
                             const formData = new FormData();
                             formData.append("productDto", JSON.stringify(data));
+
                             if (file !== null) {
                                 formData.append("product_picture", file);
                             }
-                            apiUpdateProduct(formData).then((product: AxiosResponse<ProductNew>) => {
-                                setSuccess(true)
-                                setError("")
-                                if (product.data.id !== undefined) {
-                                    apiCreateCharacteristics(product.data.id, characteristicsDto).then(() => {
-                                        setSuccess(true)
-                                        setError("")
-                                    }).catch(() => {
-                                        setError("Не удалось создать характеристики");
-                                        setSuccess(false);
-                                    })
-                                }
 
-                            }).catch((e: AxiosError<ErrorMessage>) => {
-                                const data: AxiosResponse<ErrorMessage> | undefined = e.response;
-                                if (data !== undefined) {
-                                    setError(data.data.message);
-                                }
-                            })
+                            if (data !== undefined) {
+                                apiUpdateProduct(formData).then(() => {
+                                    setSuccess(true)
+                                    setError("")
+                                    if (product.id && characteristicsDto) {
+                                        apiCreateCharacteristics(product.id, characteristicsDto).then(() => {
+                                            setSuccess(true)
+                                            setError("")
+                                        }).catch(() => {
+                                            setError("Не удалось создать характеристики");
+                                            setSuccess(false);
+                                        })
+                                    }
+                                }).catch((e: AxiosError<ErrorMessage>) => {
+                                    const data: AxiosResponse<ErrorMessage> | undefined = e.response;
+                                    if (data !== undefined) {
+                                        setError(data.data.message);
+                                    }
+                                })
+                            }
+
+
                         }}>
                     {({values}) => (
                         <ProductChangeForm titleOrg={undefined} product={values} onChoseFile={onChoseFile}
@@ -104,4 +98,41 @@ export function AdminMenuProductChangerForm() {
             </div>
         </div>
     )
+}
+
+function checkIfUpdateAndCreateProduct(source: Product, changed: Product, characteristicsDto: Array<Characteristic> | undefined): ProductForCreate2 | undefined {
+    const product: ProductForCreate2 = {
+        id: source.id,
+        title: source.title === changed.title ? undefined : changed.title,
+        description: source.description === changed.description ? undefined : changed.description,
+        price: source.price === changed.price ? undefined : changed.price,
+        quantity: source.quantity === changed.quantity ? undefined : changed.quantity,
+        characteristicsDto: characteristicsDto
+    };
+
+    if (product.title === undefined && product.description === undefined && product.price === undefined && product.quantity === undefined && product.characteristicsDto === undefined) {
+        return undefined;
+    }
+    return product;
+}
+
+function checkIfChangeCharacteristics(product: Product, values: Product): Array<Characteristic> | undefined {
+    const characteristicsDto: Array<Characteristic> = [];
+    if (values.characteristicsDto !== undefined) {
+        values.characteristicsDto.forEach((characteristic: Characteristic) => {
+            if (characteristic.name !== "") {
+                characteristicsDto.push(characteristic);
+            } else {
+                if (characteristic.id && characteristic.id > 0) {
+                    apiDeleteCharacteristics(characteristic.id).then(() => {
+                        console.log("Характеристика удалена успешно")
+                    }).catch(() => {
+                        console.log("Не удалось удалить характеристику")
+                    })
+                }
+            }
+        })
+    }
+    console.log(characteristicsDto)
+    return characteristicsDto.length === 0 ? undefined : characteristicsDto;
 }

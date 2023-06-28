@@ -3,11 +3,12 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {getMessageSvg, getStarSvg} from "../../Svg";
 import {apiGetProductPic} from "../../api/PictureApi";
-import {Picture, ProductNew} from "../../newInterfaces";
+import {apiGetProductMark, apiGetReviewCount} from "../../api/ReviewApi";
+import {Picture, Product} from "../../newInterfaces";
 import {ChangeProductButton} from "./ChangeProductButton";
 
 export interface ProductCard {
-    product: ProductNew,
+    product: Product,
     deleteHandler?: (id: number) => void,
     changeHandler?: (id: number) => void,
     isChanging: boolean,
@@ -16,19 +17,34 @@ export interface ProductCard {
 export function CatalogCard(props: ProductCard) {
     const [isShown, setIsShown] = useState(false);
     const [discount] = useState(0);
-    const [mark] = useState(0);
+    const [mark, setMark] = useState(0);
     const [pic, setPic] = useState<string>("");
+    const[count, setCount] = useState<number>(0);
 
     useEffect(() => {
-        apiGetProductPic(props.product.pictureId).then((response: AxiosResponse<Picture>) => {
-            const base64String = response.data.bytes;
-            const contentType = response.data.contentType;
-            const dataURL = `data:${contentType};base64,${base64String}`;
-            setPic(dataURL);
-        }).catch((error) => {
-            // eslint-disable-next-line no-console
-            console.error('Error:', error);
-        });
+        if (props.product.id) {
+            apiGetProductPic(props.product.pictureId).then((response: AxiosResponse<Picture>) => {
+                const base64String = response.data.bytes;
+                const contentType = response.data.contentType;
+                const dataURL = `data:${contentType};base64,${base64String}`;
+                setPic(dataURL);
+            }).catch((error) => {
+                // eslint-disable-next-line no-console
+                console.error('Error:', error);
+            });
+
+            apiGetProductMark(props.product.id).then((response) => {
+                setMark(response.data);
+            }).catch(() => {
+                setMark(0);
+            });
+
+            apiGetReviewCount(props.product.id).then((response) => {
+                setCount(response.data);
+            }).catch(() => {
+                setCount(0);
+            });
+        }
         return () => URL.revokeObjectURL(pic);
     }, [props.product.title]);
 
@@ -70,9 +86,7 @@ export function CatalogCard(props: ProductCard) {
                         </span>
                             <span className="text-center">
                             {getMessageSvg(16, 16)}
-                                {/*<span>  {props.product.review.count}</span>*/}
-                                {/*TODO add count*/}
-                                <span>  1</span>
+                                <span>  {count}</span>
                         </span>
                         </div>
                     </div>

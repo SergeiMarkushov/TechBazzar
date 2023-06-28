@@ -3,30 +3,28 @@ import {AxiosResponse} from "axios";
 import React, {useEffect, useState} from "react";
 import {apiOrderPayment} from "../../../api/OrderApi";
 import {apiGetMyUser} from "../../../api/UserApi";
-import {OrderNew, UserNew} from "../../../newInterfaces";
+import {Order, User} from "../../../newInterfaces";
 
 interface PayFormProps {
-    order: OrderNew
+    order: Order
     onReloadOrder: () => void
     setStatus: (status: boolean) => void
 }
 
 export function PayForm(props: PayFormProps) {
     const [balance, setBalance] = useState(0);
-    const [load, setLoad] = useState(false);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (!load && open) {
-            apiGetMyUser().then((data: AxiosResponse<UserNew>) => {
+        if (open) {
+            apiGetMyUser().then((data: AxiosResponse<User>) => {
                 setBalance(data.data.balance);
-                setLoad(true);
             }).catch(error => {
                 // eslint-disable-next-line no-console
                 console.error('There was an error!', error);
             });
         }
-    }, [load, open]);
+    }, [open]);
 
 
     const handleClickOpen = () => {

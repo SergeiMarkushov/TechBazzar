@@ -1,10 +1,10 @@
 import {Button, Dialog, DialogActions, DialogTitle} from "@mui/material";
 import React, {useState} from "react";
 import {apiOrderRefund} from "../../../api/OrderApi";
-import {OrderNew} from "../../../newInterfaces";
+import {Order} from "../../../newInterfaces";
 
 interface PayFormProps {
-    order: OrderNew
+    order: Order
     onReloadOrder: () => void
     setStatus: (status: boolean) => void
 }

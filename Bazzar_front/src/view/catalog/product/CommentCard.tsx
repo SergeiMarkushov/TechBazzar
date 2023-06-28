@@ -1,15 +1,15 @@
 import Rating from "@mui/material/Rating/Rating";
 import React from 'react';
-import {ReviewNew} from "../../../newInterfaces";
+import {Review} from "../../../newInterfaces";
 
 export interface CommentCardProps {
-    comment: ReviewNew;
+    comment: Review;
 }
 
 export function CommentCard(props: CommentCardProps) {
 
     return (
-        <div className="card border-0 border-bottom">
+        <div className="card border-0 border-bottom" style={{width: "50%"}}>
             <div className="card-body">
                 <div className="d-flex justify-content-between">
                     <b className="card-title">{props.comment.username}</b>
@@ -18,7 +18,7 @@ export function CommentCard(props: CommentCardProps) {
                                     precision={0.5} readOnly/>
                         </div>
                 </div>
-                <span className="card-title">review:</span>
+                <span className="card-title">отзыв:</span>
                 <p className="card-text">{props.comment.reviewText}</p>
             </div>
         </div>

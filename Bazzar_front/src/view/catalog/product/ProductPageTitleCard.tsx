@@ -1,6 +1,5 @@
 import {AxiosResponse} from "axios";
 import React, {useEffect, useState} from 'react';
-import {useLocation} from "react-router-dom";
 import {apiGetProductPic} from "../../../api/PictureApi";
 import {Picture} from "../../../newInterfaces";
 import {ProductCard} from "./ProductPage";

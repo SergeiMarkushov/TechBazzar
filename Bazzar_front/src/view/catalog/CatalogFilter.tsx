@@ -1,11 +1,11 @@
 import React, {Dispatch, useEffect, useState} from "react";
 import {primary} from "../../Colors";
 import {defaultFilter} from "../../empty";
-import {FilterNew} from "../../newInterfaces";
+import {Filter} from "../../newInterfaces";
 
 interface CatalogFilterProps {
-    filter: FilterNew,
-    filterHandler: (filter: FilterNew) => void
+    filter: Filter,
+    filterHandler: (filter: Filter) => void
 }
 
 export function CatalogFilter(props: CatalogFilterProps) {

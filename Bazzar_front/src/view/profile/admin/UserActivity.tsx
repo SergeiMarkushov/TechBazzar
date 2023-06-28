@@ -2,28 +2,23 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/ma
 import React, {useState} from "react";
 import {primary} from "../../../Colors";
 import {apiBunUser} from "../../../api/UserApi";
-import {UserNew} from "../../../newInterfaces";
+import {User} from "../../../newInterfaces";
 
 interface UserActivityProps {
-    user: UserNew
+    user: User
 }
 
 export function UserActivity({user}: UserActivityProps) {
     const [open, setOpen] = useState(false);
-    const [check, setCheck] = useState(user.active);
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClick = () => {
-        if (!check) {
-            if (user.active) {
-                apiBunUser(user.id).then(() => {
-                    setOpen(false);
-                    user.active = false;
-                });
-            }
-        }
+        apiBunUser(user.id).then(() => {
+            setOpen(false);
+            window.location.reload();
+        });
     }
 
     const handleClose = () => {
@@ -40,8 +35,7 @@ export function UserActivity({user}: UserActivityProps) {
                 <DialogTitle>Активность пользователя</DialogTitle>
                 <DialogContent>
                     <div className="form-check form-switch">
-                        <input className="form-check-input" onChange={(event) => setCheck(event.target.checked)}
-                               type="checkbox" defaultChecked={user.active}/>
+                        <input className="form-check-input" type="checkbox" defaultChecked={user.active}/>
                         <span className="form-check-label">активность</span>
                     </div>
                 </DialogContent>

@@ -2,24 +2,22 @@ import {AxiosResponse} from "axios";
 import {Field, Form, Formik} from "formik";
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {apiGetMyUserById} from "../../../api/UserApi";
+import {apiGetUserById} from "../../../api/UserApi";
 import {defaultUserNew} from "../../../empty";
-import {UserNew} from "../../../newInterfaces";
+import {User} from "../../../newInterfaces";
 
 
 export function AdminMenuChangeUser() {
     const {id} = useParams();
-    const [isLoad, setLoad] = useState(false);
     const [user, setUser] = useState(defaultUserNew);
 
     useEffect(() => {
-        if (id !== undefined && !isLoad) {
-            apiGetMyUserById(Number(id)).then((resp:AxiosResponse<UserNew>) => {
+        if (id !== undefined) {
+            apiGetUserById(Number(id)).then((resp:AxiosResponse<User>) => {
                 setUser(resp.data);
-                setLoad(true);
             });
         }
-    });
+    }, []);
 
     return (
         <div className="row justify-content-center">
@@ -41,11 +39,6 @@ export function AdminMenuChangeUser() {
                             <div className="col-md-9">
                                 <Field as="label" htmlFor="username" className="form-label">username</Field>
                                 <Field as="input" name="username" type="text" value={stateFormik.values.username} className="form-control" id="username"
-                                       required={true}/>
-                            </div>
-                            <div className="col-12">
-                                <Field as="label" htmlFor="email" className="form-label">email</Field>
-                                <Field as="input" type="email" name="email" value={stateFormik.values.email} className="form-control" id="email"
                                        required={true}/>
                             </div>
                             <div className="col-md-6">

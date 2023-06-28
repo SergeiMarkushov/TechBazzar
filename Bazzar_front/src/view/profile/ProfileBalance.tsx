@@ -2,10 +2,10 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {primary} from "../../Colors";
 import {getMoneySvg} from "../../Svg";
-import {UserNew} from "../../newInterfaces";
+import {User} from "../../newInterfaces";
 
 interface ProfileBalanceProps {
-    user: UserNew
+    user: User
 }
 
 export function ProfileBalance(props: ProfileBalanceProps) {

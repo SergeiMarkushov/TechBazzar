@@ -1,10 +1,10 @@
 import {useKeycloak} from "@react-keycloak/web";
 import React, {useState} from "react";
 import {apiCreateOrder} from "../../api/OrderApi";
-import {CartNew} from "../../newInterfaces";
+import {Cart} from "../../newInterfaces";
 
 interface CartBuyFormProps {
-    cart: CartNew,
+    cart: Cart,
     onReloadCart: () => void,
 }
 

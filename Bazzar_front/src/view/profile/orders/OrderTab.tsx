@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {OrderNew} from "../../../newInterfaces";
+import {Order} from "../../../newInterfaces";
 import {DeleteOrderForm} from "./DeleteOrderForm";
 import {OrderTabCard} from "./OrderTabCard";
 import {PayForm} from "./PayForm";
 
 export interface OrderProps {
-    order: OrderNew,
+    order: Order,
     onReloadOrder: () => void
 }
 

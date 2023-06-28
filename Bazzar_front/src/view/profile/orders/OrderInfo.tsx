@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useLocation} from "react-router-dom";
-import {OrderNew} from "../../../newInterfaces";
+import {Order} from "../../../newInterfaces";
 import {OrderCard} from "./OrderCard";
 
 export interface OrderProps {
-    order: OrderNew;
+    order: Order;
 }
 
 export function OrderInfo() {
     const location = useLocation();
-    const state: OrderNew = location.state.order;
+    const state: Order = location.state.order;
 
     return (
         <div className="card mb-3">
