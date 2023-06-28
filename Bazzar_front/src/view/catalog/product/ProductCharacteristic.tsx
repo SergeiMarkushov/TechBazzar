@@ -1,8 +1,8 @@
 import React from "react";
-import {ProductNew} from "../../../newInterfaces";
+import {Product} from "../../../newInterfaces";
 
 export interface ProductCharacteristicProps {
-    product: ProductNew
+    product: Product
 }
 
 export function ProductCharacteristic(props: ProductCharacteristicProps) {

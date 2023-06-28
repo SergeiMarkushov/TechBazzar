@@ -2,10 +2,10 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {primary} from "../../Colors";
 import {getProfileSvg} from "../../Svg";
-import {UserNew} from "../../newInterfaces";
+import {User} from "../../newInterfaces";
 
 interface ProfileUserProfileProps {
-    user: UserNew
+    user: User
 }
 
 export function ProfileUserProfile(props: ProfileUserProfileProps) {
@@ -22,13 +22,6 @@ export function ProfileUserProfile(props: ProfileUserProfileProps) {
                                 <h5 className="card-title">{props.user.username}</h5>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div className="">
-                    <div className="card-body">
-                        <small className="card-title text-sm-start">e-mail: {props.user.email}</small>
-                        <br/>
                     </div>
                 </div>
             </div>

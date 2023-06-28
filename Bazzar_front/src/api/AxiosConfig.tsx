@@ -8,8 +8,3 @@ export const axiosCustom = (baseUrl: string, token: string) => axios.create({
     },
 
 });
-
-export const axiosCustomTokenOff = (baseUrl: string) => axios.create({
-    baseURL: baseUrl,
-    timeout: 5000,
-});

@@ -4,7 +4,7 @@ import {ErrorComponent} from "../../ErrorComponent";
 import {apiDeleteProductById, apiGetProductsNew} from "../../api/ProductApi";
 import {useSearch} from "../../context/Search";
 import {defaultFilter, emptyProductNew} from "../../empty";
-import {FilterNew, FindRequest, PageProductNew} from "../../newInterfaces";
+import {Filter, FindRequest, PageProduct} from "../../newInterfaces";
 import {CircularLoading} from "../CircularLoading";
 import {CatalogCard} from "./CatalogCard";
 import {CatalogFilter} from "./CatalogFilter";
@@ -30,7 +30,7 @@ export function Catalog(props: CatalogProps) {
     const [error, setError] = useState<string>("")
     const [success, setSuccess] = useState<boolean>(false)
 
-    function filterChanged(filter: FilterNew) {
+    function filterChanged(filter: Filter) {
         setFilter(filter)
         setPage(DEFAULT_PAGE)
     }
@@ -70,7 +70,7 @@ export function Catalog(props: CatalogProps) {
 
     function getProducts(queryParams: FindRequest) {
         apiGetProductsNew(queryParams)
-            .then((page: AxiosResponse<PageProductNew>) => {
+            .then((page: AxiosResponse<PageProduct>) => {
                 if (page.data !== undefined) {
                     setLoad(true);
                     setProducts(page.data.items);

@@ -16,7 +16,6 @@ const StyledBadge = styled(Badge)<BadgeProps>(({theme}) => ({
 
 export function HeaderLinkProfile() {
     const {keycloak} = useKeycloak();
-    console.log(keycloak);
     return (
         <div className="d-flex justify-content-center align-items-center flex-column">
             <div>

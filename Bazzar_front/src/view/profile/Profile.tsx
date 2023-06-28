@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {apiGetMyUser} from "../../api/UserApi";
 import {useRole} from "../../auth/Role";
 import {defaultUserNew} from "../../empty";
-import {UserNew} from "../../newInterfaces";
+import {User} from "../../newInterfaces";
 import {ProfileAdminMenu} from "./ProfileAdminMenu";
 import {ProfileBalance} from "./ProfileBalance";
 import {ProfileOrders} from "./ProfileOrders";
@@ -12,10 +12,10 @@ import {ProfileUserProfile} from "./ProfileUserProfile";
 
 export function Profile() {
     const role = useRole();
-    const [user, setUser] = useState<UserNew>(defaultUserNew);
+    const [user, setUser] = useState<User>(defaultUserNew);
 
     useEffect(() => {
-        apiGetMyUser().then((r: AxiosResponse<UserNew>) => {
+        apiGetMyUser().then((r: AxiosResponse<User>) => {
             setUser(r.data);
         }).then((e) => {
             console.error(e);

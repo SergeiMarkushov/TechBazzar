@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {ErrorComponent} from "../../../ErrorComponent";
 import {apiGetProductByIdNew} from "../../../api/ProductApi";
 import {emptyProductNew} from "../../../empty";
-import {ProductNew} from "../../../newInterfaces";
+import {Product} from "../../../newInterfaces";
 import {BreadCrumbForProductPage} from "./BreadCrumbForProductPage";
 import {FunctionalPanelOnCatalogCard} from "./FunctionalPanelOnCatalogCard";
 import {ProductCharacteristic} from "./ProductCharacteristic";
@@ -14,21 +14,17 @@ import {ProductPageDescriptionCard} from "./ProductPageDescriptionCard";
 import {ProductPageTitleCard} from "./ProductPageTitleCard";
 
 export interface ProductCard {
-    product: ProductNew;
+    product: Product;
 }
 
 export function ProductPage() {
     const [product, setProduct] = useState(emptyProductNew)
-    const [load, setLoad] = useState({
-        isLoad: false,
-    });
     const {id} = useParams();
     const [error, setError] = useState<string>("")
     const [success, setSuccess] = useState<boolean>(false)
 
     useEffect(() => {
-            if (!load.isLoad && id !== undefined) {
-                setLoad({isLoad: true});
+            if (id !== undefined) {
                 apiGetProductByIdNew(Number(id)).then((product) => {
                     setProduct(product.data);
                     setSuccess(true);
@@ -37,7 +33,7 @@ export function ProductPage() {
                     setError("Упс... Что то пошло не так. Попробуйте позже")
                 });
             }
-        }, [id, load.isLoad]
+        }, [id]
     );
 
     return (

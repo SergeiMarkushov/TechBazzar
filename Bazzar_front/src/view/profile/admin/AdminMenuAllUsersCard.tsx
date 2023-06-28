@@ -1,11 +1,11 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {primary} from "../../../Colors";
-import {UserNew} from "../../../newInterfaces";
+import {User} from "../../../newInterfaces";
 import {AdminMenuUserMenu} from "./AdminMenuUserMenu";
 
 interface AllUsersCardProps {
-    user: UserNew,
+    user: User,
 }
 
 export function AdminMenuAllUsersCard(props: AllUsersCardProps) {
@@ -16,7 +16,6 @@ export function AdminMenuAllUsersCard(props: AllUsersCardProps) {
                     <div>
                         <p className="card-title">id - {props.user.id}</p>
                         <p className="card-subtitle mb-2 text-muted">username - {props.user.username}</p>
-                        <p className="card-subtitle mb-2 text-muted">email - {props.user.email}</p>
                         <p className="card-subtitle mb-2 text-muted">balance - {props.user.balance}</p>
                         <p className="card-subtitle mb-2 text-muted">is active
                             - {props.user.active ? "active" : "not active"}</p>

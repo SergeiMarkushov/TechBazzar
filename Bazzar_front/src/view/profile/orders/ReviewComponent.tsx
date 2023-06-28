@@ -13,9 +13,13 @@ import {useKeycloak} from "@react-keycloak/web";
 import React, {useState} from "react";
 import {primary} from "../../../Colors";
 import {apiAddReview} from "../../../api/ReviewApi";
-import {ReviewDto} from "../../../newInterfaces";
+import {OrderItem, ReviewDto} from "../../../newInterfaces";
 
-export function Review() {
+interface ReviewProps {
+    product: OrderItem
+}
+
+export function ReviewComponent({product}: ReviewProps) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState<number>(0);
     const [text, setText] = useState<string>("");
@@ -37,6 +41,7 @@ export function Review() {
                     mark: value,
                     reviewText: text,
                     username: email,
+                    productId: product.productId
                 };
                 apiAddReview(data).then(() => {
                     setOpen(false);

@@ -2,10 +2,10 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 import React from 'react';
 import {useState} from "react";
 import {primary} from "../../../Colors";
-import {UserNew} from "../../../newInterfaces";
+import {User} from "../../../newInterfaces";
 
 interface UpBalanceProps {
-    user: UserNew
+    user: User
 }
 
 export function UpBalance({user}: UpBalanceProps) {
