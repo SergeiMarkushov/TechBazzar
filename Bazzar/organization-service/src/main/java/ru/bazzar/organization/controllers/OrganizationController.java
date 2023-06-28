@@ -1,5 +1,6 @@
 package ru.bazzar.organization.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,12 @@ import ru.bazzar.organization.services.OrganizationService;
 import java.io.IOException;
 import java.util.List;
 
+//         http://localhost:8185/tech-bazzar-organization/swagger-ui/index.html
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Контроллер организаций", description = "Методы работы с организациями")// TODO: 28.06.2023 закончил тут
 @RequestMapping("/api/v1/organizations")
 public class OrganizationController {
     private final OrganizationService organizationService;
@@ -54,6 +58,7 @@ public class OrganizationController {
         return converter.entityToDto(organizationService.notConfirmed());
     }
 
+    // TODO: 28.06.2023 нужно put!
     @GetMapping("/confirm/{title}")
     public void confirm(@PathVariable String title) {
         organizationService.confirm(title);
