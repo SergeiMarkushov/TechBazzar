@@ -58,4 +58,13 @@ public class ReviewService {
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден!"));
         return product.getReviews().stream().map((element) -> modelMapper.map(element, ReviewDto.class)).collect(Collectors.toList());
     }
+
+    public Integer countByProductId(Long productId) {
+        Integer count = repository.countByProductId(productId);
+        if (count != null) {
+            return count;
+        } else {
+            return 0;
+        }
+    }
 }

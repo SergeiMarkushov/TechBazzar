@@ -25,7 +25,7 @@ spring:
 
 #integrations:
 #  auth-service:
-#    url: http://localhost:8181/tech-bazzar-auth/
+#    url: http://localhost:8181/tech-bazzar-user/
 #    read-timeout: 10000
 #    write-timeout: 5000
 #    connect-timeout: 5000

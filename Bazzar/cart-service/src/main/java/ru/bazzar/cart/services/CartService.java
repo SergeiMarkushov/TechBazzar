@@ -53,6 +53,11 @@ public class CartService {
         redisTemplate.opsForValue().set(cartPrefix + username, cart);
     }
 
+    public Integer getCartSize(String username) {
+        Cart cart = getCurrentCart(username);
+        return cart.getItems().size();
+    }
+
     public void updateCart(String uuid, Cart cart) {
         redisTemplate.opsForValue().set(cartPrefix + uuid, cart);
     }
