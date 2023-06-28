@@ -1,7 +1,7 @@
 server:
   port: 8181
   servlet:
-    context-path: /tech-bazzar-auth
+    context-path: /tech-bazzar-user
 
 spring:
   flyway:
