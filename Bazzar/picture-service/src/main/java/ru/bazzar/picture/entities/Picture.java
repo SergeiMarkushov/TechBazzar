@@ -24,7 +24,6 @@ public class Picture {
 
     @Column(name = "file_name")
     @Size(min = 2, max = 100, message = "Поле title должно быть в диапазоне от {min} до {max} символов.")
-    //@Unique
     private String fileName;
 
     @Column(name = "content_type")
@@ -32,7 +31,6 @@ public class Picture {
 
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
-//    @Size(max = 5 * 1024 * 1024, message = "Размер не должен превышать 5 Mb")
     private byte[] bytes;
 
     @Override
