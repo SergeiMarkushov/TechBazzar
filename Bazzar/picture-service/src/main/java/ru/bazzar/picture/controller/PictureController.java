@@ -45,15 +45,16 @@ public class PictureController {
     @GetMapping("/{id}")
     public PictureDto findPictureByIdAndReturnDto(
             @PathVariable
-            @Parameter(description = "Идентификатор", required = true)
+            @Parameter(description = "В строке запроса указывается id существующей картинки", required = true)
             Long id){
         return pictureConverter.entityToDto(pictureService.findById(id));
     }
+
     @Operation(
             summary = "Запрос на сохранение dto картинки и возврат id",
             responses = {
                     @ApiResponse(
-                            description = "Успешный ответ", responseCode = "200",
+                            description = "Успешный ответ - возвращает id сохраненной картинки", responseCode = "200",
                             content = @Content(schema = @Schema(implementation = Long.class))
                     ),
                     @ApiResponse(
@@ -65,11 +66,13 @@ public class PictureController {
     @PostMapping()
     public Long savePicDtoAndReturnId(
             @RequestBody
-            @Parameter(description = "PictureDto Json c id == null", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "В теле запроса: PictureDto Json без поля id", required = true)
             PictureDto pictureDto){
         Picture p = pictureService.save(pictureConverter.dtoToEntity(pictureDto));
         return p.getId();
     }
+
     @Operation(
             summary = "Запрос на удаление dto картинки продукта по id",
             responses = {
@@ -83,7 +86,10 @@ public class PictureController {
             }
     )
     @DeleteMapping("/{id}")
-    public void deletePic(@PathVariable Long id){
+    public void deletePic(
+            @PathVariable
+            @Parameter(description = "Идентификатор id удаляемой картинки", required = true)
+            Long id){
         try {
             pictureService.deleteById(id);
         }catch (EmptyResultDataAccessException e){
