@@ -35,10 +35,10 @@ public class LogoController {
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+                            content = @Content(mediaType = "image/png", schema = @Schema(type = "string", format = "binary"))
                     ),
                     @ApiResponse(
-                            description = "Логотип не найден", responseCode = "400",
+                            description = "Логотип не найден", responseCode = "404",
                             content = @Content(schema = @Schema(implementation = AppError.class))
                     )
             }
@@ -60,6 +60,5 @@ public class LogoController {
                     new AppError(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND
             );
         }
-
     }
 }
