@@ -1,5 +1,6 @@
 package ru.bazzar.organization.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,17 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Модель организации")
 public class OrganizationDto {
+    @Schema(description = "Идентификатор организации", example = "1")
     private Long id;
+    @Schema(description = "Название организации", maxLength = 100, example = "Агропром")
     private String title;
+    @Schema(description = "Описание организации", maxLength = 1000, example = "Продукты питания")
     private String description;
+    @Schema(description = "Вледелец организации (email адрес)", maxLength = 100, example = "ivan@mail.ru")
     private String owner;
+    @Schema(description = "Статус активности", example = "true")
     private boolean isActive;
 
 

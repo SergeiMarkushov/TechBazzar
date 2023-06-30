@@ -53,8 +53,7 @@ integrations:
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
+
 springdoc:
   swagger-ui:
     supported-submit-methods: "get"
-
-  #  springdoc.swagger-ui.supportedSubmitMethods = Array=[, "put", "post","patch"]

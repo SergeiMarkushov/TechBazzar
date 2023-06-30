@@ -17,7 +17,6 @@ spring:
               - PUT
             allowedHeaders: "*"
 
-
       routes:
         - id: core-service
           uri: http://localhost:8183
