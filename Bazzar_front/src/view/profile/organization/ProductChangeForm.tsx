@@ -2,10 +2,10 @@ import {Field, FieldArray, Form} from "formik";
 import React, {useEffect, useState} from 'react';
 import {MAX_FILE_SIZE} from "../../../CONST";
 import {ErrorComponent} from "../../../ErrorComponent";
-import {ProductNew} from "../../../newInterfaces";
+import {Product} from "../../../newInterfaces";
 
 interface ProductChangeFormProps {
-    product: ProductNew,
+    product: Product,
     error: string,
     success: boolean,
     textIfSuccess: string,

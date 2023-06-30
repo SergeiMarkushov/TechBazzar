@@ -2,11 +2,11 @@ import {AxiosError, AxiosResponse} from "axios";
 import {Formik} from "formik";
 import React, {useState} from "react";
 import {useParams} from "react-router-dom";
-import { MAX_FILE_SIZE } from "../../../CONST";
+import {MAX_FILE_SIZE} from "../../../CONST";
 import {apiCreateCharacteristics} from "../../../api/CharacteristicApi";
 import {apiCreateProduct} from "../../../api/ProductApi";
 import {emptyProductCreateNew2, emptyProductNew} from "../../../empty";
-import {Characteristic, ErrorMessage, ProductCreateNew2, ProductNew} from "../../../newInterfaces";
+import {Characteristic, ErrorMessage, ProductForCreate, Product} from "../../../newInterfaces";
 import {ProductCreateForm} from "./ProductCreateForm";
 
 export function ProductCreator() {
@@ -33,28 +33,28 @@ export function ProductCreator() {
             <div className="container-fluid m-2"
                  style={{maxWidth: "50rem"}}>
                 <Formik initialValues={emptyProductCreateNew2}
-                        onSubmit={(values: ProductCreateNew2) => {
-                            const data: ProductCreateNew2 = {
+                        onSubmit={(values: ProductForCreate) => {
+                            const data: ProductForCreate = {
                                 title: values.title,
                                 description: values.description,
                                 price: values.price,
                                 quantity: values.quantity,
                                 organizationTitle: title ?? values.organizationTitle,
-                                characteristicsDto: Array.of(),
-                                pictureId: 1,
                             }
-                            const characteristicsDto: Array<Characteristic> = Array.from(values.characteristicsDto.map((value) => {
-                                return {id: null, name: value, product: null}
-                            }))
+
+                            const characteristicsDto: Array<Characteristic> | undefined = values.characteristicsDto
+                                ? values.characteristicsDto.map(value => ({id: null, name: value, product: null}))
+                                : undefined;
+
                             setSuccess(false)
                             if (file !== null) {
                                 const formData = new FormData();
                                 formData.append("productDto", JSON.stringify(data));
                                 formData.append("product_picture", file);
-                                apiCreateProduct(formData).then((product: AxiosResponse<ProductNew>) => {
+                                apiCreateProduct(formData).then((product: AxiosResponse<Product>) => {
                                     setSuccess(true)
                                     setError("")
-                                    if (product.data.id !== undefined) {
+                                    if (product.data.id !== undefined && characteristicsDto !== undefined) {
                                         apiCreateCharacteristics(product.data.id, characteristicsDto).then(() => {
                                             setSuccess(true)
                                             setError("")

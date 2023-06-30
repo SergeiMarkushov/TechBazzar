@@ -1,7 +1,6 @@
 import {useKeycloak} from "@react-keycloak/web";
 import React from "react";
 import {Navigate} from "react-router-dom";
-import {setTokenKeyCloak} from "../util/KeyCloakToken";
 import {ADMIN} from "./Roles";
 
 export interface RoleContextType {
@@ -23,9 +22,9 @@ export function RoleProvider({children}: { children: React.ReactNode }) {
         isAdmin = false;
     }
 
-    if (keycloak.authenticated && initialized && keycloak.token) {
+    /*if (keycloak.authenticated && initialized && keycloak.token) {
         setTokenKeyCloak(keycloak?.token);
-    }
+    }*/
 
     const value = {isAdmin};
 

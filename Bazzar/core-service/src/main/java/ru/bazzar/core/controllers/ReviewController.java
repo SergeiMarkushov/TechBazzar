@@ -31,4 +31,9 @@ public class ReviewController {
     public List<ReviewDto> findByProductId(@PathVariable Long productId) {
         return reviewService.findByProductId(productId);
     }
+    @GetMapping("/count/{productId}")
+    public Integer getCount(@PathVariable Long productId) {
+        return reviewService.countByProductId(productId);
+    }
+
 }

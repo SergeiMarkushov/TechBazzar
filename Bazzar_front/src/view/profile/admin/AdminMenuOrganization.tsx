@@ -12,7 +12,6 @@ export function AdminMenuOrganization({org}: AdminMenuOrganizationProps) {
     const [open, setOpen] = useState(false);
     const [check, setCheck] = useState(org.active);
 
-
     const handleClickOpen = () => {
         setOpen(true);
     };

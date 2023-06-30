@@ -8,8 +8,7 @@ import {HeaderLinkCart} from "./HeaderLinkCart";
 import {HeaderLinkProfile} from "./HeaderLinkProfile";
 import {Home} from "./Home";
 import {SearchTab} from "./SearchTab";
-import {Registration} from "./auth/Registration";
-import {Cart} from "./cart/Cart";
+import {CartComponent} from "./cart/CartComponent";
 import {Catalog} from "./catalog/Catalog";
 import {ProductPage} from "./catalog/product/ProductPage";
 import {Profile} from "./profile/Profile";
@@ -69,7 +68,6 @@ export function Header() {
                     {/*public rotes*/}
                     <Route>
                         <Route path="/home" element={<Home/>}/>
-                        <Route path="/signUp" element={<Registration/>}/>
                         <Route path="/catalog" element={<Catalog/>}/>
                         <Route path="/product/:name/:id" element={<ProductPage/>}/>
                         <Route path="/" element={<Catalog/>}/>
@@ -124,7 +122,7 @@ export function Header() {
 
                     {/*auth rotes*/}
                     <Route>
-                        <Route path="/cart" element={<RequireAuthKeycloak><Cart/></RequireAuthKeycloak>}/>
+                        <Route path="/cart" element={<RequireAuthKeycloak><CartComponent/></RequireAuthKeycloak>}/>
                         <Route path="/profile" element={<RequireAuthKeycloak><Profile/></RequireAuthKeycloak>}/>
                         <Route path="/profile/orders" element={<RequireAuthKeycloak><Orders/></RequireAuthKeycloak>}/>
                         <Route path="/profile/orders/order/:id" element={<RequireAuthKeycloak><OrderInfo/></RequireAuthKeycloak>}/>

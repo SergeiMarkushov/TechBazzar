@@ -1,10 +1,11 @@
-import Badge, { BadgeProps } from '@mui/material/Badge';
+import Badge, {BadgeProps} from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import React from 'react';
 import {getHeaderCartSvg} from "../Svg";
+import {useNotify} from "../context/Notify";
 
-const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+const StyledBadge = styled(Badge)<BadgeProps>(({theme}) => ({
     '& .MuiBadge-badge': {
         right: -3,
         top: 13,
@@ -14,12 +15,14 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 }));
 
 export function HeaderLinkCart() {
+    const notify = useNotify();
+
     return (
         <div className="d-flex justify-content-center align-items-center flex-column">
             <div>
                 <IconButton aria-label="cart" style={{maxWidth: "16px", maxHeight: "16px"}}>
-                    {/*TODO: replace badgeContent with cart size*/}
-                    <StyledBadge style={{maxWidth: "16px", maxHeight: "16px"}} badgeContent={4} color="info">
+                    <StyledBadge style={{maxWidth: "16px", maxHeight: "16px"}} badgeContent={notify.cartSize}
+                                 color="info">
                         {getHeaderCartSvg()}
                     </StyledBadge>
                 </IconButton>

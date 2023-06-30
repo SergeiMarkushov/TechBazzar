@@ -1,19 +1,21 @@
 import {AxiosError, AxiosResponse} from "axios";
 import React, {useEffect, useState} from 'react';
 import {apiClearCart, apiGetCart} from "../../api/CartApi";
+import { useNotify } from "../../context/Notify";
 import {emptyCart} from "../../empty";
-import {CartNew} from "../../newInterfaces";
+import {Cart} from "../../newInterfaces";
 import {CartBuyForm} from "./CartBuyForm";
 import {CartCard} from "./CartCard";
 import {CartFunctionMenu} from "./CartFunctionMenu";
 
-export function Cart() {
+export function CartComponent() {
     const [isDone, setIsDone] = useState(false)
     const [cart, setCart] = useState(emptyCart)
     const [isEmpty, setEmpty] = useState(true)
+    const notify = useNotify();
 
     useEffect(() => {
-        apiGetCart().then((data: AxiosResponse<CartNew>) => {
+        apiGetCart().then((data: AxiosResponse<Cart>) => {
                 if (data.data === null || (data.data.items.length === 0)) {
                     setEmpty(true)
                 } else {
@@ -21,6 +23,7 @@ export function Cart() {
                     setEmpty(false)
                 }
                 setIsDone(true);
+                notify.changeCartSize();
             }
         ).catch((reason: AxiosError) => {
             // eslint-disable-next-line no-console

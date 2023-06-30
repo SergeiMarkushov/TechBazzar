@@ -5,7 +5,7 @@ import {primary} from "../../../Colors";
 import {ErrorComponent} from "../../../ErrorComponent";
 import {apiConfirmProduct, apiGetProductsNotConfirmed} from "../../../api/ProductApi";
 import {emptyProductNew} from "../../../empty";
-import {ErrorMessage, ProductNew} from "../../../newInterfaces";
+import {ErrorMessage, Product} from "../../../newInterfaces";
 import {CircularLoading} from "../../CircularLoading";
 import {CatalogCard} from "../../catalog/CatalogCard";
 
@@ -18,7 +18,7 @@ export function ConfirmProducts() {
 
     useEffect(() => {
         if (!load) {
-            apiGetProductsNotConfirmed().then((products: AxiosResponse<ProductNew>) => {
+            apiGetProductsNotConfirmed().then((products: AxiosResponse<Product>) => {
                 setProduct(products.data);
                 setLoadProduct(true);
             }).catch((e: AxiosError<ErrorMessage>) => {

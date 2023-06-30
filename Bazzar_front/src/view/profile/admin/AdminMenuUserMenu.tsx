@@ -1,13 +1,11 @@
 import {Dialog, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
-import React from 'react';
-import {useState} from "react";
-import {UserNew} from "../../../newInterfaces";
-import {ChangeRoles} from "./ChangeRoles";
+import React, {useState} from 'react';
+import {User} from "../../../newInterfaces";
 import {UpBalance} from "./UpBalance";
 import {UserActivity} from "./UserActivity";
 
 interface AdminMenuUserMenuProps {
-    user: UserNew
+    user: User
 }
 
 export function AdminMenuUserMenu({user}: AdminMenuUserMenuProps) {
@@ -30,11 +28,6 @@ export function AdminMenuUserMenu({user}: AdminMenuUserMenuProps) {
                     <DialogContentText>
                         <div className="d-flex justify-content-between mb-3">
                             Баланс - {<UpBalance user={user}/>}
-                        </div>
-                    </DialogContentText>
-                    <DialogContentText>
-                        <div className="d-flex justify-content-between mb-3">
-                            Роли - {<ChangeRoles user={user}/>}
                         </div>
                     </DialogContentText>
                     <DialogContentText>

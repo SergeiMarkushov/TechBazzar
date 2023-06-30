@@ -14,3 +14,7 @@ export function getTokenKeyCloak(): string {
 export function setTokenKeyCloak(newToken: string): void {
     localStorage.setItem('tokenKeyCloak', newToken);
 }
+
+export function removeTokenKeyCloak(): void {
+    localStorage.removeItem('tokenKeyCloak');
+}
