@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 
 import java.util.Objects;
 
-@ConstructorBinding
+@ConfigurationPropertiesBinding
 @ConfigurationProperties(prefix = "integrations.picture-service")
 @Getter
 @Setter

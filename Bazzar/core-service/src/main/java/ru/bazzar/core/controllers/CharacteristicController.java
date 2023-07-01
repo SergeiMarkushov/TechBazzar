@@ -1,5 +1,6 @@
 package ru.bazzar.core.controllers;
 
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import ru.bazzar.core.converters.CharacteristicConverter;
 import ru.bazzar.core.entities.Characteristic;
 import ru.bazzar.core.services.CharacteristicService;
 
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 

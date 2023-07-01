@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: gateway-service
+    name: gateway
   cloud:
     gateway:
       globalcors:
@@ -19,7 +19,7 @@ spring:
 
       routes:
         - id: core-service
-          uri: http://localhost:8183
+          uri: lb://CORE
           predicates:
             - Path=/core/**
           filters:
@@ -28,7 +28,7 @@ spring:
             - TokenAuthenticationFilter
 
         - id: cart-service
-          uri: http://localhost:8182
+          uri: lb://CART
           predicates:
             - Path=/cart/**
           filters:
@@ -37,7 +37,7 @@ spring:
             - TokenAuthenticationFilter
 
         - id: notification-service
-          uri: http://localhost:8184
+          uri: lb://NOTIFICATION
           predicates:
             - Path=/notification/**
           filters:
@@ -46,7 +46,7 @@ spring:
             - TokenAuthenticationFilter
 
         - id: organization-service
-          uri: http://localhost:8185
+          uri: lb://ORGANIZATION
           predicates:
             - Path=/organization/**
           filters:
@@ -55,12 +55,21 @@ spring:
             - TokenAuthenticationFilter
 
         - id: user-service
-          uri: http://localhost:8181
+          uri: lb://USER
           predicates:
             - Path=/user/**
           filters:
             - StripPrefix=1
             - PrefixPath=/tech-bazzar-user
+            - TokenAuthenticationFilter
+
+        - id: picture-service
+          uri: lb://PICTURE
+          predicates:
+            - Path=/picture/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-picture
             - TokenAuthenticationFilter
 
   servlet:
@@ -73,3 +82,10 @@ spring:
         jwt:
           issuer-uri: ${issuer_uri}
           jwk-set-uri: ${jwk_set_uri}
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

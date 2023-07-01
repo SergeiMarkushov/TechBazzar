@@ -29,12 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public void save(String username) {
-        System.out.println(username);
         Optional<User> userFromDb = repository.findByUsernameIgnoreCase(username);
-        System.out.println(userFromDb.isEmpty());
-        System.out.println(userFromDb.isPresent());
         if (userFromDb.isEmpty()) {
-            System.out.println("if");
             User user = new User();
             user.setUsername(username);
             user.setBalance(new BigDecimal(1000));
