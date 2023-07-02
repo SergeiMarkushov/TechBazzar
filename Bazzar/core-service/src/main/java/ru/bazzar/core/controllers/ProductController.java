@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import ru.bazzar.core.api.PageDto;
 import ru.bazzar.core.api.PictureDto;
 import ru.bazzar.core.api.ProductDto;
 import ru.bazzar.core.api.ResourceNotFoundException;
+import ru.bazzar.core.api.UserDto;
 import ru.bazzar.core.converters.ProductConverter;
 import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.integrations.OrganizationServiceIntegration;
@@ -24,6 +26,8 @@ import ru.bazzar.core.services.ProductService;
 import ru.bazzar.core.utils.MyQueue;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +63,8 @@ public class ProductController {
 
     @GetMapping
     public PageDto<ProductDto> getProductDtosPage(
-            @RequestHeader String username,
+            @RequestHeader("username") String username,
+            @RequestHeader("full_name") String fullName,
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "min_price", required = false) Integer minPrice,
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
@@ -68,7 +73,10 @@ public class ProductController {
             @RequestParam(name = "title_part", required = false) String titlePart,
             @RequestParam(name = "limit", defaultValue = "20") int limit
     ) {
-        userService.checkAndCreate(username);
+        UserDto userDto = new UserDto();
+        userDto.setUsername(username);
+        userDto.setFullName(fullName);
+        userService.checkAndCreate(userDto);
 
         if (page < 1) {
             page = 1;

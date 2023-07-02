@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bazzar.user.api.ResourceNotFoundException;
 import ru.bazzar.user.api.UserDto;
@@ -30,9 +31,10 @@ public class UserController {
     private final UserServiceImpl service;
     private final UserConverter converter;
 
-    @PostMapping("/create/{username}")
-    public void checkAndCreate(@PathVariable String username) {
-        service.save(username);
+    @PostMapping("/create")
+    public void checkAndCreate(@RequestBody UserDto userDto) {
+        System.out.println(userDto.getUsername() + " " + userDto.getFullName());
+        service.save(userDto);
     }
 
     @GetMapping("/{userId}")

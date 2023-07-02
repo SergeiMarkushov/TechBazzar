@@ -1,6 +1,6 @@
 spring:
   application:
-    name: user
+    name: USER
 
   cloud:
     config:

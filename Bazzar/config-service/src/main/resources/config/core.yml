@@ -26,6 +26,10 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     hibernate:
       ddl-auto: update
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
 
 eureka:
   client:

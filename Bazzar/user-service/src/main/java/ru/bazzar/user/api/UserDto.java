@@ -11,6 +11,7 @@ import java.util.Objects;
 public class UserDto {
     private Long id;
     private String username;
+    private String fullName;
     private BigDecimal balance;
     private boolean active;
 }

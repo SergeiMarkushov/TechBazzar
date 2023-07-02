@@ -79,9 +79,10 @@ public class UserServiceIntegration {
                 .block();
     }
 
-    public void checkAndCreate(String username) {
+    public void checkAndCreate(UserDto userDto) {
         userServiceWebClient.post()
-                .uri("api/v1/users/create/" + username)
+                .uri("api/v1/users/create")
+                .bodyValue(userDto)
                 .retrieve()
                 .onStatus(
                         httpStatus -> httpStatus.value() == HttpStatus.NOT_FOUND.value(),

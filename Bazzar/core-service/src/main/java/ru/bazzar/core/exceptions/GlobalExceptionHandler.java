@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import ru.bazzar.core.api.AccessException;
 import ru.bazzar.core.api.AppError;
 import ru.bazzar.core.api.ResourceNotFoundException;
-import java.util.List;
 
 
 @ControllerAdvice

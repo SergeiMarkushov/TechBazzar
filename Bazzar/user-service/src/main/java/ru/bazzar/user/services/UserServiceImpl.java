@@ -28,14 +28,15 @@ public class UserServiceImpl implements UserService {
         return repository.findByUsernameIgnoreCase(username);
     }
 
-    public void save(String username) {
-        Optional<User> userFromDb = repository.findByUsernameIgnoreCase(username);
+    public void save(UserDto userDto) {
+        Optional<User> userFromDb = repository.findByUsernameIgnoreCase(userDto.getUsername());
         if (userFromDb.isEmpty()) {
             User user = new User();
-            user.setUsername(username);
+            user.setUsername(userDto.getUsername());
+            user.setFullName(userDto.getFullName());
             user.setBalance(new BigDecimal(1000));
             user.setActive(false);
-            log.info("Пользователь с username {} сохранен в базу данных!", username);
+            log.info("Пользователь по имени {} и с username {} сохранен в базу данных!", userDto.getFullName(), userDto.getUsername());
             repository.save(user);
         }
     }

@@ -46,6 +46,7 @@ public class TokenAuthenticationFilter extends AbstractGatewayFilterFactory<Toke
                 Jwt jwt = jwtDecoder.decode(token);
                 Map<String, Object> claims = jwt.getClaims();
                 String username = (String) claims.get("email");
+                String fullName = (String) claims.get("name");
 
                 Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
                 List<String> roles = (List<String>) realmAccess.get("roles");
@@ -56,6 +57,7 @@ public class TokenAuthenticationFilter extends AbstractGatewayFilterFactory<Toke
                 return chain.filter(exchange.mutate().request(exchange.getRequest().mutate()
                                 .header("Authorization", "Bearer " + token)
                                 .header("username", username)
+                                .header("full_name", fullName)
                                 .build()).build())
                         .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
             } catch (JwtException e) {

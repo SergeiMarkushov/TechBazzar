@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
     Optional<User> findByUsername(String email);
-    void save(String username);
+    void save(UserDto userDto);
     Optional<User> findById(Long id);
     User payment(User user, BigDecimal totalPrice);
     void receivingProfit(UserDto userDto);
