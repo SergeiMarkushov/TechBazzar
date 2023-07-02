@@ -31,6 +31,9 @@ public class Review {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "full_name")
+    private String fullName;
+
     @Column(name = "review_text")
     private String reviewText;
 

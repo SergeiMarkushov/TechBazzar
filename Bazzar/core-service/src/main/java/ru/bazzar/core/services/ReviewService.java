@@ -25,23 +25,16 @@ public class ReviewService {
     private final ModelMapper modelMapper;
 
     public ReviewDto createOrUpdateReview(ReviewDto reviewDto) {
-        Long id = reviewDto.getId();
-        if (id == null) {
-            Review review = modelMapper.map(reviewDto, Review.class);
-            Review savedReview = repository.save(review);
+        if (reviewDto.getId() == null) {
+            Review review = repository.save(modelMapper.map(reviewDto, Review.class));
             log.info("Отзыв оставлен пользователем " + reviewDto.getUsername());
-            return modelMapper.map(savedReview, ReviewDto.class);
+            return modelMapper.map(review, ReviewDto.class);
         }
-        Review review = repository.findById(id)
+        Review review = repository.findById(reviewDto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Отзыв с таким id не найден"));
-        review.setUsername(reviewDto.getUsername());
         review.setReviewText(reviewDto.getReviewText());
         review.setMark(reviewDto.getMark());
-        review.setProduct(productRepository.findById(reviewDto.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден")));
-        log.info("Отзыв обновлен с идентификатором " + id);
-        Review savedReview = repository.save(review);
-        return modelMapper.map(savedReview, ReviewDto.class);
+        return modelMapper.map(repository.save(review), ReviewDto.class);
     }
 
     public ReviewDto findById(Long id) {

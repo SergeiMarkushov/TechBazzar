@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: gateway
+    name: GATEWAY
   cloud:
     gateway:
       globalcors:
@@ -82,6 +82,11 @@ spring:
         jwt:
           issuer-uri: ${issuer_uri}
           jwk-set-uri: ${jwk_set_uri}
+
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
 
 eureka:
   client:
