@@ -1,11 +1,11 @@
 package ru.bazzar.core.repositories.specifications;
 
 
+import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import ru.bazzar.core.entities.Characteristic;
 import ru.bazzar.core.entities.Product;
 
-import javax.persistence.criteria.Join;
 
 public class ProductSpecifications {
     public static Specification<Product> priceGreaterOrEqualsThan(Integer minPrice) {

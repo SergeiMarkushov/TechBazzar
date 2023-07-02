@@ -1,7 +1,4 @@
 server:
-  #  error:
-  ##отключение трассировки в json(е) при отправке на фронт
-  #    include-stacktrace: NEVER
   port: 8183
   servlet:
     context-path: /tech-bazzar-core
@@ -12,14 +9,14 @@ spring:
       max-file-size: 5MB
 
   datasource:
-    url: ${url_db}
+    url: ${url_db_core}
     driver-class-name: org.postgresql.Driver
     username: ${db_username}
     password: ${db_password}
 
   flyway:
     baselineOnMigrate: true
-    url: ${url_db}
+    url: ${url_db_core}
     user: ${db_username}
     password: ${db_password}
     validateOnMigrate: false
@@ -29,6 +26,13 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     hibernate:
       ddl-auto: update
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
 integrations:
   auth-service:
