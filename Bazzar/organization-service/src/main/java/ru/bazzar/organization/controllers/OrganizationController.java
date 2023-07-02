@@ -73,4 +73,10 @@ public class OrganizationController {
     public boolean isOrgActive(@PathVariable String title) {
         return organizationService.isOrgActive(title);
     }
+
+    @GetMapping("/titles")
+    public ResponseEntity<?> getOrgNames() {
+        List<String> orgNames = organizationService.getOrganizationTitles();
+        return ResponseEntity.ok().body(orgNames);
+    }
 }
