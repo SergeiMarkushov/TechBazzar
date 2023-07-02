@@ -16,6 +16,8 @@
         <module>notification-service</module>
         <module>organization-service</module>
         <module>picture-service</module>
+        <module>eureka-service</module>
+        <module>config-service</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

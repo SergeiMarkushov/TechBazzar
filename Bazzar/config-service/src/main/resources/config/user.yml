@@ -6,13 +6,13 @@ server:
 spring:
   flyway:
     baselineOnMigrate: true
-    url: ${url_db}
+    url: ${url_db_user}
     user: ${db_username}
     password: ${db_password}
     validateOnMigrate: false
 
   datasource:
-    url: ${url_db}
+    url: ${url_db_user}
     driverClassName: org.postgresql.Driver
     username: ${db_username}
     password: ${db_password}
@@ -23,9 +23,12 @@ spring:
     hibernate:
       ddlAuto: update
 
-jwt:
-  secret: ${jwt_secret}
-  lifetime: 36_000_000_000
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
 integrations:
   notification-service:

@@ -1,5 +1,6 @@
 package ru.bazzar.core.services;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import ru.bazzar.core.entities.Product;
 import ru.bazzar.core.repositories.DiscountRepository;
 import ru.bazzar.core.utils.ListsForDiscount;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
