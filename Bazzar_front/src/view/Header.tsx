@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, Route, Routes} from "react-router-dom";
 import {primary} from "../Colors";
+import {ErrorComponent} from "../ErrorComponent";
 import {RequireAuthKeycloak} from "../auth/KeycloakProvider";
 import {RequireRoleADMIN} from "../auth/Role";
 import {HeaderLinkAuth} from "./HeaderLinkAuth";
@@ -28,6 +29,7 @@ import {CreateOrganization} from "./profile/organization/CreateOrganization";
 import {OrganizationManagement} from "./profile/organization/OrganizationManagement";
 import {OrganizationMenu} from "./profile/organization/OrganizationMenu";
 import {ProductCreator} from "./profile/organization/ProductCreator";
+import {PurchaseMain} from "./profile/purchase/PurchaseMain";
 
 export function Header() {
     return (
@@ -62,13 +64,13 @@ export function Header() {
                 </nav>
             </div>
             <div style={{maxWidth: "1200px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white"}}>
-
                 <Routes>
 
                     {/*public rotes*/}
                     <Route>
                         <Route path="/home" element={<Home/>}/>
                         <Route path="/catalog" element={<Catalog/>}/>
+                        <Route path="/catalog/:companyParam" element={<Catalog/>}/>
                         <Route path="/product/:name/:id" element={<ProductPage/>}/>
                         <Route path="/" element={<Catalog/>}/>
                     </Route>
@@ -125,6 +127,7 @@ export function Header() {
                         <Route path="/cart" element={<RequireAuthKeycloak><CartComponent/></RequireAuthKeycloak>}/>
                         <Route path="/profile" element={<RequireAuthKeycloak><Profile/></RequireAuthKeycloak>}/>
                         <Route path="/profile/orders" element={<RequireAuthKeycloak><Orders/></RequireAuthKeycloak>}/>
+                        <Route path="/profile/purchase" element={<RequireAuthKeycloak><PurchaseMain/></RequireAuthKeycloak>}/>
                         <Route path="/profile/orders/order/:id" element={<RequireAuthKeycloak><OrderInfo/></RequireAuthKeycloak>}/>
                         <Route path="/profile/userProfile" element={<RequireAuthKeycloak><UserProfile/></RequireAuthKeycloak>}/>
                         <Route path="/profile/balance" element={<RequireAuthKeycloak><Balance/></RequireAuthKeycloak>}/>

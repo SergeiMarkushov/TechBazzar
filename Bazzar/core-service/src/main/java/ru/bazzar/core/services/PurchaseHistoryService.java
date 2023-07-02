@@ -29,4 +29,12 @@ public class PurchaseHistoryService {
     public List<PurchaseHistory> findAllByEmail(String email) {
         return purchaseHistoryRepository.findAllByEmailIgnoreCase(email);
     }
+
+    public Integer countAllQuantityByEmail(String email) {
+        Integer count = purchaseHistoryRepository.countAllQuantityByEmailIgnoreCase(email);
+        if (count != null) {
+            return count;
+        }
+        return 0;
+    }
 }

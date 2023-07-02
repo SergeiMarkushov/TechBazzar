@@ -13,6 +13,7 @@ import {useKeycloak} from "@react-keycloak/web";
 import React, {useState} from "react";
 import {primary} from "../../../Colors";
 import {apiAddReview} from "../../../api/ReviewApi";
+import {useError} from "../../../auth/ErrorProvider";
 import {OrderItem, ReviewDto} from "../../../newInterfaces";
 
 interface ReviewProps {
@@ -25,6 +26,7 @@ export function ReviewComponent({product}: ReviewProps) {
     const [text, setText] = useState<string>("");
     const {keycloak, initialized} = useKeycloak();
     const [email, setEmail] = React.useState<string>(keycloak?.tokenParsed?.email ?? "");
+    const error = useError();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -45,8 +47,11 @@ export function ReviewComponent({product}: ReviewProps) {
                 };
                 apiAddReview(data).then(() => {
                     setOpen(false);
+                    error.setErrors("", true, true, "Отзыв оставлен");
+                    error.setShow(true)
                 }).catch(() => {
-                    console.error("Ошибка при добавлении отзыва");
+                    error.setErrors("Ошибка при добавлении отзыва", false, false, "");
+                    error.setShow(true)
                 })
             }
         }

@@ -196,4 +196,9 @@ public class OrganizationController {
 
     }
 
+    @GetMapping("/titles")
+    public ResponseEntity<?> getOrgNames() {
+        List<String> orgNames = organizationService.getOrganizationTitles();
+        return ResponseEntity.ok().body(orgNames);
+    }
 }

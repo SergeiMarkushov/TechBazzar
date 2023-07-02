@@ -1,4 +1,4 @@
-import React, {Dispatch, useEffect, useState} from "react";
+import React, {Dispatch, useEffect, useRef, useState} from "react";
 import {primary} from "../../Colors";
 import {defaultFilter} from "../../empty";
 import {Filter} from "../../newInterfaces";
@@ -8,10 +8,11 @@ interface CatalogFilterProps {
     filterHandler: (filter: Filter) => void
 }
 
-export function CatalogFilter(props: CatalogFilterProps) {
+export function PriceFilter(props: CatalogFilterProps) {
     const [minPrice, setMinPrice] = useState(defaultFilter.minPrice)
     const [maxPrice, setMaxPrice] = useState(defaultFilter.maxPrice)
     const [isOpen, setIsOpen] = useState(false);
+    const myRef = useRef<HTMLDivElement>(null);
 
     const handleButtonClick = () => {
         setIsOpen(!isOpen);
@@ -21,13 +22,28 @@ export function CatalogFilter(props: CatalogFilterProps) {
             props.filterHandler({
                 minPrice: minPrice,
                 maxPrice: maxPrice,
+                organizationTitle: props.filter.organizationTitle
             });
 
         }, [minPrice, maxPrice]
     );
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (myRef.current && !myRef.current.contains(event.target as Node)) {
+                setIsOpen(false)
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className="text-center d-flex flex-column ms-2"
+        <div ref={myRef} className="text-center d-flex flex-column ms-2"
              style={{position: 'relative', display: 'inline-block', zIndex: '9999'}}>
             <button style={{backgroundColor: primary}} className="btn btn-sm shadow-sm text-white rounded" onClick={handleButtonClick}>Цена</button>
             {isOpen && (

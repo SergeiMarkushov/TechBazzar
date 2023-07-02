@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from "react-router-dom";
 import {apiGetLogo} from "../../../api/OrganizationApi";
 import {ProductCard} from "./ProductPage";
 
@@ -27,7 +28,7 @@ export function ProductCompanyCard(props: ProductCard) {
                 </div>
                 <div className="d-flex row">
                     <small className="card-title text-black-50">Продавец</small>
-                    <b className="card-text">{props.product.organizationTitle}</b>
+                    <Link to={`/catalog/${props.product.organizationTitle}`} className="card-text text-black text-decoration-none">{props.product.organizationTitle}</Link>
                 </div>
             </div>
         </div>

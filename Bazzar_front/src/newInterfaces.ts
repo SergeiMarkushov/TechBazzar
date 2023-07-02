@@ -110,13 +110,14 @@ export interface User {
 export interface Filter {
     minPrice: number;
     maxPrice: number;
+    organizationTitle: string;
 }
 
 export interface PurchaseHistory {
     id: number;
     email: string;
     productTitle: string;
-    organization: string;
+    organizationTitle: string;
     quantity: number;
     datePurchase: Date;
 }

@@ -5,14 +5,14 @@ import {useParams} from "react-router-dom";
 import {MAX_FILE_SIZE} from "../../../CONST";
 import {apiCreateCharacteristics} from "../../../api/CharacteristicApi";
 import {apiCreateProduct} from "../../../api/ProductApi";
+import {useError} from "../../../auth/ErrorProvider";
 import {emptyProductCreateNew2, emptyProductNew} from "../../../empty";
 import {Characteristic, ErrorMessage, ProductForCreate, Product} from "../../../newInterfaces";
 import {ProductCreateForm} from "./ProductCreateForm";
 
 export function ProductCreator() {
     const [file, setFile] = useState<File | null>(null)
-    const [error, setError] = useState<string>("")
-    const [success, setSuccess] = useState<boolean>(false)
+    const error = useError();
     const {title} = useParams();
 
     const onChoseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,10 +20,10 @@ export function ProductCreator() {
             const file = event.target.files[0];
             if (file.size > MAX_FILE_SIZE) {
                 event.target.value = "";
-                setError("Картинка должна быть меньше 200 кб");
+                error.setErrors("Картинка должна быть меньше 5 мб", false, false, "");
+                error.setShow(true)
             } else {
                 setFile(file);
-                setError("");
             }
         }
     }
@@ -46,35 +46,33 @@ export function ProductCreator() {
                                 ? values.characteristicsDto.map(value => ({id: null, name: value, product: null}))
                                 : undefined;
 
-                            setSuccess(false)
                             if (file !== null) {
                                 const formData = new FormData();
                                 formData.append("productDto", JSON.stringify(data));
                                 formData.append("product_picture", file);
                                 apiCreateProduct(formData).then((product: AxiosResponse<Product>) => {
-                                    setSuccess(true)
-                                    setError("")
+                                    error.setErrors("", true, true, "Продукт отправлен на модерацию");
+                                    error.setShow(true);
                                     if (product.data.id !== undefined && characteristicsDto !== undefined) {
                                         apiCreateCharacteristics(product.data.id, characteristicsDto).then(() => {
-                                            setSuccess(true)
-                                            setError("")
+                                            error.setErrors("", true, true, "Продукт отправлен на модерацию, характеристики созданны");
+                                            error.setShow(true);
                                         }).catch(() => {
-                                            setError("Не удалось создать характеристики");
-                                            setSuccess(false);
+                                            error.setErrors("Не удалось создать характеристики", false, false, "");
+                                            error.setShow(true)
                                         })
                                     }
 
                                 }).catch((e: AxiosError<ErrorMessage>) => {
                                     const data: AxiosResponse<ErrorMessage> | undefined = e.response;
                                     if (data !== undefined) {
-                                        setError(data.data.message);
+                                        error.setErrors(data.data.message, false, false, "");
+                                        error.setShow(true);
                                     }
                                 })
                             }
                         }}>
-                    <ProductCreateForm onChoseFile={onChoseFile} product={emptyProductNew} titleOrg={title}
-                                       error={error}
-                                       textIfSuccess={"Продукт отправлен на модерацию"} success={success}/>
+                    <ProductCreateForm onChoseFile={onChoseFile} product={emptyProductNew} titleOrg={title}/>
                 </Formik>
             </div>
         </div>

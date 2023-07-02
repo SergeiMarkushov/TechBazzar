@@ -23,11 +23,12 @@ export function OrderTab(props: OrderProps) {
                 <div>
                     <span className="me-2">Order #{props.order.id} </span>
                     <span>from {props.order.createdAt}</span>
-
-                    {!status ? <PayForm setStatus={setStatus} order={props.order}
-                                        onReloadOrder={props.onReloadOrder}/> : <div></div>}
-                    {status ? <DeleteOrderForm setStatus={setStatus} order={props.order}
-                                               onReloadOrder={props.onReloadOrder}/> : <div></div>}
+                    <div className="d-flex">
+                        {!status ? <PayForm setStatus={setStatus} order={props.order}
+                                            onReloadOrder={props.onReloadOrder}/> : <div></div>}
+                        <DeleteOrderForm setStatus={setStatus} order={props.order}
+                                         onReloadOrder={props.onReloadOrder}/>
+                    </div>
                 </div>
                 <div>Total price {props.order.totalPrice} ₽</div>
             </div>

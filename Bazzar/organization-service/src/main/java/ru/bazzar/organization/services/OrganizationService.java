@@ -104,4 +104,8 @@ public class OrganizationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Организация с названием: " + title + " не найдена."));
         return organization.isActive();
     }
+
+    public List<String> getOrganizationTitles() {
+        return repository.getOrganizationTitles();
+    }
 }

@@ -12,7 +12,15 @@ export function HeaderLinkAuth() {
                 setTokenKeyCloak(keycloak.token);
             }
         }
-    }, [initialized, keycloak.authenticated, keycloak.token, keycloak.onAuthRefreshSuccess])
+    }, [initialized, keycloak.authenticated, keycloak.token])
+
+    useEffect(() => {
+        if (initialized && keycloak.authenticated) {
+            if (keycloak.token) {
+                setTokenKeyCloak(keycloak.token);
+            }
+        }
+    }, [keycloak.onAuthRefreshSuccess])
 
     useEffect(() => {
         if (initialized && !keycloak.authenticated) {

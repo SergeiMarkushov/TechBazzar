@@ -13,12 +13,12 @@ export function CatalogPagination(props: CatalogPaginationProps) {
 
     return (
         <ReactPaginate
-            nextLabel="Следующая >"
+            nextLabel=">"
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             marginPagesDisplayed={3}
             pageCount={props.pages}
-            previousLabel="< Предыдущая"
+            previousLabel="<"
             pageClassName="page-item"
             pageLinkClassName="page-link"
             previousClassName="page-item"
