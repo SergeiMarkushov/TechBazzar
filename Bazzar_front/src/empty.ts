@@ -30,6 +30,7 @@ export const emptyCartItemsNew: CartItem = {
 export const defaultFilter: Filter = {
     maxPrice: 2147483647,
     minPrice: 1,
+    organizationTitle: "",
 }
 export const emptyDiscountNew: Discount = {
     id: 0,

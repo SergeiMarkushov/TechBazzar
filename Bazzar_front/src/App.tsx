@@ -1,6 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter} from "react-router-dom";
+import {ErrorComponent} from "./ErrorComponent";
+import {ErrorProvider} from "./auth/ErrorProvider";
 import {keycloak} from "./auth/Keycloak";
 import {RoleProvider} from "./auth/Role";
 import {NotifyProvider} from "./context/Notify";
@@ -16,17 +18,20 @@ function App() {
         <div style={{backgroundColor: "white"}}>
 
             <ReactKeycloakProvider authClient={keycloak}>
-                <BrowserRouter>
+                <ErrorProvider>
+                    <BrowserRouter>
                         <RoleProvider>
                             <SearchProvider>
                                 <NotifyProvider>
                                     <Header/>
                                     <FloatingButtonWithDevelopers/>
                                     <FloatingButtonWithChat/>
+                                    <ErrorComponent/>
                                 </NotifyProvider>
                             </SearchProvider>
                         </RoleProvider>
-                </BrowserRouter>
+                    </BrowserRouter>
+                </ErrorProvider>
             </ReactKeycloakProvider>
 
         </div>

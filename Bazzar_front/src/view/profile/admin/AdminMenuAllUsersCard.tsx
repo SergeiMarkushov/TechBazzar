@@ -1,12 +1,15 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {primary} from "../../../Colors";
+
 import {User} from "../../../newInterfaces";
 import {AdminMenuUserMenu} from "./AdminMenuUserMenu";
+
 
 interface AllUsersCardProps {
     user: User,
 }
+
 
 export function AdminMenuAllUsersCard(props: AllUsersCardProps) {
     return (

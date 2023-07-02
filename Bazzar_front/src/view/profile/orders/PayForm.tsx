@@ -44,7 +44,7 @@ export function PayForm(props: PayFormProps) {
     };
 
     return (
-        <div>
+        <div className="me-2">
             <button className="btn btn-sm btn-success"
                     onClick={handleClickOpen}>Оплатить
             </button>

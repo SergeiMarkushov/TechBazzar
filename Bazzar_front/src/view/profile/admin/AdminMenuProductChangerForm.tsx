@@ -5,17 +5,17 @@ import {useParams} from "react-router-dom";
 import {MAX_FILE_SIZE} from "../../../CONST";
 import {apiCreateCharacteristics, apiDeleteCharacteristics} from "../../../api/CharacteristicApi";
 import {apiGetProductByIdNew, apiUpdateProduct} from "../../../api/ProductApi";
+import {useError} from "../../../auth/ErrorProvider";
 import {emptyProductNew} from "../../../empty";
-import {Characteristic, ErrorMessage, ProductForCreate, Product, ProductForCreate2} from "../../../newInterfaces";
+import {Characteristic, ErrorMessage, Product, ProductForCreate2} from "../../../newInterfaces";
 import {ProductChangeForm} from "../organization/ProductChangeForm";
 
 export function AdminMenuProductChangerForm() {
-    const [error, setError] = useState<string>("")
-    const [success, setSuccess] = useState<boolean>(false)
     const [product, setProduct] = useState(emptyProductNew);
     const [isLoad, setLoad] = useState(false);
     const {id} = useParams();
     const [file, setFile] = useState<File | null>(null)
+    const error = useError();
 
     useEffect(() => {
             if (id !== undefined && !isLoad) {
@@ -26,8 +26,8 @@ export function AdminMenuProductChangerForm() {
                             setLoad(true);
                         }
                     }).catch(() => {
-                    setError("Упс... Что-то пошло не так, попробуйте позже");
-                    setSuccess(false);
+                    error.setErrors("Упс... Что-то пошло не так, попробуйте позже", false, false, "");
+                    error.setShow(true)
                 });
             }
         }
@@ -41,10 +41,10 @@ export function AdminMenuProductChangerForm() {
             const file = event.target.files[0];
             if (file.size > MAX_FILE_SIZE) {
                 event.target.value = "";
-                setError("Картинка должна быть меньше 200 кб");
+                error.setErrors("Картинка должна быть меньше 5 мб", false, false, "");
+                error.setShow(true)
             } else {
                 setFile(file);
-                setError("");
             }
         }
     }
@@ -68,21 +68,22 @@ export function AdminMenuProductChangerForm() {
 
                             if (data !== undefined) {
                                 apiUpdateProduct(formData).then(() => {
-                                    setSuccess(true)
-                                    setError("")
+                                    error.setErrors("", true, true, "Продукт успешно изменён");
+                                    error.setShow(true)
                                     if (product.id && characteristicsDto) {
                                         apiCreateCharacteristics(product.id, characteristicsDto).then(() => {
-                                            setSuccess(true)
-                                            setError("")
+                                            error.setErrors("", true, true, "Продукт и характеристики успешно изменены");
+                                            error.setShow(true)
                                         }).catch(() => {
-                                            setError("Не удалось создать характеристики");
-                                            setSuccess(false);
+                                            error.setErrors("Не удалось создать характеристики", false, false, "");
+                                            error.setShow(true)
                                         })
                                     }
                                 }).catch((e: AxiosError<ErrorMessage>) => {
                                     const data: AxiosResponse<ErrorMessage> | undefined = e.response;
                                     if (data !== undefined) {
-                                        setError(data.data.message);
+                                        error.setErrors(data.data.message, false, false, "");
+                                        error.setShow(true)
                                     }
                                 })
                             }
@@ -90,9 +91,7 @@ export function AdminMenuProductChangerForm() {
 
                         }}>
                     {({values}) => (
-                        <ProductChangeForm titleOrg={undefined} product={values} onChoseFile={onChoseFile}
-                                           textIfSuccess={"Продукт успешно изменён"} error={error}
-                                           success={success}/>
+                        <ProductChangeForm titleOrg={undefined} product={values} onChoseFile={onChoseFile}/>
                     )}
                 </Formik>
             </div>

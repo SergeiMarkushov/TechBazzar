@@ -1,14 +1,17 @@
 import {AxiosResponse} from "axios";
 import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import {ErrorComponent} from "../../ErrorComponent";
 import {apiDeleteProductById, apiGetProductsNew} from "../../api/ProductApi";
+import {useError} from "../../auth/ErrorProvider";
 import {useSearch} from "../../context/Search";
 import {defaultFilter, emptyProductNew} from "../../empty";
 import {Filter, FindRequest, PageProduct} from "../../newInterfaces";
 import {CircularLoading} from "../CircularLoading";
+import {BuyerFilter} from "./BuyerFilter";
 import {CatalogCard} from "./CatalogCard";
-import {CatalogFilter} from "./CatalogFilter";
 import {CatalogPagination} from "./CatalogPagination";
+import {PriceFilter} from "./PriceFilter";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGES = 1;
@@ -20,15 +23,15 @@ export interface CatalogProps {
 
 export function Catalog(props: CatalogProps) {
     const [products, setProducts] = useState(Array.of(emptyProductNew))
-    const [filterNew, setFilter] = useState(defaultFilter)
+    const [filter, setFilter] = useState(defaultFilter)
     const [page, setPage] = useState(DEFAULT_PAGE)
     const [pages, setPages] = useState(DEFAULT_PAGES)
     const [limit] = useState(20)
     const [load, setLoad] = useState(false)
     const changing = props.isChanging === undefined ? false : props.isChanging;
     const search = useSearch();
-    const [error, setError] = useState<string>("")
-    const [success, setSuccess] = useState<boolean>(false)
+    const {companyParam} = useParams();
+    const error = useError();
 
     function filterChanged(filter: Filter) {
         setFilter(filter)
@@ -39,7 +42,10 @@ export function Catalog(props: CatalogProps) {
         apiDeleteProductById(id).then(() => {
                 setProducts(products.filter(product => product.id !== id));
             }
-        )
+        ).catch(() => {
+            error.setErrors("Не удалось удалить", true, false, "");
+            error.setShow(true)
+        })
     }
 
 
@@ -48,11 +54,14 @@ export function Catalog(props: CatalogProps) {
             p: page + 1,
         };
 
-        if (filterNew.maxPrice !== defaultFilter.maxPrice) {
-            queryParams.max_price = filterNew.maxPrice;
+        if (filter.maxPrice !== defaultFilter.maxPrice) {
+            queryParams.max_price = filter.maxPrice;
         }
-        if (filterNew.minPrice !== defaultFilter.minPrice) {
-            queryParams.min_price = filterNew.minPrice;
+        if (filter.minPrice !== defaultFilter.minPrice) {
+            queryParams.min_price = filter.minPrice;
+        }
+        if (filter.organizationTitle !== defaultFilter.organizationTitle) {
+            queryParams.organization_title = filter.organizationTitle;
         }
         if (search.search !== "") {
             queryParams.title_part = search.search;
@@ -60,12 +69,15 @@ export function Catalog(props: CatalogProps) {
         if (props.companyTitle !== undefined) {
             queryParams.organization_title = props.companyTitle;
         }
+        if (companyParam !== undefined) {
+            queryParams.organization_title = companyParam;
+        }
         if (limit !== 20) {
-            /*queryParams.limit = limit;*/
+            queryParams.limit = limit;
         }
         getProducts(queryParams);
 
-    }, [filterNew.maxPrice, filterNew.minPrice, limit, page, search.search]);
+    }, [filter.maxPrice, filter.minPrice, filter.organizationTitle, limit, page, search.search]);
 
 
     function getProducts(queryParams: FindRequest) {
@@ -80,15 +92,15 @@ export function Catalog(props: CatalogProps) {
                     }
 
                     if (page.data.items.length === 0) {
-                        setError("Ничего не найдено");
-                        setSuccess(false);
+                        error.setErrors("Ничего не найдено", false, false, "");
+                        error.setShow(true)
                         return;
                     }
-                    setSuccess(true);
+                    error.setErrors("", true, false, "");
                 }
             }).catch(() => {
-            setError("Упс... Что то пошло не так. Попробуйте позже")
-            setSuccess(false);
+            error.setErrors("Упс... Что то пошло не так. Попробуйте обновить страницу", false, false, "");
+            error.setShow(true)
         })
     }
 
@@ -101,12 +113,20 @@ export function Catalog(props: CatalogProps) {
 
     return (
         <div>
-            {success ?
-                <div>
-                    <div className="d-flex row">
-                        <div className="flex-grow-0" style={{maxWidth: "80px"}}>
-                            <CatalogFilter filterHandler={filterChanged} filter={filterNew}/>
+
+            <div>
+                <div className="container-fluid">
+                    <div className="row justify-content-start">
+                        <div className="col-1">
+                            <PriceFilter filterHandler={filterChanged} filter={filter}/>
                         </div>
+                        {!props.companyTitle && !companyParam &&
+                            <div className="col-2">
+                                <BuyerFilter filterHandler={filterChanged} filter={filter}/>
+                            </div>
+                        }
+                    </div>
+                    {error.success &&
                         <div className="container-fluid flex-grow-1">
                             <div className="row justify-content-center">
                                 {load ?
@@ -119,12 +139,14 @@ export function Catalog(props: CatalogProps) {
                                 }
                             </div>
                         </div>
-                    </div>
+                    }
+                </div>
+                <div className="ms-3">
                     {pages > 1 &&
                         <CatalogPagination changePage={changePage} pages={pages}/>
                     }
-                </div> : <ErrorComponent error={error} success={success} showSuccess={false} textIfSuccess={""}/>
-            }
+                </div>
+            </div>
         </div>
     );
 }

@@ -1,5 +1,7 @@
 import {Dialog, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
-import React, {useState} from 'react';
+import {AxiosResponse} from "axios";
+import React, {useContext, useState} from 'react';
+import {apiGetUserById} from "../../../api/UserApi";
 import {User} from "../../../newInterfaces";
 import {UpBalance} from "./UpBalance";
 import {UserActivity} from "./UserActivity";
@@ -10,7 +12,6 @@ interface AdminMenuUserMenuProps {
 
 export function AdminMenuUserMenu({user}: AdminMenuUserMenuProps) {
     const [open, setOpen] = useState(false);
-
 
     const handleClickOpen = () => {
         setOpen(true);

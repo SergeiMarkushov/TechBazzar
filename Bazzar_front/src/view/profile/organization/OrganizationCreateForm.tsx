@@ -6,18 +6,14 @@ import {ErrorComponent} from "../../../ErrorComponent";
 
 interface OrganizationCreateFormProps {
     onChoseFile: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    error: string,
-    success: boolean
 }
 
-export function OrganizationCreateForm({onChoseFile, error, success}: OrganizationCreateFormProps) {
+export function OrganizationCreateForm({onChoseFile}: OrganizationCreateFormProps) {
     const {keycloak, initialized} = useKeycloak();
     const [email, setEmail] = React.useState<string>(keycloak?.tokenParsed?.email ?? "");
 
     return (
         <div>
-            <ErrorComponent error={error} success={success} showSuccess={true}
-                            textIfSuccess={"Организация отправлена на модерацию"}/>
             <Form className="row g-3 justify-content-center">
                 <div className="col-md-9">
                     <Field as="label" htmlFor="owner" className="form-label">Почта</Field>
