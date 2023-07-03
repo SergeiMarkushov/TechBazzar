@@ -19,29 +19,18 @@ public class OrderItemDto {
     private int quantity;
     private BigDecimal pricePerProduct;
     private BigDecimal price;
+    private Long productId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderItemDto that = (OrderItemDto) o;
-        return quantity == that.quantity && Objects.equals(id, that.id) && Objects.equals(productTitle, that.productTitle) && Objects.equals(orderId, that.orderId) && Objects.equals(pricePerProduct, that.pricePerProduct) && Objects.equals(price, that.price);
+        return quantity == that.quantity && Objects.equals(id, that.id) && Objects.equals(productTitle, that.productTitle) && Objects.equals(orderId, that.orderId) && Objects.equals(pricePerProduct, that.pricePerProduct) && Objects.equals(price, that.price) && Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productTitle, orderId, quantity, pricePerProduct, price);
-    }
-
-    @Override
-    public String toString() {
-        return "OrderItemDto{" +
-                "id=" + id +
-                ", productTitle='" + productTitle + '\'' +
-                ", orderId=" + orderId +
-                ", quantity=" + quantity +
-                ", costPerProduct=" + pricePerProduct +
-                ", cost=" + price +
-                '}';
+        return Objects.hash(id, productTitle, orderId, quantity, pricePerProduct, price, productId);
     }
 }

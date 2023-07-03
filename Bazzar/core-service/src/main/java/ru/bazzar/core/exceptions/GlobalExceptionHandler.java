@@ -9,9 +9,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import ru.bazzar.core.api.AccessException;
 import ru.bazzar.core.api.AppError;
 import ru.bazzar.core.api.ResourceNotFoundException;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.List;
 
 
 @ControllerAdvice
@@ -30,17 +27,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new AppError(HttpStatus.LOCKED.value(), e.getMessage()), HttpStatus.LOCKED);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<AppError> catchConstraintViolationException(ConstraintViolationException e) {
-        List<String> errorMessages = e.getConstraintViolations()
-                .stream()
-                .map(ConstraintViolation::getMessage)
-                .toList();
-        return new ResponseEntity<>(new AppError(
-                HttpStatus.BAD_REQUEST.value(),
-                errorMessages.toString()),
-                HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler
+//    public ResponseEntity<AppError> catchConstraintViolationException(ConstraintViolationException e) {
+//        List<String> errorMessages = e.getConstraintViolations()
+//                .stream()
+//                .map(ConstraintViolation::getMessage)
+//                .toList();
+//        return new ResponseEntity<>(new AppError(
+//                HttpStatus.BAD_REQUEST.value(),
+//                errorMessages.toString()),
+//                HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler
     public ResponseEntity<AppError> catchMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {

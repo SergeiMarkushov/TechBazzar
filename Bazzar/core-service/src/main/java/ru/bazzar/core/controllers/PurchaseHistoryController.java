@@ -34,4 +34,9 @@ public class PurchaseHistoryController {
                 .map(historyConverter::entityToDto)
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/count")
+    public Integer countAllQuantityByEmail(@RequestHeader String username) {
+        return historyService.countAllQuantityByEmail(username);
+    }
 }

@@ -25,21 +25,16 @@ public class ReviewService {
     private final ModelMapper modelMapper;
 
     public ReviewDto createOrUpdateReview(ReviewDto reviewDto) {
-        Long id = reviewDto.getId();
-        if (id == null) {
-            Review review = modelMapper.map(reviewDto, Review.class);
-            Review savedReview = repository.save(review);
+        if (reviewDto.getId() == null) {
+            Review review = repository.save(modelMapper.map(reviewDto, Review.class));
             log.info("Отзыв оставлен пользователем " + reviewDto.getUsername());
-            return modelMapper.map(savedReview, ReviewDto.class);
+            return modelMapper.map(review, ReviewDto.class);
         }
-        Review review = repository.findById(id)
+        Review review = repository.findById(reviewDto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Отзыв с таким id не найден"));
-        review.setUsername(reviewDto.getUsername());
         review.setReviewText(reviewDto.getReviewText());
         review.setMark(reviewDto.getMark());
-        log.info("Отзыв обновлен с идентификатором " + id);
-        Review savedReview = repository.save(review);
-        return modelMapper.map(savedReview, ReviewDto.class);
+        return modelMapper.map(repository.save(review), ReviewDto.class);
     }
 
     public ReviewDto findById(Long id) {
@@ -55,5 +50,14 @@ public class ReviewService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден!"));
         return product.getReviews().stream().map((element) -> modelMapper.map(element, ReviewDto.class)).collect(Collectors.toList());
+    }
+
+    public Integer countByProductId(Long productId) {
+        Integer count = repository.countByProductId(productId);
+        if (count != null) {
+            return count;
+        } else {
+            return 0;
+        }
     }
 }

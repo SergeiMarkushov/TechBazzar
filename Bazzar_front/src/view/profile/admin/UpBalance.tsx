@@ -1,11 +1,11 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
-import React from 'react';
-import {useState} from "react";
+import React, {useState} from 'react';
 import {primary} from "../../../Colors";
-import {UserNew} from "../../../newInterfaces";
+import {apiUpBalance} from "../../../api/UserApi";
+import {User} from "../../../newInterfaces";
 
 interface UpBalanceProps {
-    user: UserNew
+    user: User
 }
 
 export function UpBalance({user}: UpBalanceProps) {
@@ -17,10 +17,13 @@ export function UpBalance({user}: UpBalanceProps) {
 
     const handleClick = () => {
         if (value > 0) {
-            /*apiUpBalance(user.id, value).then(() => {
+            apiUpBalance(user.username, value).then(() => {
                 setValue(0);
                 setOpen(false);
-            });*/
+                window.location.reload();
+            }).catch(() => {
+                console.log("Что то пошло не так")
+            })
         }
     }
 

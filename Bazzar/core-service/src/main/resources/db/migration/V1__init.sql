@@ -4,6 +4,7 @@ create table reviews
     mark        integer,
     review_text text,
     username    varchar(255),
+    full_name    varchar(255),
     product_id      BIGINT REFERENCES products(id)
 );
 

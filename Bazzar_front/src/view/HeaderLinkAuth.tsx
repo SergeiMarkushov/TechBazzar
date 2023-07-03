@@ -1,16 +1,39 @@
 import {useKeycloak} from "@react-keycloak/web";
-import React from 'react';
+import React, {useEffect} from 'react';
 import {getHeaderAuthCloseSvg, getHeaderAuthOpenSvg} from "../Svg";
+import {removeTokenKeyCloak, setTokenKeyCloak} from "../util/KeyCloakToken";
 
 export function HeaderLinkAuth() {
     const {keycloak, initialized} = useKeycloak();
 
+    useEffect(() => {
+        if (initialized && keycloak.authenticated) {
+            if (keycloak.token) {
+                setTokenKeyCloak(keycloak.token);
+            }
+        }
+    }, [initialized, keycloak.authenticated, keycloak.token])
+
+    useEffect(() => {
+        if (initialized && keycloak.authenticated) {
+            if (keycloak.token) {
+                setTokenKeyCloak(keycloak.token);
+            }
+        }
+    }, [keycloak.onAuthRefreshSuccess])
+
+    useEffect(() => {
+        if (initialized && !keycloak.authenticated) {
+            removeTokenKeyCloak();
+        }
+    }, [keycloak.onAuthLogout])
+
     function signInViaKeycloak() {
-        keycloak.login()
+        keycloak.login();
     }
 
     function signOutViaKeycloak() {
-        keycloak.logout()
+        keycloak.logout();
     }
 
 

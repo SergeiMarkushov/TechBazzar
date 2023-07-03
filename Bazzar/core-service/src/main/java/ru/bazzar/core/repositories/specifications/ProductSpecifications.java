@@ -1,11 +1,11 @@
 package ru.bazzar.core.repositories.specifications;
 
 
+import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import ru.bazzar.core.entities.Characteristic;
 import ru.bazzar.core.entities.Product;
 
-import javax.persistence.criteria.Join;
 
 public class ProductSpecifications {
     public static Specification<Product> priceGreaterOrEqualsThan(Integer minPrice) {
@@ -21,10 +21,8 @@ public class ProductSpecifications {
     }
 
     public static Specification<Product> titleCompanyLike(String organizationTitle) {
-        return (root, criteriaQuery, criteriaBuilder) -> {
-            String formattedOrganizationTitle = "%" + organizationTitle + "%";
-            return criteriaBuilder.like(criteriaBuilder.upper(root.get("organizationTitle")), formattedOrganizationTitle.toUpperCase());
-        };
+        return (root, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("organizationTitle"), organizationTitle);
     }
 
     public static Specification<Product> characteristicLike(String characteristicPart) {

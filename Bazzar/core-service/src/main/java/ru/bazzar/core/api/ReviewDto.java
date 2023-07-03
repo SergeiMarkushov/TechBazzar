@@ -14,29 +14,20 @@ import java.util.Objects;
 public class ReviewDto {
     private Long id;
     private String username;
+    private String fullName;
     private String reviewText;
     private int mark;
-
-    @Override
-    public String toString() {
-        return "ReviewDto{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", reviewText='" + reviewText + '\'' +
-                ", mark=" + mark +
-                '}';
-    }
+    private Long productId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ReviewDto reviewDto = (ReviewDto) o;
-        return mark == reviewDto.mark && Objects.equals(id, reviewDto.id) && Objects.equals(username, reviewDto.username) && Objects.equals(reviewText, reviewDto.reviewText);
+        if (!(o instanceof ReviewDto reviewDto)) return false;
+        return getMark() == reviewDto.getMark() && Objects.equals(getId(), reviewDto.getId()) && Objects.equals(getUsername(), reviewDto.getUsername()) && Objects.equals(getFullName(), reviewDto.getFullName()) && Objects.equals(getReviewText(), reviewDto.getReviewText()) && Objects.equals(getProductId(), reviewDto.getProductId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, reviewText, mark);
+        return Objects.hash(getId(), getUsername(), getFullName(), getReviewText(), getMark(), getProductId());
     }
 }

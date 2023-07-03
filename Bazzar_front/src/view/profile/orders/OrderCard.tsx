@@ -1,27 +1,29 @@
 import {AxiosResponse} from "axios";
 import React, {useEffect, useState} from 'react';
-import {apiGetProductPic} from "../../../api/PictureApi";
-import {OrderItemNew, OrderNew, Picture} from "../../../newInterfaces";
-import {Review} from "./Review";
+import {apiGetPicByProductId, apiGetProductPic} from "../../../api/PictureApi";
+import {OrderItem, Order, Picture} from "../../../newInterfaces";
+import {ReviewComponent} from "./ReviewComponent";
 
 export interface OrderCardProps {
-    product: OrderItemNew;
-    order: OrderNew;
+    product: OrderItem;
+    order: Order;
 }
 
 export function OrderCard(props: OrderCardProps) {
     const [pic, setPic] = useState<string>("");
 
     useEffect(() => {
-        apiGetProductPic(1).then((response: AxiosResponse<Picture>) => {
-            const base64String = response.data.bytes;
-            const contentType = response.data.contentType;
-            const dataURL = `data:${contentType};base64,${base64String}`;
-            setPic(dataURL);
-        }).catch((error) => {
-            // eslint-disable-next-line no-console
-            console.error('Error:', error);
-        });
+        if (props.product.productId !== 0) {
+            apiGetPicByProductId(props.product.productId).then((response: AxiosResponse<Picture>) => {
+                const base64String = response.data.bytes;
+                const contentType = response.data.contentType;
+                const dataURL = `data:${contentType};base64,${base64String}`;
+                setPic(dataURL);
+            }).catch((error) => {
+                // eslint-disable-next-line no-console
+                console.error('Error:', error);
+            });
+        }
         return () => URL.revokeObjectURL(pic);
     }, [props.product.orderId]);
 
@@ -30,7 +32,7 @@ export function OrderCard(props: OrderCardProps) {
         <div className="card p-2 m-2 rounded shadow-sm">
             <div className="d-flex justify-content-between">
                 <div className="card-title m-2">{props.product.quantity} product</div>
-                {props.order.status ? <Review/> : ""}
+                {props.order.status ? <ReviewComponent product={props.product}/> : ""}
             </div>
             <div className="container">
                 <div className="row">

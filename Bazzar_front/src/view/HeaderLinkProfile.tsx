@@ -16,13 +16,12 @@ const StyledBadge = styled(Badge)<BadgeProps>(({theme}) => ({
 
 export function HeaderLinkProfile() {
     const {keycloak} = useKeycloak();
-    console.log(keycloak);
     return (
         <div className="d-flex justify-content-center align-items-center flex-column">
             <div>
                 <IconButton aria-label="cart" style={{maxWidth: "16px", maxHeight: "16px"}}>
                     {/*TODO: replace badgeContent with notification size*/}
-                    <StyledBadge style={{maxWidth: "16px", maxHeight: "16px"}} badgeContent={4} color="info">
+                    <StyledBadge style={{maxWidth: "16px", maxHeight: "16px"}} badgeContent={0} color="info">
                         {getHeaderProfileSvg()}
                     </StyledBadge>
                 </IconButton>

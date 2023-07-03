@@ -1,14 +1,10 @@
 import {Field, FieldArray, Form} from "formik";
 import React, {useEffect, useState} from 'react';
 import {MAX_FILE_SIZE} from "../../../CONST";
-import {ErrorComponent} from "../../../ErrorComponent";
-import {ProductNew} from "../../../newInterfaces";
+import {Product} from "../../../newInterfaces";
 
 interface ProductChangeFormProps {
-    product: ProductNew,
-    error: string,
-    success: boolean,
-    textIfSuccess: string,
+    product: Product,
     titleOrg: string | undefined,
     onChoseFile: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -26,8 +22,6 @@ export function ProductChangeForm(props: ProductChangeFormProps) {
 
     return (
         <div>
-            <ErrorComponent error={props.error} success={props.success} showSuccess={true}
-                            textIfSuccess={props.textIfSuccess}/>
             <Form className="row g-3">
                 <div className="col-md-3">
                     <Field as="label" htmlFor="id" className="form-label">ID</Field>

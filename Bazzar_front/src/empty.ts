@@ -1,12 +1,12 @@
 import {
-    CartItemNew,
-    CartNew, Characteristic,
-    DiscountNew,
-    FilterNew,
-    OrderItemNew, Organization, OrganizationCreate, ProductCreateNew, ProductCreateNew2,
-    ProductNew,
-    ReviewNew,
-    UserNew
+    CartItem,
+    Cart, Characteristic,
+    Discount,
+    Filter,
+    OrderItem, Organization, OrganizationCreate, ProductForCreate,
+    Product,
+    Review,
+    User
 } from "./newInterfaces";
 
 export const emptyCharacteristic: Characteristic = {
@@ -14,12 +14,12 @@ export const emptyCharacteristic: Characteristic = {
     name: "",
     product: null,
 }
-export const emptyCart: CartNew = {
+export const emptyCart: Cart = {
     totalPrice: 0,
     items: Array.of(),
 }
 
-export const emptyCartItemsNew: CartItemNew = {
+export const emptyCartItemsNew: CartItem = {
     productId: 0,
     productTitle: "",
     quantity: 0,
@@ -27,25 +27,26 @@ export const emptyCartItemsNew: CartItemNew = {
     price: 0
 }
 
-export const defaultFilter: FilterNew = {
+export const defaultFilter: Filter = {
     maxPrice: 2147483647,
     minPrice: 1,
+    organizationTitle: "",
 }
-export const emptyDiscountNew: DiscountNew = {
+export const emptyDiscountNew: Discount = {
     id: 0,
     dis: 0,
     startDate: new Date(),
     expiryDate: new Date(),
 }
 
-export const emptyReviewNew: ReviewNew = {
+export const emptyReviewNew: Review = {
     id: 0,
     username: "",
     reviewText: "",
     mark: 0,
 }
 
-export const emptyProductNew: ProductNew = {
+export const emptyProductNew: Product = {
     id: 0,
     title: "",
     description: "",
@@ -59,17 +60,17 @@ export const emptyProductNew: ProductNew = {
     pictureId: 1,
 }
 
-export const defaultUserNew: UserNew = {
+export const defaultUserNew: User = {
     id: -1,
-    email: "",
     username: "",
     balance: 0,
     active: true,
 }
 
-export const emptyOrderItemNew: OrderItemNew = {
+export const emptyOrderItemNew: OrderItem = {
     id: 0,
     productTitle: "",
+    productId: 0,
     orderId: 0,
     quantity: 0,
     pricePerProduct: 0,
@@ -85,15 +86,7 @@ export const emptyOrderNew = {
     status: false,
 }
 
-export const emptyProductCreateNew: ProductCreateNew = {
-    title: '',
-    description: '',
-    organizationTitle: '',
-    price: 0,
-    quantity: 0
-}
-
-export const emptyProductCreateNew2: ProductCreateNew2 = {
+export const emptyProductCreateNew2: ProductForCreate = {
     title: '',
     description: '',
     organizationTitle: '',

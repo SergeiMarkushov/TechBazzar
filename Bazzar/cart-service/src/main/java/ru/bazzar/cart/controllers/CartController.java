@@ -35,6 +35,11 @@ public class CartController {
         return cartConverter.entityToDto(cartService.getCurrentCart(username));
     }
 
+    @GetMapping("/size")
+    public Integer getCartSize(@RequestHeader(name = "username") String username) {
+        return cartService.getCartSize(username);
+    }
+
     @GetMapping("/change_quantity")
     public void changeQuantity(@RequestHeader(name = "username") String username, @RequestParam Long productId, @RequestParam Integer delta) {
         log.info("в CartController " + delta);

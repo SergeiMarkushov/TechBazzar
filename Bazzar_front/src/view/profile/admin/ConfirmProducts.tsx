@@ -2,29 +2,29 @@ import {AxiosError, AxiosResponse} from "axios";
 import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import {primary} from "../../../Colors";
-import {ErrorComponent} from "../../../ErrorComponent";
 import {apiConfirmProduct, apiGetProductsNotConfirmed} from "../../../api/ProductApi";
+import {useError} from "../../../auth/ErrorProvider";
 import {emptyProductNew} from "../../../empty";
-import {ErrorMessage, ProductNew} from "../../../newInterfaces";
-import {CircularLoading} from "../../CircularLoading";
+import {ErrorMessage, Product} from "../../../newInterfaces";
 import {CatalogCard} from "../../catalog/CatalogCard";
 
 export function ConfirmProducts() {
     const [load, setLoad] = useState(false);
     const [loadProduct, setLoadProduct] = useState(false);
     const [product, setProduct] = useState(emptyProductNew);
-    const [error, setError] = useState<string>("")
-    const [success, setSuccess] = useState<boolean>(false)
+    const error = useError();
 
     useEffect(() => {
         if (!load) {
-            apiGetProductsNotConfirmed().then((products: AxiosResponse<ProductNew>) => {
+            apiGetProductsNotConfirmed().then((products: AxiosResponse<Product>) => {
                 setProduct(products.data);
                 setLoadProduct(true);
             }).catch((e: AxiosError<ErrorMessage>) => {
                 const data: AxiosResponse<ErrorMessage> | undefined = e.response;
                 if (data !== undefined) {
-                    setError(data.data.message);
+                    error.setErrors(data.data.message, false, false, "");
+                    error.setShow(true)
+                    setLoadProduct(false)
                 }
             });
             setLoad(true);
@@ -35,9 +35,11 @@ export function ConfirmProducts() {
         apiConfirmProduct(product.title).then(() => {
             setLoad(false);
             setLoadProduct(false);
+            error.setErrors("", true, true, "Продукт подтверждён");
+            error.setShow(true)
         }).catch(() => {
-            setError("Ошибка подтверждения")
-            setSuccess(false)
+            error.setErrors("Ошибка подтверждения", false, false, "");
+            error.setShow(true)
         });
     }
 
@@ -49,8 +51,7 @@ export function ConfirmProducts() {
     return (
         <div className="d-flex justify-content-center">
             <div>
-                <ErrorComponent error={error} success={success} showSuccess={false} textIfSuccess={""}/>
-                {loadProduct ?
+                {loadProduct &&
                     < div className="d-flex row justify-content-center p-0 m-0 g-0">
                         < Button style={{backgroundColor: primary}} onClick={reloadHandler}>Reload</Button>
                         <div className="d-flex justify-content-center p-0 mb-2">
@@ -59,8 +60,6 @@ export function ConfirmProducts() {
                         </div>
                         <Button style={{backgroundColor: primary}} onClick={confirmHandler}>Confirm</Button>
                     </div>
-
-                    : error === "" ? <CircularLoading/> : <div></div>
                 }
             </div>
         </div>

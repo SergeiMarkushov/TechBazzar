@@ -1,9 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter} from "react-router-dom";
-import {AuthProvider} from "./auth/Auth";
+import {ErrorComponent} from "./ErrorComponent";
+import {ErrorProvider} from "./auth/ErrorProvider";
 import {keycloak} from "./auth/Keycloak";
 import {RoleProvider} from "./auth/Role";
+import {NotifyProvider} from "./context/Notify";
 import {SearchProvider} from "./context/Search";
 import {FloatingButtonWithDevelopers} from './view/FloatingButtonWithDevelopers';
 import {Header} from "./view/Header";
@@ -15,19 +17,22 @@ function App() {
     return (
         <div style={{backgroundColor: "white"}}>
 
-                <ReactKeycloakProvider authClient={keycloak}>
+            <ReactKeycloakProvider authClient={keycloak}>
+                <ErrorProvider>
                     <BrowserRouter>
-                        <AuthProvider>
-                            <RoleProvider>
-                                <SearchProvider>
+                        <RoleProvider>
+                            <SearchProvider>
+                                <NotifyProvider>
                                     <Header/>
                                     <FloatingButtonWithDevelopers/>
                                     <FloatingButtonWithChat/>
-                                </SearchProvider>
-                            </RoleProvider>
-                        </AuthProvider>
+                                    <ErrorComponent/>
+                                </NotifyProvider>
+                            </SearchProvider>
+                        </RoleProvider>
                     </BrowserRouter>
-                </ReactKeycloakProvider>
+                </ErrorProvider>
+            </ReactKeycloakProvider>
 
         </div>
 

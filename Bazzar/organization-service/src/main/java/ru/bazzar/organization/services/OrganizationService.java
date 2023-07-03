@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ru.bazzar.organization.api.LogoSaverException;
 import ru.bazzar.organization.api.OrganizationDto;
 import ru.bazzar.organization.api.ResourceNotFoundException;
 import ru.bazzar.organization.converters.OrganizationConverter;
@@ -28,16 +29,21 @@ public class OrganizationService {
     private final OrganizationConverter organizationConverter;
     private final MyQueue<Organization> myQueue = new MyQueue<>();
 
-    public void save(OrganizationDto organizationDto, String username, MultipartFile file) throws IOException {
-        Organization organization = organizationConverter.dtoToEntity(organizationDto);
-        organization.setOwner(username);
-        organization.setLogo(logoService.save(file));
-        log.info("Добавлена новая организация {}, её собственник {}", organization.getTitle(), organization.getOwner());
-        myQueue.enqueue(organization);
-        repository.save(organization);
+    public void save(OrganizationDto organizationDto, String username, MultipartFile file){
+        try{
+            Organization organization = organizationConverter.dtoToEntity(organizationDto);
+            organization.setOwner(username);
+            organization.setLogo(logoService.save(file));
+            log.info("Добавлена новая организация {}, её собственник {}", organization.getTitle(), organization.getOwner());
+            myQueue.enqueue(organization);
+            repository.save(organization);
+        }catch (IOException e){
+            throw new LogoSaverException("Невозможно сохранить лого компании (MultipartFile - IOException) в сервисе логотипов");
+        }
+
     }
 
-    public Organization notConfirmed() throws ResourceNotFoundException {
+    public Organization notConfirmed(){
         if (myQueue.isEmpty()) {
             List<Organization> notActiveList = repository.findAllByIsActive(false);
             if (notActiveList.isEmpty()) {
@@ -50,8 +56,9 @@ public class OrganizationService {
         return myQueue.dequeue();
     }
 
-    public Optional<Organization> findByTitleIgnoreCase(String title) {
-        return repository.findByTitleIgnoreCase(title);
+    public Organization findByTitleIgnoreCase(String title) {
+        return repository.findByTitleIgnoreCase(title)
+                .orElseThrow(() -> new ResourceNotFoundException("Организация с названием: " + title + " не найдена."));
     }
 
     public List<OrganizationDto> findAllByOwner(String owner) {
@@ -71,7 +78,9 @@ public class OrganizationService {
     }
 
     public void confirm(String title) {
-        Organization organization = repository.findByTitleIgnoreCase(title).get();
+        Organization organization = repository.findByTitleIgnoreCase(title).orElseThrow(
+                () -> new ResourceNotFoundException("Организация с названием: " + title + " не найдена.")
+        );
         organization.setActive(true);
         repository.save(organization);
     }
@@ -94,5 +103,9 @@ public class OrganizationService {
         Organization organization = repository.findByTitleIgnoreCase(title)
                 .orElseThrow(() -> new ResourceNotFoundException("Организация с названием: " + title + " не найдена."));
         return organization.isActive();
+    }
+
+    public List<String> getOrganizationTitles() {
+        return repository.getOrganizationTitles();
     }
 }

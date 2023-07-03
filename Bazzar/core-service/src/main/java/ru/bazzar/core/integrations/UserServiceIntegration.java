@@ -78,4 +78,17 @@ public class UserServiceIntegration {
                 .bodyToMono(Void.class)
                 .block();
     }
+
+    public void checkAndCreate(UserDto userDto) {
+        userServiceWebClient.post()
+                .uri("api/v1/users/create")
+                .bodyValue(userDto)
+                .retrieve()
+                .onStatus(
+                        httpStatus -> httpStatus.value() == HttpStatus.NOT_FOUND.value(),
+                        clientResponse -> Mono.error(new ResourceNotFoundException("Произошла неизвестная ошибка!"))
+                )
+                .bodyToMono(Void.class)
+                .block();
+    }
 }

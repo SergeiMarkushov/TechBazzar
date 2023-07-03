@@ -1,21 +1,32 @@
-import React from 'react';
-import {ProductNew} from "../../../newInterfaces";
+import React, {useEffect} from 'react';
+import {apiGetReviews} from "../../../api/ReviewApi";
+import {emptyReviewNew} from "../../../empty";
+import {Product} from "../../../newInterfaces";
 import {CommentCard} from "./CommentCard";
 
 interface ProductPageCommentsCardProps {
-    product: ProductNew;
+    product: Product;
 }
 
 export function ProductPageCommentsCard(props: ProductPageCommentsCardProps) {
-    /*const [mark] = useState(props.product.review != null && props.product.review.mark != null ? props.product.review.mark : 0);*/
+    const [comment, setComment] = React.useState(Array.of(emptyReviewNew));
+
+    useEffect(() => {
+        if (props.product.id) {
+            apiGetReviews(props.product.id).then((response) => {
+                setComment(response.data);
+            });
+        }
+    }, []);
+
     return (
         <div className="card border-0">
             <div className="card-body">
-                <h5 className="card-title">Reviews</h5>
-                {/*{comment.map((comment) => <CommentCard key={comment.id} comment={comment}/>)}*/}
-                { props.product.review != null &&
-                    <CommentCard comment={props.product.review}/>
-                }
+                <h5 className="card-title">Отзывы</h5>
+                <div className="">
+                    {comment.length === 0 || comment[0].id === 0 && <span className="text-center">No reviews</span> ||
+                        comment.map((comment) => <CommentCard key={comment.id} comment={comment}/>)}
+                </div>
             </div>
         </div>
     )

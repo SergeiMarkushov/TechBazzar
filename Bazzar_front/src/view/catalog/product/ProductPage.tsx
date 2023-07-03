@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {ErrorComponent} from "../../../ErrorComponent";
 import {apiGetProductByIdNew} from "../../../api/ProductApi";
+import {useError} from "../../../auth/ErrorProvider";
 import {emptyProductNew} from "../../../empty";
-import {ProductNew} from "../../../newInterfaces";
+import {Product} from "../../../newInterfaces";
 import {BreadCrumbForProductPage} from "./BreadCrumbForProductPage";
 import {FunctionalPanelOnCatalogCard} from "./FunctionalPanelOnCatalogCard";
 import {ProductCharacteristic} from "./ProductCharacteristic";
@@ -14,35 +14,30 @@ import {ProductPageDescriptionCard} from "./ProductPageDescriptionCard";
 import {ProductPageTitleCard} from "./ProductPageTitleCard";
 
 export interface ProductCard {
-    product: ProductNew;
+    product: Product;
 }
 
 export function ProductPage() {
     const [product, setProduct] = useState(emptyProductNew)
-    const [load, setLoad] = useState({
-        isLoad: false,
-    });
     const {id} = useParams();
-    const [error, setError] = useState<string>("")
-    const [success, setSuccess] = useState<boolean>(false)
+    const error = useError();
 
     useEffect(() => {
-            if (!load.isLoad && id !== undefined) {
-                setLoad({isLoad: true});
+            if (id !== undefined) {
                 apiGetProductByIdNew(Number(id)).then((product) => {
                     setProduct(product.data);
-                    setSuccess(true);
+                    error.setErrors("", true, false, "");
                 }).catch(() => {
-                    setSuccess(false);
-                    setError("Упс... Что то пошло не так. Попробуйте позже")
+                    error.setErrors("Упс... Что то пошло не так. Попробуйте обновить страницу", false, false, "");
+                    error.setShow(true)
                 });
             }
-        }, [id, load.isLoad]
+        }, [id]
     );
 
     return (
         <div>
-            {success ?
+            {error.success &&
                 <div className="m-2">
                     <div className="row align-items-start">
                         <BreadCrumbForProductPage/>
@@ -59,7 +54,6 @@ export function ProductPage() {
                     <ProductPageDescriptionCard product={product}/>
                     <ProductPageCommentsCard product={product}/>
                 </div>
-                : <ErrorComponent error={error} success={success} showSuccess={false} textIfSuccess={""}/>
             }
         </div>
     )

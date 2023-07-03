@@ -2,11 +2,11 @@ import {AxiosError, AxiosResponse} from "axios";
 import React, {useEffect, useState} from 'react';
 import {primary} from "../../Colors";
 import {apiRemoveItem, apiUpdateQuantity} from "../../api/CartApi";
-import {apiGetProductPic} from "../../api/PictureApi";
-import {CartItemNew, Picture} from "../../newInterfaces";
+import {apiGetPicByProductId, apiGetProductPic} from "../../api/PictureApi";
+import {CartItem, Picture} from "../../newInterfaces";
 
 export interface ProductCart {
-    product: CartItemNew;
+    product: CartItem;
     onReloadCart: () => void;
 }
 
@@ -16,15 +16,17 @@ export function CartCard(props: ProductCart) {
     const [pic, setPic] = useState<string>("");
 
     useEffect(() => {
-        apiGetProductPic(1).then((response: AxiosResponse<Picture>) => {
-            const base64String = response.data.bytes;
-            const contentType = response.data.contentType;
-            const dataURL = `data:${contentType};base64,${base64String}`;
-            setPic(dataURL);
-        }).catch((error) => {
-            // eslint-disable-next-line no-console
-            console.error('Error:', error);
-        });
+        if (props.product.productId !== 0) {
+            apiGetPicByProductId(props.product.productId).then((response: AxiosResponse<Picture>) => {
+                const base64String = response.data.bytes;
+                const contentType = response.data.contentType;
+                const dataURL = `data:${contentType};base64,${base64String}`;
+                setPic(dataURL);
+            }).catch((error) => {
+                // eslint-disable-next-line no-console
+                console.error('Error:', error);
+            });
+        }
         return () => URL.revokeObjectURL(pic);
     }, [props.product.productId]);
 

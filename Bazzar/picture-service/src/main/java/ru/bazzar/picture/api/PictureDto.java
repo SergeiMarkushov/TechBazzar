@@ -1,5 +1,6 @@
 package ru.bazzar.picture.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.Arrays;
@@ -11,11 +12,16 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Модель кртинки продукта")
 public class PictureDto {
-
+    // TODO: 27.06.2023 required = true - пока не проставлял - есть вопросы надо ли...
+    @Schema(description = "Идентификатор кртинки продукта", example = "1")
     private Long id;
+    @Schema(description = "Имя файла", maxLength = 100, example = "pic.jpeg")
     private String fileName;
+    @Schema(description = "Тип контента", maxLength = 50, example = "image/jpeg")
     private String contentType;
+    @Schema(description = "Массив байтов")
     private byte[] bytes;
 
     @Override
