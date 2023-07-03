@@ -61,7 +61,6 @@ public class Product {
     private int quantity;
 
     @Column(name = "is_confirmed")
-    @NotNull(message = "Поле is_confirmed должно быть NotNull.")
     @BooleanFlag
     private boolean isConfirmed;
 

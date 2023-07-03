@@ -1,10 +1,10 @@
 package ru.bazzar.core.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -13,12 +13,17 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Модель продукта")
 public class ProductDto {
-
+    @Schema(description = "Идентификатор продукта", example = "1")
     private Long id;
+    @Schema(description = "Название продукта",minLength = 2, maxLength = 100, example = "Груша")
     private String title;
+    @Schema(description = "Описание продукта",minLength = 10, maxLength = 1000, example = "Груша сезонная, сорт - Дюшес")
     private String description;
+    @Schema(description = "Название организации",minLength = 1, maxLength = 200, example = "Агрокомплекс")
     private String organizationTitle;
+    @Schema(description = "The price of the product", format = "decimal")
     private BigDecimal price;
     private int quantity;
     private boolean isConfirmed;
