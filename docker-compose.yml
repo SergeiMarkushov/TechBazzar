@@ -1,0 +1,223 @@
+version: '3'
+services:
+
+  config-service:
+    build:
+      context: ./Bazzar/config-service
+      dockerfile: Dockerfile
+    domainname: config-service
+    container_name: config-service
+    ports:
+      - "8888:8888"
+    restart: always
+    networks:
+      - some-net
+
+  eureka-service:
+    build:
+      context: ./Bazzar/eureka-service
+      dockerfile: Dockerfile
+    container_name: eureka-service
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - some-net
+
+  core-service:
+    build:
+      context: ./Bazzar/core-service
+      dockerfile: Dockerfile
+    domainname: core-service
+    container_name: core-service
+    ports:
+      - "8183:8183"
+    restart: always
+    networks:
+      - some-net
+    depends_on:
+      - config-service
+      - eureka-service
+      - postgres-core-service
+  postgres-core-service:
+    image: 'postgres:latest'
+    container_name: postgres-core-service
+    environment:
+      POSTGRES_DB: core_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    networks:
+      - some-net
+
+  gateway-service:
+    build:
+      context: ./Bazzar/gateway-service
+      dockerfile: Dockerfile
+    container_name: gateway-service
+    ports:
+      - "5555:5555"
+    restart: always
+    networks:
+      - some-net
+    depends_on:
+      - config-service
+      - eureka-service
+      - keycloak
+
+  user-service:
+    build:
+      context: ./Bazzar/user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "8181:8181"
+    restart: always
+    networks:
+      - some-net
+    depends_on:
+      - config-service
+      - eureka-service
+      - postgres-user-service
+  postgres-user-service:
+    image: 'postgres:latest'
+    container_name: postgres-user-service
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    networks:
+      - some-net
+
+  notification-service:
+    build:
+      context: ./Bazzar/notification-service
+      dockerfile: Dockerfile
+    container_name: notification-service
+    ports:
+      - "8184:8184"
+    restart: always
+    networks:
+      - some-net
+    depends_on:
+      - config-service
+      - eureka-service
+      - postgres-notification-service
+  postgres-notification-service:
+    image: 'postgres:latest'
+    container_name: postgres-notification-service
+    environment:
+      POSTGRES_DB: notification_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5434:5432"
+    networks:
+      - some-net
+  cart-service:
+    build:
+      context: ./Bazzar/cart-service
+      dockerfile: Dockerfile
+    container_name: cart-service
+    ports:
+      - "8182:8182"
+    restart: always
+    networks:
+      - some-net
+    depends_on:
+      - config-service
+      - eureka-service
+      - redis
+  redis:
+    image: 'bitnami/redis:latest'
+    container_name: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+    networks:
+      - some-net
+
+  organization-service:
+    build:
+      context: ./Bazzar/organization-service
+      dockerfile: Dockerfile
+    container_name: organization-service
+    ports:
+      - "8185:8185"
+    restart: always
+    networks:
+      - some-net
+    depends_on:
+      - config-service
+      - eureka-service
+      - postgres-organization-service
+  postgres-organization-service:
+    image: 'postgres:latest'
+    container_name: postgres-organization-service
+    environment:
+      POSTGRES_DB: organization_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5435:5432"
+    networks:
+      - some-net
+
+  picture-service:
+    build:
+      context: ./Bazzar/picture-service
+      dockerfile: Dockerfile
+    container_name: picture-service
+    ports:
+      - "8555:8555"
+    restart: always
+    networks:
+      - some-net
+    depends_on:
+      - config-service
+      - eureka-service
+      - postgres-picture-service
+  postgres-picture-service:
+    image: 'postgres:latest'
+    container_name: postgres-picture-service
+    environment:
+      POSTGRES_DB: picture_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5436:5432"
+    networks:
+      - some-net
+  keycloak:
+    image: quay.io/keycloak/keycloak:legacy
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres-keycloak
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-keycloak
+    networks:
+      - some-net
+  postgres-keycloak:
+    image: postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    networks:
+      - some-net
+
+
+networks:
+  some-net:
