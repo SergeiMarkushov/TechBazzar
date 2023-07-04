@@ -154,7 +154,7 @@ public class ProductService {
         product.setPrice(productDto.getPrice());
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
-        // TODO: 21.06.2023  проверить - возможны 2 запроса к БД, но я ещё хз(это надо для кэша)
+        //так надо для кэша!!!
         Long idToReturn = productRepository.save(product).getId();
         log.info("SAVE: " + findById(idToReturn).toString());
         return findById(idToReturn);
