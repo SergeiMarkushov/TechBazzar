@@ -75,12 +75,12 @@ export function CartCard(props: ProductCart) {
                         <div className="card-body">
                             <h5 className="card-title">{props.product.productTitle}</h5>
                             <p className="card-text"><small
-                                className="text-muted">{props.product.pricePerProduct} ₽/ one</small></p>
+                                className="text-muted">{props.product.pricePerProduct} ₽/ один</small></p>
                             <p className="card-text"><small
-                                className="text-muted">{props.product.price} ₽/ total</small></p>
+                                className="text-muted">{props.product.price} ₽/ всего</small></p>
                             <button type="button" onClick={() => {
                                 apiRemoveItem(props.product).then(resp => resp.status === 200 ? props.onReloadCart() : false);
-                            }} className="btn btn-sm text-white" style={{backgroundColor: primary}}>Delete
+                            }} className="btn btn-sm text-white" style={{backgroundColor: primary}}>Удалить
                             </button>
                         </div>
                     </div>

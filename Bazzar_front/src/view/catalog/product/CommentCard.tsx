@@ -12,7 +12,7 @@ export function CommentCard(props: CommentCardProps) {
         <div className="card border-0 border-bottom" style={{width: "50%"}}>
             <div className="card-body">
                 <div className="d-flex justify-content-between">
-                    <b className="card-title">{props.comment.username}</b>
+                    <b className="card-title">{props.comment.fullName}</b>
                         <div>
                             <Rating name="half-rating-read" className="ms-2" size="small" value={props.comment.mark}
                                     precision={0.5} readOnly/>

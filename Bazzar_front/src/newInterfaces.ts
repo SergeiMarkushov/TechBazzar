@@ -58,6 +58,7 @@ export interface DiscountCreate {
 export interface Review {
     id: number;
     username: string;
+    fullName: string;
     reviewText: string;
     mark: number;
 }
@@ -158,6 +159,7 @@ export interface Picture {
 
 export interface ReviewDto {
     username: string;
+    fullName: string;
     reviewText: string;
     mark: number;
     productId: number;

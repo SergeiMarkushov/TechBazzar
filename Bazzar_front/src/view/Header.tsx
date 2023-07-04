@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link, Route, Routes} from "react-router-dom";
 import {primary} from "../Colors";
-import {ErrorComponent} from "../ErrorComponent";
 import {RequireAuthKeycloak} from "../auth/KeycloakProvider";
 import {RequireRoleADMIN} from "../auth/Role";
 import {HeaderLinkAuth} from "./HeaderLinkAuth";
@@ -9,6 +8,7 @@ import {HeaderLinkCart} from "./HeaderLinkCart";
 import {HeaderLinkProfile} from "./HeaderLinkProfile";
 import {Home} from "./Home";
 import {SearchTab} from "./SearchTab";
+import {Login} from "./auth/Login";
 import {CartComponent} from "./cart/CartComponent";
 import {Catalog} from "./catalog/Catalog";
 import {ProductPage} from "./catalog/product/ProductPage";
@@ -57,7 +57,7 @@ export function Header() {
                                 <HeaderLinkProfile/>
                             </Link>
                             <span className="nav-link">
-                                <HeaderLinkAuth/>
+                                <HeaderLinkAuth isHeader={true}/>
                             </span>
                         </div>
                     </div>
@@ -72,6 +72,7 @@ export function Header() {
                         <Route path="/catalog" element={<Catalog/>}/>
                         <Route path="/catalog/:companyParam" element={<Catalog/>}/>
                         <Route path="/product/:name/:id" element={<ProductPage/>}/>
+                        <Route path="/login" element={<Login/>}/>
                         <Route path="/" element={<Catalog/>}/>
                     </Route>
 
