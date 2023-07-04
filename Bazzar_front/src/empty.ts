@@ -42,6 +42,7 @@ export const emptyDiscountNew: Discount = {
 export const emptyReviewNew: Review = {
     id: 0,
     username: "",
+    fullName: "",
     reviewText: "",
     mark: 0,
 }

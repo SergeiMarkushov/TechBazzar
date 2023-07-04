@@ -23,6 +23,7 @@ import ru.bazzar.core.utils.MyQueue;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -195,5 +196,13 @@ public class ProductService {
             return 0.0;
         }
         return averageRating;
+    }
+
+    public Optional<PictureDto> getPictureByProductId(Long id) {
+        Long pictureId = productRepository.findPictureIdById(id);
+        if (pictureId != null) {
+            return Optional.of(pictureService.getPictureDtoById(pictureId));
+        }
+        return Optional.empty();
     }
 }

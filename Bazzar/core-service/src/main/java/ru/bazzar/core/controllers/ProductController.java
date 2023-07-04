@@ -110,6 +110,13 @@ public class ProductController {
         return pictureService.getPictureDtoById(id);
     }
 
+    @GetMapping("/picture-by-product/{id}")
+    public ResponseEntity<PictureDto> getPictureByProductId(@PathVariable Long id) {
+        return service.getPictureByProductId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ProductDto createProduct(

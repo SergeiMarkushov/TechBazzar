@@ -31,7 +31,7 @@ export function OrderCard(props: OrderCardProps) {
 
         <div className="card p-2 m-2 rounded shadow-sm">
             <div className="d-flex justify-content-between">
-                <div className="card-title m-2">{props.product.quantity} product</div>
+                <div className="card-title m-2">{props.product.quantity} товар</div>
                 {props.order.status ? <ReviewComponent product={props.product}/> : ""}
             </div>
             <div className="container">
