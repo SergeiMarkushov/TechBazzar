@@ -14,7 +14,7 @@
         </Console>
 
         <RollingFile name="rollingFile"
-                     fileName="logs_core_errors/log4j2.log" append="true"
+                     fileName="logs_core/log4j2.log" append="true"
                      filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>

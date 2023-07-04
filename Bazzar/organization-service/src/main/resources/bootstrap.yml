@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ORGANIZATION
+    name: organization
 
   cloud:
     config:

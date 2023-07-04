@@ -1,6 +1,6 @@
 spring:
   application:
-    name: NOTIFICATION
+    name: notification
 
   cloud:
     config:
