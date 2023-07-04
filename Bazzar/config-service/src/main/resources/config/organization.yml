@@ -5,14 +5,14 @@ server:
 
 spring:
   datasource:
-    url: ${url_db}
+    url: ${url_db_organization}
     driver-class-name: org.postgresql.Driver
     username: ${db_username}
     password: ${db_password}
 
   flyway:
     baselineOnMigrate: true
-    url: ${url_db}
+    url: ${url_db_organization}
     user: ${db_username}
     password: ${db_password}
     validateOnMigrate: false
@@ -23,14 +23,13 @@ spring:
     hibernate:
       ddl-auto: update
 
-#integrations:
-#  auth-service:
-#    url: http://localhost:8181/tech-bazzar-user/
-#    read-timeout: 10000
-#    write-timeout: 5000
-#    connect-timeout: 5000
-#  cart-service:
-#    url: http://localhost:8182/tech-bazzar-cart/
-#    read-timeout: 10000
-#    write-timeout: 5000
-#    connect-timeout: 5000
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+springdoc:
+  swagger-ui:
+    supported-submit-methods: "get"

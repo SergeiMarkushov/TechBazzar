@@ -1,6 +1,8 @@
 package ru.bazzar.core.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -21,8 +23,6 @@ import ru.bazzar.core.integrations.UserServiceIntegration;
 import ru.bazzar.core.services.ProductService;
 import ru.bazzar.core.utils.MyQueue;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
