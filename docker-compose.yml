@@ -3,7 +3,7 @@ services:
 
   config-service:
     build:
-      context: ./config-service
+      context: ./Bazzar/config-service
       dockerfile: Dockerfile
     domainname: config-service
     container_name: config-service
@@ -15,7 +15,7 @@ services:
 
   eureka-service:
     build:
-      context: ./eureka-service
+      context: ./Bazzar/eureka-service
       dockerfile: Dockerfile
     container_name: eureka-service
     ports:
@@ -26,7 +26,7 @@ services:
 
   core-service:
     build:
-      context: ./core-service
+      context: ./Bazzar/core-service
       dockerfile: Dockerfile
     domainname: core-service
     container_name: core-service
@@ -53,7 +53,7 @@ services:
 
   gateway-service:
     build:
-      context: ./gateway-service
+      context: ./Bazzar/gateway-service
       dockerfile: Dockerfile
     container_name: gateway-service
     ports:
@@ -68,7 +68,7 @@ services:
 
   user-service:
     build:
-      context: ./user-service
+      context: ./Bazzar/user-service
       dockerfile: Dockerfile
     container_name: user-service
     ports:
@@ -94,7 +94,7 @@ services:
 
   notification-service:
     build:
-      context: ./notification-service
+      context: ./Bazzar/notification-service
       dockerfile: Dockerfile
     container_name: notification-service
     ports:
@@ -119,7 +119,7 @@ services:
       - some-net
   cart-service:
     build:
-      context: ./cart-service
+      context: ./Bazzar/cart-service
       dockerfile: Dockerfile
     container_name: cart-service
     ports:
@@ -143,7 +143,7 @@ services:
 
   organization-service:
     build:
-      context: ./organization-service
+      context: ./Bazzar/organization-service
       dockerfile: Dockerfile
     container_name: organization-service
     ports:
@@ -169,7 +169,7 @@ services:
 
   picture-service:
     build:
-      context: ./picture-service
+      context: ./Bazzar/picture-service
       dockerfile: Dockerfile
     container_name: picture-service
     ports:
@@ -211,8 +211,6 @@ services:
       - some-net
   postgres-keycloak:
     image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: postgres
