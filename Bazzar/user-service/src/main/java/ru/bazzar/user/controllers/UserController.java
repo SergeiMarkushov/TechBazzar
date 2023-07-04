@@ -81,7 +81,7 @@ public class UserController {
         User user = service.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Пользователь с email: " + username + " не найден!"));
         if (user.getBalance().compareTo(totalPrice) < 0) {
-            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Не достаточно средств на счете."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AppError(HttpStatus.PAYMENT_REQUIRED.value(), "Не достаточно средств на счете."), HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(service.payment(user, totalPrice));
     }
