@@ -23,11 +23,15 @@ public class ProductDto {
     private String description;
     @Schema(description = "Название организации",minLength = 1, maxLength = 200, example = "Агрокомплекс")
     private String organizationTitle;
-    @Schema(description = "The price of the product", format = "decimal")
+    @Schema(description = "Цена продукта", format = "decimal", example = "10.33")
     private BigDecimal price;
+    @Schema(description = "Количество", example = "10")
     private int quantity;
+    @Schema(description = "Статус подтверждения", example = "true")
     private boolean isConfirmed;
+    @Schema(description = "Лист характеристик продукта")
     private List<CharacteristicDto> characteristicsDto;
+    @Schema(description = "Идентификатор картинки продукта", example = "1")
     private Long pictureId;
 
     @Override
