@@ -1,0 +1,17 @@
+ru\bazzar\picture\api\PictureCreationException.class
+ru\bazzar\picture\exceptions\GlobalExceptionHandler.class
+ru\bazzar\picture\PictureApplication.class
+ru\bazzar\picture\entities\Picture.class
+ru\bazzar\picture\service\PictureService.class
+ru\bazzar\picture\config\OpenApiConfig.class
+ru\bazzar\picture\converters\PictureConverter.class
+ru\bazzar\picture\PictureApplication$1.class
+ru\bazzar\picture\api\PictureDto$PictureDtoBuilder.class
+ru\bazzar\picture\controller\PictureController.class
+ru\bazzar\picture\util\FileResourcesUtils.class
+ru\bazzar\picture\repositories\PictureRepository.class
+ru\bazzar\picture\api\AppError.class
+ru\bazzar\picture\config\PictureConfig.class
+ru\bazzar\picture\api\PictureDto.class
+ru\bazzar\picture\entities\Picture$PictureBuilder.class
+ru\bazzar\picture\api\ResourceNotFoundException.class

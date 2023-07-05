@@ -1,0 +1,16 @@
+ru\bazzar\user\services\UserService.class
+ru\bazzar\user\UserApplication.class
+ru\bazzar\user\api\AppError.class
+ru\bazzar\user\entities\User$UserBuilder.class
+ru\bazzar\user\integrations\NotificationServiceIntegration.class
+ru\bazzar\user\entities\User.class
+ru\bazzar\user\properties\NotifiServiceIntegrationProperties.class
+ru\bazzar\user\api\NotificationDto.class
+ru\bazzar\user\services\UserServiceImpl.class
+ru\bazzar\user\controllers\UserController.class
+ru\bazzar\user\converters\UserConverter.class
+ru\bazzar\user\configs\AppConfig.class
+ru\bazzar\user\repositories\UserRepository.class
+ru\bazzar\user\api\UserNotFoundException.class
+ru\bazzar\user\api\ResourceNotFoundException.class
+ru\bazzar\user\api\UserDto.class

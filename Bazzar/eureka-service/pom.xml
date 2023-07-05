@@ -54,7 +54,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.example.eureka.EurekaApplication</mainClass>
+                    <mainClass>ru.bazzar.eureka.EurekaApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
