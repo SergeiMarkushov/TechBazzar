@@ -1,0 +1,17 @@
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\model\CartItem.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\configs\RedisConfig.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\api\CartDto.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\api\CartItemDto.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\converters\CartItemConverter.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\model\Cart.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\controllers\CartController.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\CartApplication.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\converters\CartConverter.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\integrations\ProductServiceIntegration.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\api\ProductDto.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\configs\AppConfig.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\services\CartService.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\properties\ProductServiceIntegrationProperties.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\api\CharacteristicDto.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\api\ResourceNotFoundException.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\cart-service\src\main\java\ru\bazzar\cart\api\StringResponse.java

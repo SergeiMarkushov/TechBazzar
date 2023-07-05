@@ -1,0 +1,9 @@
+ru\bazzar\notification\api\NotificationDto.class
+ru\bazzar\notification\controllers\NotificationController.class
+ru\bazzar\notification\servises\NotificationService.class
+ru\bazzar\notification\servises\NotificationServiceImpl.class
+ru\bazzar\notification\config\MailConfig.class
+ru\bazzar\notification\entities\Notification.class
+ru\bazzar\notification\converters\NotificationConverter.class
+ru\bazzar\notification\NotificationApplication.class
+ru\bazzar\notification\repositories\NotificationRepository.class

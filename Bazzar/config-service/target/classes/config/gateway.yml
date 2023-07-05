@@ -1,0 +1,96 @@
+server:
+  port: 5555
+
+spring:
+  application:
+    name: GATEWAY
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+            allowedHeaders: "*"
+
+      routes:
+        - id: core-service
+          uri: lb://CORE
+          predicates:
+            - Path=/core/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-core
+            - TokenAuthenticationFilter
+
+        - id: cart-service
+          uri: lb://CART
+          predicates:
+            - Path=/cart/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-cart
+            - TokenAuthenticationFilter
+
+        - id: notification-service
+          uri: lb://NOTIFICATION
+          predicates:
+            - Path=/notification/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-notification
+            - TokenAuthenticationFilter
+
+        - id: organization-service
+          uri: lb://ORGANIZATION
+          predicates:
+            - Path=/organization/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-organization
+            - TokenAuthenticationFilter
+
+        - id: user-service
+          uri: lb://USER
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-user
+            - TokenAuthenticationFilter
+
+        - id: picture-service
+          uri: lb://PICTURE
+          predicates:
+            - Path=/picture/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/tech-bazzar-picture
+            - TokenAuthenticationFilter
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${issuer_uri}
+          jwk-set-uri: ${jwk_set_uri}
+
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

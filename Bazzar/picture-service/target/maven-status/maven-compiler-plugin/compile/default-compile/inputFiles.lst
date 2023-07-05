@@ -1,0 +1,14 @@
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\api\PictureDto.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\converters\PictureConverter.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\exceptions\GlobalExceptionHandler.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\PictureApplication.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\api\AppError.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\config\PictureConfig.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\repositories\PictureRepository.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\api\ResourceNotFoundException.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\api\PictureCreationException.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\util\FileResourcesUtils.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\config\OpenApiConfig.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\controller\PictureController.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\entities\Picture.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\picture-service\src\main\java\ru\bazzar\picture\service\PictureService.java

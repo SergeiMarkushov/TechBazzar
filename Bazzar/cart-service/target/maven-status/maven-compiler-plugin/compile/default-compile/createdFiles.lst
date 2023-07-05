@@ -1,0 +1,17 @@
+ru\bazzar\cart\api\StringResponse.class
+ru\bazzar\cart\configs\RedisConfig.class
+ru\bazzar\cart\api\ProductDto.class
+ru\bazzar\cart\api\ResourceNotFoundException.class
+ru\bazzar\cart\model\CartItem.class
+ru\bazzar\cart\converters\CartItemConverter.class
+ru\bazzar\cart\converters\CartConverter.class
+ru\bazzar\cart\configs\AppConfig.class
+ru\bazzar\cart\properties\ProductServiceIntegrationProperties.class
+ru\bazzar\cart\CartApplication.class
+ru\bazzar\cart\model\Cart.class
+ru\bazzar\cart\api\CartItemDto.class
+ru\bazzar\cart\integrations\ProductServiceIntegration.class
+ru\bazzar\cart\api\CartDto.class
+ru\bazzar\cart\services\CartService.class
+ru\bazzar\cart\api\CharacteristicDto.class
+ru\bazzar\cart\controllers\CartController.class
