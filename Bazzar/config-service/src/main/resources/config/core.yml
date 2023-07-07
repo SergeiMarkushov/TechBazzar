@@ -9,17 +9,17 @@ spring:
       max-file-size: 5MB
 
   datasource:
-    url: ${url_db_core}
+    url: jdbc:postgresql://postgres-core-service:5432/core_db
     driver-class-name: org.postgresql.Driver
-    username: ${db_username}
-    password: ${db_password}
+    username: postgres
+    password: admin
 
-  flyway:
-    baselineOnMigrate: true
-    url: ${url_db_core}
-    user: ${db_username}
-    password: ${db_password}
-    validateOnMigrate: false
+#  flyway:
+#    baselineOnMigrate: true
+#    url: ${url_db_core}
+#    user: ${db_username}
+#    password: ${db_password}
+#    validateOnMigrate: false
 
   jpa:
     show-sql: true
@@ -36,29 +36,29 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-service:8761/eureka
 
 integrations:
   auth-service:
-    url: http://localhost:8181/tech-bazzar-user/
+    url: http://user-service:8181/tech-bazzar-user/
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
 
   cart-service:
-    url: http://localhost:8182/tech-bazzar-cart/
+    url: http://cart-service:8182/tech-bazzar-cart/
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
 
   organization-service:
-    url: http://localhost:8185/tech-bazzar-organization/
+    url: http://organization-service:8185/tech-bazzar-organization/
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
 
   picture-service:
-    url: http://localhost:8555/tech-bazzar-picture/
+    url: http://picture-service:8555/tech-bazzar-picture/
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000

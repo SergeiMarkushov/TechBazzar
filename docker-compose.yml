@@ -192,32 +192,54 @@ services:
       - "5436:5432"
     networks:
       - some-net
+  #  keycloak:
+  #    image: quay.io/keycloak/keycloak:legacy
+  #    environment:
+  #      DB_VENDOR: POSTGRES
+  #      DB_ADDR: postgres-keycloak
+  #      DB_DATABASE: keycloak
+  #      DB_USER: keycloak
+  #      DB_SCHEMA: public
+  #      DB_PASSWORD: password
+  #      KEYCLOAK_USER: admin
+  #      KEYCLOAK_PASSWORD: admin
+  #    ports:
+  #      - "8080:8080"
+  #    depends_on:
+  #      - postgres-keycloak
+  #    networks:
+  #      - some-net
+  #  postgres-keycloak:
+  #    image: postgres
+  #    environment:
+  #      POSTGRES_DB: keycloak
+  #      POSTGRES_USER: postgres
+  #      POSTGRES_PASSWORD: admin
+  #    networks:
+  #      - some-net
   keycloak:
-    image: quay.io/keycloak/keycloak:legacy
+    image: jboss/keycloak
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres-keycloak
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_SCHEMA: public
-      DB_PASSWORD: password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - DB_VENDOR=postgres
+      - DB_ADDR=db
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=keycloak
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
-      - postgres-keycloak
+      - db
     networks:
       - some-net
-  postgres-keycloak:
+  db:
     image: postgres
     environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=keycloak
     networks:
       - some-net
-
-
 networks:
   some-net:

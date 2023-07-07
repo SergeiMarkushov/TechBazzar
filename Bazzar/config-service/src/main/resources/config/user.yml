@@ -4,18 +4,18 @@ server:
     context-path: /tech-bazzar-user
 
 spring:
-  flyway:
-    baselineOnMigrate: true
-    url: ${url_db_user}
-    user: ${db_username}
-    password: ${db_password}
-    validateOnMigrate: false
+#  flyway:
+#    baselineOnMigrate: true
+#    url: ${url_db_user}
+#    user: ${db_username}
+#    password: ${db_password}
+#    validateOnMigrate: false
 
   datasource:
-    url: ${url_db_user}
-    driverClassName: org.postgresql.Driver
-    username: ${db_username}
-    password: ${db_password}
+    url: jdbc:postgresql://postgres-user-service:5432/user_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: admin
 
   jpa:
     showSql: true
@@ -28,11 +28,11 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-service:8761/eureka
 
 integrations:
   notification-service:
-    url: http://localhost:8184/tech-bazzar-notification/
+    url: http://notification-service:8184/tech-bazzar-notification/
     read-timeout: 10000
     write-timeout: 5000
     connect-timeout: 5000
