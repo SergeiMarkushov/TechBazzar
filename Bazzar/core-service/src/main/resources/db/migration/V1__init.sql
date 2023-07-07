@@ -1,13 +1,3 @@
-create table reviews
-(
-    id          bigserial primary key,
-    mark        integer,
-    review_text text,
-    username    varchar(255),
-    full_name    varchar(255),
-    product_id      BIGINT REFERENCES products(id)
-);
-
 create table discounts
 (
     id          bigserial primary key,
@@ -15,6 +5,17 @@ create table discounts
     expiry_date timestamp not null,
     start_date  timestamp not null
 );
+
+create table reviews
+(
+    id          bigserial primary key,
+    mark        integer,
+    review_text text,
+    username    varchar(255),
+    full_name    varchar(255),
+    product_id      BIGINT
+);
+
 
 create table products
 (
@@ -28,6 +29,13 @@ create table products
     discount_id        bigint references discounts(id),
     review_id          bigint references reviews(id),
     picture_id         bigint
+);
+
+
+CREATE TABLE characteristics (
+                                 id              BIGSERIAL PRIMARY KEY,
+                                 name            VARCHAR(255) NOT NULL,
+                                 product_id      BIGINT REFERENCES products(id)
 );
 
 create table orders
@@ -62,10 +70,4 @@ create table purchase_history
     organization    varchar(255),
     quantity        int not null ,
     date_purchase   timestamp default current_timestamp
-);
-
-CREATE TABLE characteristics (
-    id              BIGSERIAL PRIMARY KEY,
-    name            VARCHAR(255) NOT NULL,
-    product_id      BIGINT REFERENCES products(id)
 );
