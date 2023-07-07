@@ -229,6 +229,52 @@
 
 ***
 # Запуск проекта
+## Prerequisites
+- 🐳 [Docker](https://www.docker.com/products/docker-desktop) 
+- 🐳 [Docer Compose](https://docs.docker.com/compose/install/) 
+
+## BACKEND
+***
+1. Склонируйте репозиторий проекта, где расположен бэк:
+
+   ```sh
+   git clone https://github.com/SergeiMarkushov/TechBazzar.git
+   ```
+
+2. Перейдите в директорию проекта:
+
+   ```sh
+   cd TechBazzar/Bazzar
+   ```
+
+3. Запустите команду docker-compose:
+
+   ```sh
+   docker-compose up -d
+   ```
+***
+## FRONTEND
+***
+
+1. Перейдите в директорию проекта, где расположен фронт:
+
+   ```sh
+   cd TechBazzar/Bazzar_front
+   ```
+
+2. Создайте docker образ:
+
+   ```sh
+   docker build -t ps-container:dev .
+   ```
+
+3. Запустите Docker container:
+
+   ```sh
+   docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 -e CHOKIDAR_USEPOLLING=true ps-container:dev
+   ```
+
+4. Откройте браузер и посетите `http://localhost:3000`.
 
 ***
 
