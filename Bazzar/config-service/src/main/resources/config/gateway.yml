@@ -80,8 +80,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${issuer_uri}
-          jwk-set-uri: ${jwk_set_uri}
+          issuer-uri: http://keycloak:8080/auth/realms/master
+          jwk-set-uri: http://keycloak:8080/auth/realms/master/protocol/openid-connect/certs
 
   http:
     encoding:
@@ -93,4 +93,4 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-service:8761/eureka

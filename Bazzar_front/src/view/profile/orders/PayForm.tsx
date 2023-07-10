@@ -3,6 +3,7 @@ import {AxiosResponse} from "axios";
 import React, {useEffect, useState} from "react";
 import {apiOrderPayment} from "../../../api/OrderApi";
 import {apiGetMyUser} from "../../../api/UserApi";
+import {useError} from "../../../auth/ErrorProvider";
 import {Order, User} from "../../../newInterfaces";
 
 interface PayFormProps {
@@ -14,6 +15,7 @@ interface PayFormProps {
 export function PayForm(props: PayFormProps) {
     const [balance, setBalance] = useState(0);
     const [open, setOpen] = useState(false);
+    const error = useError();
 
     useEffect(() => {
         if (open) {
@@ -40,6 +42,14 @@ export function PayForm(props: PayFormProps) {
             handleClose();
             props.onReloadOrder();
             props.setStatus(true);
+        }).catch(() => {
+            handleClose();
+            if (balance < props.order.totalPrice) {
+                error.setErrors("Не достаточно средств", false, false, "");
+            } else {
+                error.setErrors("Что то пошло не так", false, false, "");
+            }
+            error.setShow(true);
         })
     };
 

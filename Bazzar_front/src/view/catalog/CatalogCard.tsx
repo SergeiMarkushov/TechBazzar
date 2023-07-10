@@ -49,8 +49,7 @@ export function CatalogCard(props: ProductCard) {
     }, [props.product.title]);
 
     return (
-        <div style={{width: "15em", height: "20em", borderStyle: "none", textDecoration: "none", color: "black"}}>
-
+        <div>
             <Link style={{width: "15em", height: "20em", borderStyle: "none", textDecoration: "none", color: "black"}}
                   to={`/product/${props.product.title}/${props.product.id}`}
                   className={`card pt-2 row m-1 ${isShown ? "shadow-sm bg-light" : ""}`}
@@ -93,7 +92,7 @@ export function CatalogCard(props: ProductCard) {
                 </div>
             </Link>
             {
-                props.isChanging ? <div className="d-flex mt-1 justify-content-between">
+                props.isChanging ? <div className="mt-1 mb-2">
                     <ChangeProductButton product={props.product} deleteHandler={props.deleteHandler}
                                          changeHandler={props.changeHandler}></ChangeProductButton>
                 </div> : null

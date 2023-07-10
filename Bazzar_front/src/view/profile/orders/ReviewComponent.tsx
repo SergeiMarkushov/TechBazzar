@@ -1,5 +1,5 @@
 import {
-    Button,
+    Button, Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
@@ -27,6 +27,7 @@ export function ReviewComponent({product}: ReviewProps) {
     const {keycloak, initialized} = useKeycloak();
     const [email, setEmail] = React.useState<string>(keycloak?.tokenParsed?.email ?? "");
     const error = useError();
+    const [checked, setChecked] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -36,11 +37,13 @@ export function ReviewComponent({product}: ReviewProps) {
         setOpen(false);
     };
 
+
     const payHandle = () => {
         if (value > 0) {
             if (text.length > 5 && email) {
                 const data: ReviewDto = {
                     mark: value,
+                    fullName: checked ? keycloak.tokenParsed?.name.substring(0,3).concat("...") : keycloak.tokenParsed?.name,
                     reviewText: text,
                     username: email,
                     productId: product.productId
@@ -50,11 +53,16 @@ export function ReviewComponent({product}: ReviewProps) {
                     error.setErrors("", true, true, "Отзыв оставлен");
                     error.setShow(true)
                 }).catch(() => {
+                    setOpen(false);
                     error.setErrors("Ошибка при добавлении отзыва", false, false, "");
                     error.setShow(true)
                 })
             }
         }
+    };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setChecked(event.target.checked);
     };
 
     return (
@@ -77,6 +85,15 @@ export function ReviewComponent({product}: ReviewProps) {
                             setValue(newValue != null ? newValue : 0);
                         }}
                     />
+                    <br/>
+                    <div className="d-flex justify-content-start align-items-center">
+                        <Typography component="legend">Оставить отзыв анонимно</Typography>
+                        <Checkbox
+                            checked={checked}
+                            onChange={handleChange}
+                            inputProps={{'aria-label': 'controlled'}}
+                        />
+                    </div>
 
                     <TextField
                         margin="dense"

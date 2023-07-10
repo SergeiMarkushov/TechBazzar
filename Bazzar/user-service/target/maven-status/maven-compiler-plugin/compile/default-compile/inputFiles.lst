@@ -1,0 +1,15 @@
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\api\UserDto.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\UserApplication.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\api\ResourceNotFoundException.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\api\AppError.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\api\NotificationDto.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\properties\NotifiServiceIntegrationProperties.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\controllers\UserController.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\converters\UserConverter.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\entities\User.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\services\UserServiceImpl.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\integrations\NotificationServiceIntegration.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\api\UserNotFoundException.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\repositories\UserRepository.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\services\UserService.java
+C:\Java\JavaUltimateProjects\TechBazzar\Bazzar\user-service\src\main\java\ru\bazzar\user\configs\AppConfig.java

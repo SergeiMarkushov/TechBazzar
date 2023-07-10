@@ -1,0 +1,38 @@
+server:
+  port: 8184
+  servlet:
+    context-path: /tech-bazzar-notification
+
+spring:
+  flyway:
+    baselineOnMigrate: true
+    url: ${url_db_notification}
+    user: ${db_username}
+    password: ${db_password}
+    validateOnMigrate: false
+
+  datasource:
+    url: ${url_db_notification}
+    driverClassName: org.postgresql.Driver
+    username: ${db_username}
+    password: ${db_password}
+
+  jpa:
+    showSql: true
+    databasePlatform: org.hibernate.dialect.PostgreSQL94Dialect
+    hibernate:
+      ddlAuto: update
+
+  mail:
+    protocol: smtps
+    host: smtp.mail.ru
+    port: 465
+    username: ${email_username}
+    password: ${email_password}
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

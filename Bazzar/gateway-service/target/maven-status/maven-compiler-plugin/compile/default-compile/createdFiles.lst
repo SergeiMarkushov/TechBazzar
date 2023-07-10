@@ -1,0 +1,4 @@
+ru\bazzar\gateway\GatewayApplication.class
+ru\bazzar\gateway\filters\TokenAuthenticationFilter$Config.class
+ru\bazzar\gateway\filters\TokenAuthenticationFilter.class
+ru\bazzar\gateway\configs\JwtConfig.class

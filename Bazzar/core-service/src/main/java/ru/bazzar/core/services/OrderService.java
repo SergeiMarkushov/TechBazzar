@@ -56,7 +56,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void payment(String username, Long orderId){
+    public void payment(String username, Long orderId) throws ResourceNotFoundException{
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(()->new ResourceNotFoundException("Ордер с id: " + orderId +" не найден!"));
         if (!order.isStatus()) {
@@ -132,5 +132,9 @@ public class OrderService {
             order.setStatus(false);
         }
         orderRepository.save(order);
+    }
+
+    public void delete(Long id) {
+        orderRepository.deleteById(id);
     }
 }

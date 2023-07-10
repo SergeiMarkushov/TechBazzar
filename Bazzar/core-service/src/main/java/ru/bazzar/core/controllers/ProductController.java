@@ -27,7 +27,9 @@ import ru.bazzar.core.utils.MyQueue;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,8 +65,8 @@ public class ProductController {
 
     @GetMapping
     public PageDto<ProductDto> getProductDtosPage(
-            @RequestHeader("username") String username,
-            @RequestHeader("full_name") String fullName,
+            @RequestHeader(name = "username") String username,
+            @RequestHeader(name = "full_name") String fullName,
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "min_price", required = false) Integer minPrice,
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
@@ -73,6 +75,8 @@ public class ProductController {
             @RequestParam(name = "title_part", required = false) String titlePart,
             @RequestParam(name = "limit", defaultValue = "20") int limit
     ) {
+//        String fullName1 = URLDecoder.decode(fullName, StandardCharsets.UTF_8);
+        System.out.println(username);
         UserDto userDto = new UserDto();
         userDto.setUsername(username);
         userDto.setFullName(fullName);
@@ -108,6 +112,13 @@ public class ProductController {
     @GetMapping("/picture/{id}") //"/find-pic-dto/{id}"
     public PictureDto getPictureDtoById(@PathVariable Long id) {
         return pictureService.getPictureDtoById(id);
+    }
+
+    @GetMapping("/picture-by-product/{id}")
+    public ResponseEntity<PictureDto> getPictureByProductId(@PathVariable Long id) {
+        return service.getPictureByProductId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

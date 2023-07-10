@@ -1,9 +1,9 @@
 spring:
   application:
-    name: CART
+    name: cart
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://config-service:8888
       failFast: true
       retry:
         initialInterval: 3000

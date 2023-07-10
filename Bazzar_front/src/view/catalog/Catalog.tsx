@@ -117,18 +117,17 @@ export function Catalog(props: CatalogProps) {
             <div>
                 <div className="container-fluid">
                     <div className="row justify-content-start">
-                        <div className="col-1">
+                        <div style={{width: "fit-content"}}>
                             <PriceFilter filterHandler={filterChanged} filter={filter}/>
                         </div>
                         {!props.companyTitle && !companyParam &&
-                            <div className="col-2">
+                            <div style={{width: "fit-content"}}>
                                 <BuyerFilter filterHandler={filterChanged} filter={filter}/>
                             </div>
                         }
                     </div>
                     {error.success &&
-                        <div className="container-fluid flex-grow-1">
-                            <div className="row justify-content-center">
+                            <div className="d-flex justify-content-center flex-wrap">
                                 {load ?
                                     products.map((product) => (
                                         <CatalogCard product={product}
@@ -138,7 +137,6 @@ export function Catalog(props: CatalogProps) {
                                     : <CircularLoading/>
                                 }
                             </div>
-                        </div>
                     }
                 </div>
                 <div className="ms-3">

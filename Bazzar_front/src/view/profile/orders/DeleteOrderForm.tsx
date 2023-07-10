@@ -43,13 +43,22 @@ export function DeleteOrderForm(props: PayFormProps) {
 
     return (
         <div>
-            <button className="btn btn-sm btn-danger" onClick={handleClickOpen}>Отмена</button>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Отмена заказа</DialogTitle>
-                <DialogActions>
-                    <Button onClick={props.order.status ? refundHandle : deleteHandle}>Отменить</Button>
-                </DialogActions>
-            </Dialog>
+            { (props.order.status && checkData(props.order.createdAt)) || !props.order.status &&
+                <div>
+                    <button className="btn btn-sm btn-danger" onClick={handleClickOpen}>Отмена</button>
+                    <Dialog open={open} onClose={handleClose}>
+                        <DialogTitle>Отмена заказа</DialogTitle>
+                        <DialogActions>
+                            <Button onClick={props.order.status ? refundHandle : deleteHandle}>Отменить</Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
+            }
         </div>
     )
+}
+
+function checkData(date: string): boolean {
+    const newDate = new Date(date);
+    return Date.now() - newDate.getTime() <= 86400000;
 }

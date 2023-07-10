@@ -10,7 +10,7 @@ interface ProfileBalanceProps {
 
 export function ProfileBalance(props: ProfileBalanceProps) {
     return (
-        <Link style={{color: primary}} to="/profile/balance" className="text-decoration-none">
+        <div style={{color: primary}} /*to="/profile/balance"*/ className="text-decoration-none">
             <div className="card border-0" style={{maxWidth: "17rem"}}>
                 <div className="card border-0" style={{maxWidth: "15rem"}}>
                     <div className="d-flex align-items-center">
@@ -25,6 +25,6 @@ export function ProfileBalance(props: ProfileBalanceProps) {
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     )
 }

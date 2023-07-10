@@ -21,8 +21,8 @@ export function OrderTab(props: OrderProps) {
         <div className="card mb-3">
             <div className="card-header d-flex justify-content-between">
                 <div>
-                    <span className="me-2">Order #{props.order.id} </span>
-                    <span>from {props.order.createdAt}</span>
+                    <span className="me-2">Заказ #{props.order.id}</span>
+                    <span>от {props.order.createdAt}</span>
                     <div className="d-flex">
                         {!status ? <PayForm setStatus={setStatus} order={props.order}
                                             onReloadOrder={props.onReloadOrder}/> : <div></div>}
@@ -30,15 +30,15 @@ export function OrderTab(props: OrderProps) {
                                          onReloadOrder={props.onReloadOrder}/>
                     </div>
                 </div>
-                <div>Total price {props.order.totalPrice} ₽</div>
+                <div>Цена за всё {props.order.totalPrice} ₽</div>
             </div>
             <div className="d-flex justify-content-between">
                 <div className="m-2">
-                    <small className="p-0 g-0">Status <div
+                    <small className="p-0 g-0">Статус <div
                         className="alert alert-primary p-0 g-0">{status ? "Получен и оплачен" : "Ожидает оплаты"}</div>
                     </small>
                     <Link to={`/profile/orders/order/${props.order.id}`} state={{order: props.order}}
-                          className="link-info">Details</Link>
+                          className="link-info">Подробнее</Link>
                 </div>
                 <div>
                     {props.order.items.map(product => <OrderTabCard key={product.id} product={product}/>)}

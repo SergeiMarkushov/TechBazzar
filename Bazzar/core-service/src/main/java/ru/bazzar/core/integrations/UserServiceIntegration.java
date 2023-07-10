@@ -21,7 +21,7 @@ public class UserServiceIntegration {
                 .header("username", username)
                 .retrieve()
                 .onStatus(
-                        httpStatus -> httpStatus.value() == HttpStatus.NOT_FOUND.value(),
+                        httpStatus -> httpStatus.value() == HttpStatus.BAD_REQUEST.value(),
                         clientResponse -> Mono.error(new ResourceNotFoundException("Не достаточно средств на счете!"))
                 )
                 .bodyToMono(Void.class)

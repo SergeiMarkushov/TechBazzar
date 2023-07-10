@@ -16,5 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Optional<Product> findByTitleIgnoreCase(String title);
     @Query("SELECT AVG(r.mark) FROM Product p JOIN p.reviews r WHERE p.id = :productId")
     Double calculateAverageRating(@Param("productId") Long productId);
+    @Query("SELECT p.pictureId FROM Product p WHERE p.id = :id")
+    Long findPictureIdById(Long id);
 
 }

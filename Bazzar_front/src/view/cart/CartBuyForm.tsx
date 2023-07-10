@@ -26,9 +26,9 @@ export function CartBuyForm(props: CartBuyFormProps) {
     return (
         <div className="card text-center shadow-sm" style={{width: "10rem;"}}>
             <div className="card-body">
-                <h5 className="card-title">Total price</h5>
+                <h5 className="card-title">Цена</h5>
                 <p className="card-text">{props.cart.totalPrice}</p>
-                <button disabled={isBlock || !keycloak.authenticated} onClick={() => buy()} className="btn btn-success">Buy
+                <button disabled={isBlock || !keycloak.authenticated} onClick={() => buy()} className="btn btn-success">Купить
                 </button>
             </div>
         </div>

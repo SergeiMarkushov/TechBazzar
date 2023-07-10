@@ -24,7 +24,7 @@ export function ProductPageCommentsCard(props: ProductPageCommentsCardProps) {
             <div className="card-body">
                 <h5 className="card-title">Отзывы</h5>
                 <div className="">
-                    {comment.length === 0 || comment[0].id === 0 && <span className="text-center">No reviews</span> ||
+                    {comment.length === 0 || comment[0].id === 0 && <span className="text-center">Отзывов нет</span> ||
                         comment.map((comment) => <CommentCard key={comment.id} comment={comment}/>)}
                 </div>
             </div>

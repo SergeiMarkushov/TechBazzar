@@ -180,7 +180,7 @@ public class OrganizationController {
             @RequestParam("owner") @Parameter(description = "Владелец организации", required = true) String companyOwner,
             @RequestParam("name") @Parameter(description = "Название организации", required = true) String companyName,
             @RequestParam("description") @Parameter(description = "Описание организации", required = true) String companyDescription,
-            @RequestParam(value = "MultipartFile companyImage")
+            @RequestParam(value = "companyImage")
             @Parameter(description = "Изображение организации",
                     required = true, content = @Content(mediaType = "multipart/form-data")) MultipartFile companyImage) {
         try {

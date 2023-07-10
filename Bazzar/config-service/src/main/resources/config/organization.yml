@@ -5,17 +5,17 @@ server:
 
 spring:
   datasource:
-    url: ${url_db_organization}
+    url: jdbc:postgresql://postgres-organization-service:5432/organization_db
     driver-class-name: org.postgresql.Driver
-    username: ${db_username}
-    password: ${db_password}
+    username: postgres
+    password: admin
 
-  flyway:
-    baselineOnMigrate: true
-    url: ${url_db_organization}
-    user: ${db_username}
-    password: ${db_password}
-    validateOnMigrate: false
+#  flyway:
+#    baselineOnMigrate: true
+#    url: ${url_db_organization}
+#    user: ${db_username}
+#    password: ${db_password}
+#    validateOnMigrate: false
 
   jpa:
     show-sql: true
@@ -28,7 +28,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-service:8761/eureka
 
 springdoc:
   swagger-ui:

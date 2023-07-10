@@ -23,6 +23,7 @@ import ru.bazzar.core.utils.MyQueue;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -154,7 +155,7 @@ public class ProductService {
         product.setPrice(productDto.getPrice());
         product.setConfirmed(false);
         product.setQuantity(productDto.getQuantity());
-        // TODO: 21.06.2023  проверить - возможны 2 запроса к БД, но я ещё хз(это надо для кэша)
+        //так надо для кэша!!!
         Long idToReturn = productRepository.save(product).getId();
         log.info("SAVE: " + findById(idToReturn).toString());
         return findById(idToReturn);
@@ -195,5 +196,13 @@ public class ProductService {
             return 0.0;
         }
         return averageRating;
+    }
+
+    public Optional<PictureDto> getPictureByProductId(Long id) {
+        Long pictureId = productRepository.findPictureIdById(id);
+        if (pictureId != null) {
+            return Optional.of(pictureService.getPictureDtoById(pictureId));
+        }
+        return Optional.empty();
     }
 }
