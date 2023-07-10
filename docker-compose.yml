@@ -12,6 +12,7 @@ services:
     restart: always
     networks:
       - some-net
+    platform: linux/amd64, arm64
 
   eureka-service:
     build:
@@ -23,6 +24,8 @@ services:
     restart: always
     networks:
       - some-net
+    platform: linux/amd64, arm64
+
 
   core-service:
     build:
@@ -39,6 +42,8 @@ services:
       - config-service
       - eureka-service
       - postgres-core-service
+    platform: linux/amd64, arm64
+
   postgres-core-service:
     image: 'postgres:latest'
     container_name: postgres-core-service
@@ -65,6 +70,8 @@ services:
       - config-service
       - eureka-service
       - keycloak
+    platform: linux/amd64, arm64
+
 
   user-service:
     build:
@@ -80,6 +87,8 @@ services:
       - config-service
       - eureka-service
       - postgres-user-service
+    platform: linux/amd64, arm64
+
   postgres-user-service:
     image: 'postgres:latest'
     container_name: postgres-user-service
@@ -88,9 +97,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     ports:
-      - "5433:5432"
+      - "5437:5432"
     networks:
       - some-net
+    platform: linux/amd64, arm64
+
 
   notification-service:
     build:
@@ -106,6 +117,8 @@ services:
       - config-service
       - eureka-service
       - postgres-notification-service
+    platform: linux/amd64, arm64
+
   postgres-notification-service:
     image: 'postgres:latest'
     container_name: postgres-notification-service
@@ -131,6 +144,8 @@ services:
       - config-service
       - eureka-service
       - redis
+    platform: linux/amd64, arm64
+
   redis:
     image: 'bitnami/redis:latest'
     container_name: redis
@@ -155,6 +170,8 @@ services:
       - config-service
       - eureka-service
       - postgres-organization-service
+    platform: linux/amd64, arm64
+
   postgres-organization-service:
     image: 'postgres:latest'
     container_name: postgres-organization-service
@@ -181,6 +198,8 @@ services:
       - config-service
       - eureka-service
       - postgres-picture-service
+    platform: linux/amd64, arm64
+
   postgres-picture-service:
     image: 'postgres:latest'
     container_name: postgres-picture-service
@@ -218,7 +237,7 @@ services:
   #    networks:
   #      - some-net
   keycloak:
-    image: jboss/keycloak
+    image: mihaibob/keycloak:18.0.2-legacy
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
@@ -228,11 +247,12 @@ services:
       - DB_USER=keycloak
       - DB_PASSWORD=keycloak
     ports:
-      - 8080:8080
+      - "8080:8080"
     depends_on:
       - db
     networks:
       - some-net
+    platform: linux/amd64, arm64
   db:
     image: postgres
     environment:

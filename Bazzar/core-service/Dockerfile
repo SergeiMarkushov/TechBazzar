@@ -1,3 +1,4 @@
+FROM adoptopenjdk:11-jdk-hotspot AS builder
 FROM maven:3.8.3-openjdk-17-slim AS build
 COPY . /app
 WORKDIR /app
