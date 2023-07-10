@@ -12,7 +12,6 @@ services:
     restart: always
     networks:
       - some-net
-    platform: linux/amd64, arm64
 
   eureka-service:
     build:
@@ -24,7 +23,6 @@ services:
     restart: always
     networks:
       - some-net
-    platform: linux/amd64, arm64
 
 
   core-service:
@@ -42,7 +40,6 @@ services:
       - config-service
       - eureka-service
       - postgres-core-service
-    platform: linux/amd64, arm64
 
   postgres-core-service:
     image: 'postgres:latest'
@@ -70,7 +67,6 @@ services:
       - config-service
       - eureka-service
       - keycloak
-    platform: linux/amd64, arm64
 
 
   user-service:
@@ -87,7 +83,6 @@ services:
       - config-service
       - eureka-service
       - postgres-user-service
-    platform: linux/amd64, arm64
 
   postgres-user-service:
     image: 'postgres:latest'
@@ -100,7 +95,6 @@ services:
       - "5437:5432"
     networks:
       - some-net
-    platform: linux/amd64, arm64
 
 
   notification-service:
@@ -117,7 +111,6 @@ services:
       - config-service
       - eureka-service
       - postgres-notification-service
-    platform: linux/amd64, arm64
 
   postgres-notification-service:
     image: 'postgres:latest'
@@ -144,7 +137,6 @@ services:
       - config-service
       - eureka-service
       - redis
-    platform: linux/amd64, arm64
 
   redis:
     image: 'bitnami/redis:latest'
@@ -170,7 +162,6 @@ services:
       - config-service
       - eureka-service
       - postgres-organization-service
-    platform: linux/amd64, arm64
 
   postgres-organization-service:
     image: 'postgres:latest'
@@ -198,7 +189,6 @@ services:
       - config-service
       - eureka-service
       - postgres-picture-service
-    platform: linux/amd64, arm64
 
   postgres-picture-service:
     image: 'postgres:latest'
@@ -252,7 +242,6 @@ services:
       - db
     networks:
       - some-net
-    platform: linux/amd64, arm64
   db:
     image: postgres
     environment:
