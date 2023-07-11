@@ -92,7 +92,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     ports:
-      - "5437:5432"
+      - "5443:5432"
     networks:
       - some-net
 
@@ -251,7 +251,7 @@ services:
       - POSTGRES_USER=keycloak
       - POSTGRES_PASSWORD=keycloak
     ports:
-      - "5433:5432"
+      - "5442:5432"
     networks:
       - some-net
 networks:
