@@ -4,15 +4,15 @@ server:
     context-path: /tech-bazzar-user
 
 spring:
-#  flyway:
-#    baselineOnMigrate: true
-#    url: ${url_db_user}
-#    user: ${db_username}
-#    password: ${db_password}
-#    validateOnMigrate: false
+  flyway:
+    baselineOnMigrate: true
+    url: jdbc:postgresql://postgres-user-service:5443/user_db
+    user: postgres
+    password: admin
+    validateOnMigrate: false
 
   datasource:
-    url: jdbc:postgresql://postgres-user-service:5432/user_db
+    url: jdbc:postgresql://postgres-user-service:5443/user_db
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: admin
