@@ -228,26 +228,30 @@ services:
   #      - some-net
   keycloak:
     image: mihaibob/keycloak:18.0.2-legacy
+    container_name: keycloak-service
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - DB_VENDOR=postgres
-      - DB_ADDR=db
+      - DB_ADDR=postgres-keycloak
       - DB_DATABASE=keycloak
       - DB_USER=keycloak
       - DB_PASSWORD=keycloak
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      - postgres-keycloak
     networks:
       - some-net
   db:
     image: postgres
+    container_name: postgres-keycloak
     environment:
       - POSTGRES_DB=keycloak
       - POSTGRES_USER=keycloak
       - POSTGRES_PASSWORD=keycloak
+    ports:
+      - "5433:5432"
     networks:
       - some-net
 networks:
