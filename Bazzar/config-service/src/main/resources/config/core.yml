@@ -14,12 +14,12 @@ spring:
     username: postgres
     password: admin
 
-#  flyway:
-#    baselineOnMigrate: true
-#    url: ${url_db_core}
-#    user: ${db_username}
-#    password: ${db_password}
-#    validateOnMigrate: false
+  flyway:
+    baselineOnMigrate: true
+    url: jdbc:postgresql://postgres-core-service:5432/core_db
+    user: postgres
+    password: admin
+    validateOnMigrate: false
 
   jpa:
     show-sql: true

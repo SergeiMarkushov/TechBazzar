@@ -5,17 +5,17 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://postgres-organization-service:5432/organization_db
+    url: jdbc:postgresql://postgres-organization-service:5435/organization_db
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: admin
 
-#  flyway:
-#    baselineOnMigrate: true
-#    url: ${url_db_organization}
-#    user: ${db_username}
-#    password: ${db_password}
-#    validateOnMigrate: false
+  flyway:
+    baselineOnMigrate: true
+    url: jdbc:postgresql://postgres-organization-service:5435/organization_db
+    user: postgres
+    password: admin
+    validateOnMigrate: false
 
   jpa:
     show-sql: true

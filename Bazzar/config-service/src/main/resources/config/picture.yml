@@ -9,17 +9,17 @@ spring:
       max-file-size: 5MB
 
   datasource:
-    url: jdbc:postgresql://postgres-picture-service:5432/picture_db
+    url: jdbc:postgresql://postgres-picture-service:5436/picture_db
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: admin
 
-#  flyway:
-#    baselineOnMigrate: true
-#    url: ${url_db_picture}
-#    user: ${db_username}
-#    password: ${db_password}
-#    validateOnMigrate: false
+  flyway:
+    baselineOnMigrate: true
+    url: jdbc:postgresql://postgres-picture-service:5436/picture_db
+    user: postgres
+    password: admin
+    validateOnMigrate: false
 
   jpa:
     show-sql: true

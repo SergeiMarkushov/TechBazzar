@@ -4,15 +4,15 @@ server:
     context-path: /tech-bazzar-notification
 
 spring:
-#  flyway:
-#    baselineOnMigrate: true
-#    url: ${url_db_notification}
-#    user: ${db_username}
-#    password: ${db_password}
-#    validateOnMigrate: false
+  flyway:
+    baselineOnMigrate: true
+    url: jdbc:postgresql://postgres-notification-service:5434/notification_db
+    user: postgres
+    password: admin
+    validateOnMigrate: false
 
   datasource:
-    url: jdbc:postgresql://postgres-notification-service:5432/notification_db
+    url: jdbc:postgresql://postgres-notification-service:5434/notification_db
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: admin
@@ -27,8 +27,8 @@ spring:
     protocol: smtps
     host: smtp.mail.ru
     port: 465
-    username: bazzar@mail.ru
-    password: 029347902374
+    username: nik.noreply.b@mail.ru
+    password: pWKMSE90ncXznJQvjmA2
 
 eureka:
   client:
