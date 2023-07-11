@@ -1,6 +1,18 @@
 version: '3'
 services:
 
+  front:
+    build:
+      context: ./Bazzar_front
+      dockerfile: Dockerfile
+    domainname: front
+    container_name: front
+    ports:
+      - "3000:3000"
+    restart: always
+    networks:
+      - some-net
+
   config-service:
     build:
       context: ./Bazzar/config-service
@@ -243,7 +255,7 @@ services:
       - postgres-keycloak
     networks:
       - some-net
-  db:
+  postgres-keycloak:
     image: postgres
     container_name: postgres-keycloak
     environment:
